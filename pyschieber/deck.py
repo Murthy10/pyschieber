@@ -1,14 +1,5 @@
 from pyschieber.suit import Suit
-
-
-class Card:
-    def __init__(self, suit, value):
-        self.suit = suit
-        self.value = value
-
-    def __str__(self):
-        return '<{0}:{1}>'.format(self.suit.value, self.value)
-
+from pyschieber.card import Card
 
 class Deck:
     def __init__(self):
