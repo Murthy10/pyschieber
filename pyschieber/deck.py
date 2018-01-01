@@ -1,6 +1,7 @@
 from pyschieber.suit import Suit
 from pyschieber.card import Card
 
+
 class Deck:
     def __init__(self):
         self.cards = []

@@ -9,4 +9,4 @@ class Card:
         name = str(self.value)
         if self.value > 9:
             name = Card.names[self.value]
-        return '<{0}:{1}>'.format(self.suit.value, name)
+        return '<{0}:{1}>'.format(self.suit.name, name)
