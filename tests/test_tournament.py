@@ -1,5 +1,3 @@
-import pytest
-
 from pyschieber.tournament import Tournament
 
 

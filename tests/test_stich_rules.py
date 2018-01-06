@@ -1,6 +1,6 @@
 import pytest
 
-from pyschieber.stich import stich_rules
+from pyschieber.rules.stich_rules import stich_rules
 from pyschieber.trumpf import Trumpf
 
 

@@ -1,5 +1,3 @@
-import pytest
-
 from pyschieber.trumpf import Trumpf
 
 

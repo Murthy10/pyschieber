@@ -9,6 +9,7 @@ class Game:
         self.players = players
         self.trumpf = None
         self.deck = Deck()
+        self.stiche = []
         shuffle(self.deck.cards)
 
     def start(self):
