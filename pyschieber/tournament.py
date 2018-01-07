@@ -1,20 +1,35 @@
 from pyschieber.game import Game
-from pyschieber.player import Player
-from pyschieber.team import Team
+from pyschieber.player.base_player import BasePlayer
 
 
 class Tournament:
     def __init__(self):
-        self.player_1 = Player()
-        self.player_2 = Player()
-        self.player_3 = Player()
-        self.player_4 = Player()
-        self.team_1 = Team(self.player_1, self.player_3)
-        self.team_2 = Team(self.player_2, self.player_4)
-        self.players = [self.player_1, self.player_2, self.player_3, self.player_4]
+        self.players = {}
+        self.teams = {1: [], 2: []}
+
+    def start(self):
+        self.check_players()
+        self.init_teams()
+
+    def check_players(self):
+        player_numbers = []
+        for key, player in self.players.items():
+            assert isinstance(player, BasePlayer)
+            player_numbers.append(key)
+        assert {1, 2, 3, 4} == set(player_numbers)
+
+    def register_player(self, player, number):
+        assert number in {1, 2, 3, 4}
+        self.players[number] = player
+
+    def init_teams(self):
+        for key in self.players:
+            if key % 2 == 1:
+                self.teams[1].append(self.players[key])
+            else:
+                self.teams[2].append(self.players[key])
 
     def play_game(self):
-        start_player = self.player_1
-        game = Game(start_player=start_player, players=self.players)
+        game = Game(start_player=self.players[1], players=self.players)
         game.start()
-        game.play()
+        return self.players[1].cards

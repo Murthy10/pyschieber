@@ -18,7 +18,7 @@ class Game:
 
     def deal_cards(self):
         for i, card in enumerate(self.deck.cards):
-            self.players[i % 4].set_card(card=card)
+            self.players[i % 4 + 1].set_card(card=card)
 
     def set_trumpf(self):
         self.trumpf = self.start_player.choose_trumpf()
