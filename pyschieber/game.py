@@ -2,7 +2,7 @@ from random import shuffle
 
 from pyschieber.deck import Deck
 from pyschieber.rules.stich_rules import stich_rules, card_allowed
-from pyschieber.stich import Stich, PlayedCard
+from pyschieber.stich import PlayedCard
 
 
 class Game:
@@ -22,19 +22,29 @@ class Game:
             self.players[i % 4 + 1].set_card(card=card)
 
     def play(self):
+        print()
         start_player_key = 1
         self.trumpf = self.players[start_player_key].choose_trumpf()
         for _ in range(9):
             stich = self.play_stich(start_player_key)
             print(stich)
+            for played_card in stich.played_cards:
+                print('Player: {0}  Card: {1}'.format(played_card.player, played_card.card))
+            print('Stich player: {0}  Trumpf: {1}'.format(stich.player, stich.trumpf))
+            print()
+            start_player_key = self.get_key(stich.player)
             self.stiche.append(stich)
+
+    def get_key(self, player):
+        for key, value in self.players.items():
+            if player == value:
+                return key
 
     def play_stich(self, start_player_key):
         first_card = self.play_card(first_card=None, player=self.players[start_player_key])
-        played_cards = []
-        for i in range(start_player_key + 1, start_player_key + 3):
-            player_key = i % 4
-            current_player = self.players[player_key]
+        played_cards = [PlayedCard(player=self.players[start_player_key], card=first_card)]
+        for i in get_player_key(start_key=start_player_key):
+            current_player = self.players[i]
             card = self.play_card(first_card=first_card, player=current_player)
             played_cards.append(PlayedCard(player=current_player, card=card))
         return stich_rules[self.trumpf](played_cards=played_cards)
@@ -46,9 +56,13 @@ class Game:
         while not is_allowed_card:
             is_allowed_card = card_allowed(first_card=first_card, chosen_card=chosen_card, hand_cards=player.cards,
                                            trumpf=self.trumpf)
-            print("Chosen card {}".format(chosen_card))
             card = generator.send(is_allowed_card)
             chosen_card = chosen_card if card is None else card
         else:
             player.cards.remove(chosen_card)
         return chosen_card
+
+
+def get_player_key(start_key):
+    for i in range(3):
+        yield (i + start_key) % 4 + 1

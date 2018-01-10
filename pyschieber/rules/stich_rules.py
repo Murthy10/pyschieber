@@ -25,7 +25,7 @@ def stich_trumpf(played_cards, trumpf):
         index = max(trumpfs)[1]
         return Stich(player=played_cards[index].player, played_cards=played_cards, trumpf=trumpf)
     else:
-        stich_obe_unde(played_cards=played_cards, operation=max, trumpf=trumpf)
+        return stich_obe_unde(played_cards=played_cards, operation=max, trumpf=trumpf)
 
 
 stich_rules = {
