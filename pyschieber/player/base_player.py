@@ -2,9 +2,11 @@ import inspect
 
 
 class BasePlayer:
-    def __init__(self, name='unknown'):
+    def __init__(self, name='unknown', tournament=None):
         self.name = name
+        self.tournament = tournament
         self.cards = []
+        self.card_allowed = False
 
     def set_card(self, card):
         self.cards.append(card)

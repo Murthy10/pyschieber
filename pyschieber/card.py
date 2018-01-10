@@ -5,6 +5,9 @@ class Card:
         self.suit = suit
         self.value = value
 
+    def __eq__(self, other):
+        return self.suit == other.suit and self.value == other.value
+
     def __str__(self):
         name = str(self.value)
         if self.value > 9:

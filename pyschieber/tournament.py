@@ -30,6 +30,6 @@ class Tournament:
                 self.teams[2].append(self.players[key])
 
     def play_game(self):
-        game = Game(start_player=self.players[1], players=self.players)
+        game = Game(players=self.players)
         game.start()
         return self.players[1].cards

@@ -5,6 +5,7 @@ from pyschieber.trumpf import Trumpf
 class CliPlayer(BasePlayer):
     def choose_trumpf(self):
         trumpfs = list(Trumpf)
+        self._print_cards()
         print('Trumpf:')
         for i, trumpf in enumerate(trumpfs):
             print('{0} : {1}'.format(i, trumpf))
@@ -22,9 +23,13 @@ class CliPlayer(BasePlayer):
                 continue
 
     def choose_card(self):
-        print('Cards')
-        for i, card in enumerate(self.cards):
-            print('{0} : {1}'.format(i, card))
+        self._print_cards()
+        while not self.card_allowed:
+            card = self._handle_input()
+            yield card
+            print("Card not allowed!")
+
+    def _handle_input(self):
         while True:
             try:
                 card_index = int(
@@ -37,3 +42,8 @@ class CliPlayer(BasePlayer):
             except ValueError:
                 print("Sorry, I didn't understand that.")
                 continue
+
+    def _print_cards(self):
+        print('Cards')
+        for i, card in enumerate(self.cards):
+            print('{0} : {1}'.format(i, card))

@@ -35,3 +35,21 @@ stich_rules = {
 
 for trumpf in filter(lambda x: x != Trumpf.OBE_ABE and x != Trumpf.UNDE_UFE, Trumpf):
     stich_rules[trumpf] = partial(stich_trumpf, trumpf=trumpf)
+
+
+def card_allowed(first_card, chosen_card, hand_cards, trumpf):
+    chosen_suit = chosen_card.suit
+    if chosen_card not in hand_cards:
+        return False
+    if first_card is None:
+        return True
+    first_suit = first_card.suit
+    if first_suit == chosen_suit or chosen_suit.name == trumpf.name:
+        return True
+    else:
+        hand_suits = [hand_card.suit for hand_card in hand_cards if
+                      hand_card.suit.name != trumpf.name and hand_card.value != 12]
+        if first_suit in hand_suits:
+            return False
+        else:
+            return True

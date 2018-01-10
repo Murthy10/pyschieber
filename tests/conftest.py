@@ -1,14 +1,14 @@
 import pytest
 
 from pyschieber.card import Card
-from pyschieber.player import Player
+from pyschieber.player.random_player import RandomPlayer
 from pyschieber.stich import PlayedCard
 from pyschieber.suit import Suit
 
 
 @pytest.fixture(scope="session", autouse=True)
 def players():
-    return [Player(), Player(), Player(), Player()]
+    return [RandomPlayer(), RandomPlayer(), RandomPlayer(), RandomPlayer()]
 
 
 @pytest.fixture(scope="session", autouse=True)
