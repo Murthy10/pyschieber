@@ -24,9 +24,10 @@ class CliPlayer(BasePlayer):
 
     def choose_card(self):
         self._print_cards()
-        while not self.card_allowed:
+        allowed = False
+        while not allowed:
             card = self._handle_input()
-            yield card
+            allowed = yield card
             print("Card not allowed!")
 
     def _handle_input(self):

@@ -9,4 +9,9 @@ class RandomPlayer(BasePlayer):
         return random.choice(list(Trumpf))
 
     def choose_card(self):
-        return self.cards.pop()
+        allowed = False
+        while not allowed:
+            card = random.choice(self.cards)
+            allowed = yield card
+            if allowed:
+                yield None
