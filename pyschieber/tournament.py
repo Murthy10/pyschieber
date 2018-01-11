@@ -1,15 +1,23 @@
+import logging
+
 from pyschieber.game import Game
 from pyschieber.player.base_player import BasePlayer
 
+logger = logging.getLogger(__name__)
+
 
 class Tournament:
-    def __init__(self):
+    def __init__(self, points=1500):
+        self.point_limit = points
         self.players = {}
-        self.teams = {1: [], 2: []}
+        self.team_1 = dict(points=0, number=1)
+        self.team_2 = dict(points=0, number=2)
+        self.round = 1
 
     def start(self):
         self.check_players()
         self.init_teams()
+        logger.info('Tournament starts, the goal are {} points.'.format(self.point_limit))
 
     def check_players(self):
         player_numbers = []
@@ -25,11 +33,16 @@ class Tournament:
     def init_teams(self):
         for key in self.players:
             if key % 2 == 1:
-                self.teams[1].append(self.players[key])
+                self.team_1[str(key)] = self.players[key]
             else:
-                self.teams[2].append(self.players[key])
+                self.team_2[str(key)] = self.players[key]
 
     def play_game(self):
-        game = Game(players=self.players)
-        game.start()
+        while self.point_limit > self.team_1['points'] or self.point_limit > self.team_2['points']:
+            game = Game(team_1=self.team_1, team_2=self.team_2, players=self.players)
+            logger.info('Round {} starts.'.format(self.round))
+            game.start()
+            logger.info('Round {} is over.'.format(self.round))
+            logger.info('Points: Team 1: {0} , Team 2: {1}.'.format(self.team_1['points'], self.team_2['points']))
+            self.round += 1
         return self.players[1].cards
