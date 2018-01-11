@@ -33,7 +33,8 @@ class Game:
         logger.info('Chosen Trumpf: {0} \n'.format(self.trumpf))
         for _ in range(9):
             stich = self.play_stich(start_player_key)
-            logger.info('Stich: {0} \n'.format(stich.player))
+            logger.info('\nStich: {0} \n'.format(stich.player))
+            logger.info('{}{}\n'.format('-'*180, self.trumpf))
             start_player_key = self.get_key(stich.player)
             self.stiche.append(stich)
 
@@ -63,7 +64,7 @@ class Game:
             card = generator.send(is_allowed_card)
             chosen_card = chosen_card if card is None else card
         else:
-            logger.info('{0}:{1}'.format(player, chosen_card))
+            logger.info('Table: {0}:{1}'.format(player, chosen_card))
             player.cards.remove(chosen_card)
         return chosen_card
 

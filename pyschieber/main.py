@@ -11,7 +11,7 @@ def start_tournament(points):
     tournament = Tournament(points=points)
     cli_player = CliPlayer(name='CliPlayer')
     tournament.register_player(cli_player, 1)
-    [tournament.register_player(RandomPlayer(), i) for i in range(2, 5)]
+    [tournament.register_player(RandomPlayer(name=str(i)), i) for i in range(2, 5)]
     tournament.play_game()
 
 

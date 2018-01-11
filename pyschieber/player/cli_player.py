@@ -39,6 +39,7 @@ class CliPlayer(BasePlayer):
                 card_index = int(
                     input("Please chose the card by the number from 0 to {0}: \n".format(len(self.cards) - 1)))
                 if card_index in range(0, len(self.cards)):
+                    print()
                     return self.cards[card_index]
                 else:
                     print("Sorry, no valid trumpf number\n")
@@ -48,6 +49,7 @@ class CliPlayer(BasePlayer):
                 continue
 
     def _print_cards(self):
-        print('Cards')
+        print('Hand cards: \n')
         for i, card in enumerate(self.cards):
             print('{0} : {1}'.format(i, card))
+        print('')
