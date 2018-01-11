@@ -1,6 +1,12 @@
+import logging
+
+import sys
+
 from pyschieber.player.cli_player import CliPlayer
 from pyschieber.player.random_player import RandomPlayer
 from pyschieber.tournament import Tournament
+
+
 
 
 def start_tournament():
@@ -19,4 +25,5 @@ def print_table(played_cards):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
     start_tournament()

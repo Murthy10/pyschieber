@@ -1,12 +1,15 @@
 from random import shuffle
+import logging
 
 from pyschieber.deck import Deck
 from pyschieber.rules.stich_rules import stich_rules, card_allowed
 from pyschieber.stich import PlayedCard
 
+logger = logging.getLogger(__name__)
+
 
 class Game:
-    def __init__(self, players=None):
+    def __init__(self, players=None, ):
         self.players = players
         self.trumpf = None
         self.deck = Deck()
@@ -22,16 +25,11 @@ class Game:
             self.players[i % 4 + 1].set_card(card=card)
 
     def play(self):
-        print()
         start_player_key = 1
         self.trumpf = self.players[start_player_key].choose_trumpf()
         for _ in range(9):
             stich = self.play_stich(start_player_key)
-            print(stich)
-            for played_card in stich.played_cards:
-                print('Player: {0}  Card: {1}'.format(played_card.player, played_card.card))
-            print('Stich player: {0}  Trumpf: {1}'.format(stich.player, stich.trumpf))
-            print()
+            logger.info('Stich: {0} \n'.format(stich.player))
             start_player_key = self.get_key(stich.player)
             self.stiche.append(stich)
 
@@ -59,6 +57,7 @@ class Game:
             card = generator.send(is_allowed_card)
             chosen_card = chosen_card if card is None else card
         else:
+            logger.info('{0}:{1}'.format(player, chosen_card))
             player.cards.remove(chosen_card)
         return chosen_card
 

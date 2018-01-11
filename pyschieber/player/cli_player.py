@@ -28,7 +28,10 @@ class CliPlayer(BasePlayer):
         while not allowed:
             card = self._handle_input()
             allowed = yield card
-            print("Card not allowed!")
+            if allowed:
+                yield None
+            else:
+                print("Card not allowed!")
 
     def _handle_input(self):
         while True:

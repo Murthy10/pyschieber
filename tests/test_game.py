@@ -30,5 +30,7 @@ def test_game():
     players[4] = random_players[3]
 
     game = Game(players=players)
-
     game.start()
+
+    for i in range(1, 5):
+        assert len(players[i].cards) == 0
