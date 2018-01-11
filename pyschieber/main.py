@@ -8,7 +8,7 @@ from pyschieber.tournament import Tournament
 
 
 def start_tournament(points):
-    tournament = Tournament(points=points)
+    tournament = Tournament(point_limit=points)
     cli_player = CliPlayer(name='CliPlayer')
     tournament.register_player(cli_player, 1)
     [tournament.register_player(RandomPlayer(name=str(i)), i) for i in range(2, 5)]
