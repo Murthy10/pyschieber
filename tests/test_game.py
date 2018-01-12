@@ -23,13 +23,16 @@ def test_get_player_key(start_key, last_key):
 
 def test_game():
     players = {}
+    team_1 = dict(points=0, number=1)
+    team_2 = dict(points=0, number=2)
+    teams = {1: team_1, 2: team_2}
     random_players = [RandomPlayer(name=i) for i in range(1, 5)]
     players[1] = random_players[0]
     players[2] = random_players[1]
     players[3] = random_players[2]
     players[4] = random_players[3]
 
-    game = Game(players=players)
+    game = Game(players=players, teams=teams, point_limit=1500)
     game.start()
 
     for i in range(1, 5):

@@ -38,12 +38,13 @@ class Tournament:
                 self.team_2[str(key)] = self.players[key]
 
     def play_game(self):
-        while self.point_limit > self.team_1['points'] or self.point_limit > self.team_2['points']:
-            game = Game(team_1=self.team_1, team_2=self.team_2, players=self.players)
+        end = False
+        while not end:
+            game = Game(teams={1: self.team_1, 2: self.team_2}, point_limit=self.point_limit, players=self.players)
             logger.info('-' * 200)
             logger.info('Round {} starts.'.format(self.round))
             logger.info('-' * 200)
-            game.start()
+            end = game.start()
             logger.info('Round {} is over.'.format(self.round))
             logger.info('Points: Team 1: {0} , Team 2: {1}. \n'.format(self.team_1['points'], self.team_2['points']))
             self.round += 1

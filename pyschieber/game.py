@@ -10,9 +10,10 @@ logger = logging.getLogger(__name__)
 
 
 class Game:
-    def __init__(self, team_1=None, team_2=None, players=None):
-        self.team_1 = team_1
-        self.team_2 = team_2
+    def __init__(self, teams=None, point_limit=2500, players=None):
+        self.team_1 = teams[1]
+        self.team_2 = teams[2]
+        self.point_limit = point_limit
         self.players = players
         self.trumpf = None
         self.deck = Deck()
@@ -21,7 +22,7 @@ class Game:
 
     def start(self):
         self.deal_cards()
-        self.play()
+        return self.play()
 
     def deal_cards(self):
         for i, card in enumerate(self.deck.cards):
@@ -38,6 +39,9 @@ class Game:
             logger.info('{}{}\n'.format('-' * 180, self.trumpf))
             start_player_key = self.get_key(stich.player)
             self.stiche.append(stich)
+            if self.point_limit <= self.team_1['points'] or self.point_limit <= self.team_2['points']:
+                return True
+        return False
 
     def get_key(self, player):
         for key, value in self.players.items():
