@@ -12,6 +12,15 @@ Content will follow...
 Beside of the API, pyschieber provides a CLI client to play the funny Scheiber Jass game.
 Currently your opponent will be a bot choosing a random card.
 
+
+## Installation
+To install pyschieber, simply:
+```bash
+pip install pyschieber
+
+```
+pyschieber officially supports Python 3.4, 3.5, 3.6, 3.7, 3.5-dev, 3.6-dev, 3.7-dev, nightly and PyPy3.
+
 ## TODO
 * Implement Wies
 * Enhance tests
