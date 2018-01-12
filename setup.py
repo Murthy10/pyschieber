@@ -12,5 +12,6 @@ with open('README.md') as f:
         author_email='samuel.kurath@gmail.com',
         url='https://github.com/Murthy10/pyschieber',
         license='MIT',
-        packages=find_packages(exclude=('tests', 'docs'))
+        packages=find_packages(exclude=('tests', 'docs')),
+        scripts=['bin/pyschieber'],
     )
