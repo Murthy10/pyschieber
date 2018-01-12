@@ -31,10 +31,11 @@ class Game:
         start_player_key = 1
         self.trumpf = self.players[start_player_key].choose_trumpf()
         logger.info('Chosen Trumpf: {0} \n'.format(self.trumpf))
-        for _ in range(9):
+        for i in range(9):
             stich = self.play_stich(start_player_key)
+            self.count_points(stich, last=(i == 8))
             logger.info('\nStich: {0} \n'.format(stich.player))
-            logger.info('{}{}\n'.format('-'*180, self.trumpf))
+            logger.info('{}{}\n'.format('-' * 180, self.trumpf))
             start_player_key = self.get_key(stich.player)
             self.stiche.append(stich)
 
@@ -51,7 +52,6 @@ class Game:
             card = self.play_card(first_card=first_card, player=current_player)
             played_cards.append(PlayedCard(player=current_player, card=card))
         stich = stich_rules[self.trumpf](played_cards=played_cards)
-        self.count_points(stich)
         return stich
 
     def play_card(self, first_card, player):
@@ -68,14 +68,14 @@ class Game:
             player.cards.remove(chosen_card)
         return chosen_card
 
-    def count_points(self, stich):
+    def count_points(self, stich, last):
         player = stich.player
         player_number = self.get_player_number(player)
         cards = [played_card.card for played_card in stich.played_cards]
         if player_number % 2 == 1:
-            self.team_1['points'] += count_stich(cards, self.trumpf) * counting_factor[self.trumpf]
+            self.team_1['points'] += count_stich(cards, self.trumpf, last=last) * counting_factor[self.trumpf]
         else:
-            self.team_2['points'] += count_stich(cards, self.trumpf) * counting_factor[self.trumpf]
+            self.team_2['points'] += count_stich(cards, self.trumpf, last=last) * counting_factor[self.trumpf]
 
     def get_player_number(self, player):
         for key, value in self.players.items():

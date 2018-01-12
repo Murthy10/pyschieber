@@ -1,5 +1,5 @@
 class Card:
-    names = {6: '6', 7: '7', 8: '8', 9: '9', 10: 'Banner', 11: 'Under', 12: 'Ober', 13: 'Könnig', 14: 'Ass'}
+    names = {6: '6', 7: '7', 8: '8', 9: '9', 10: 'Banner', 11: 'Under', 12: 'Ober', 13: 'Koennig', 14: 'Ass'}
 
     def __init__(self, suit, value):
         self.suit = suit
