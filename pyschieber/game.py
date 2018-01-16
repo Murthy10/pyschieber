@@ -42,11 +42,6 @@ class Game:
                 return True
         return False
 
-    def get_key(self, player):
-        for key, value in self.players.items():
-            if player == value:
-                return key
-
     def play_stich(self, start_player_index):
         first_card = self.play_card(first_card=None, player=self.players[start_player_index])
         played_cards = [PlayedCard(player=self.players[start_player_index], card=first_card)]

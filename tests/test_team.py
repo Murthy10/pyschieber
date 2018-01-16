@@ -1,5 +1,6 @@
 import pytest
 
+from pyschieber.player.random_player import RandomPlayer
 from pyschieber.team import Team
 
 
@@ -9,6 +10,7 @@ from pyschieber.team import Team
     (110, 100, True),
 ])
 def test_team_points(points, point_limit, won):
-    team = Team()
+    random_players = [RandomPlayer(name=i) for i in range(2)]
+    team = Team(players=random_players)
     team.points = points
     assert team.won(point_limit) == won

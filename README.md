@@ -63,3 +63,5 @@ Content will follow...
 * Enhance documentation
 * Architectural refactoring
 * Beautify the CLI
+* Implement Network Player
+* Game Status requests
