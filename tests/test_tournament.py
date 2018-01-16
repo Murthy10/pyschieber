@@ -3,11 +3,10 @@ from pyschieber.tournament import Tournament
 
 
 def test_tournament():
-    random_players = [RandomPlayer(name=i) for i in range(1, 5)]
+    random_players = [RandomPlayer(name=i) for i in range(4)]
     point_limit = 1000
     tournament = Tournament(point_limit=point_limit)
-    [tournament.register_player(player=player, number=index + 1) for index, player in enumerate(random_players)]
-    tournament.start()
-    tournament.play_game()
-    points = [tournament.team_1['points'], tournament.team_2['points']]
+    [tournament.register_player(player=player) for player in random_players]
+    tournament.play()
+    points = [tournament.teams[0].points, tournament.teams[1].points]
     assert point_limit <= max(points) and point_limit > min(points)

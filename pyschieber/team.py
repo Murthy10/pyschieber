@@ -1,7 +1,15 @@
 class Team:
-    def __init__(self, player_1, player_2):
-        self.player_1 = player_1
-        self.player_2 = player_2
+    def __init__(self, number, players):
+        assert number in [1, 2]
+        self.points = 0
+        self.number = number
+        self.players = players
 
-    def get_players(self):
-        return [self.player_1, self.player_2]
+    def player_by_number(self, number):
+        for player in self.players:
+            if player.number == number:
+                return player
+        return None
+
+    def won(self, point_limit):
+        return self.points >= point_limit

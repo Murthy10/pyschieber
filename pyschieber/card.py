@@ -8,6 +8,9 @@ class Card:
     def __eq__(self, other):
         return self.suit == other.suit and self.value == other.value
 
+    def __hash__(self):
+        return hash(str(self))
+
     def __str__(self):
         name = str(self.value)
         if self.value > 9:

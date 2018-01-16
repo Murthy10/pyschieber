@@ -3,9 +3,9 @@ import inspect
 
 class BasePlayer:
     def __init__(self, name='unknown'):
+        self.id = 0
         self.name = name
         self.cards = []
-        self.card_allowed = False
 
     def set_card(self, card):
         self.cards.append(card)

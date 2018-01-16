@@ -11,6 +11,7 @@ def test_count_rules(trumpf):
     points = count_stich(cards=deck.cards, trumpf=trumpf, last=True)
     assert points == 157
 
+
 @pytest.mark.parametrize("trumpf", list(Trumpf))
 def test_count_rules(trumpf):
     deck = Deck()
