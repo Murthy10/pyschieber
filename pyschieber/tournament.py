@@ -27,8 +27,8 @@ class Tournament:
 
     def build_teams(self):
         self.check_players()
-        team_1 = Team(number=1, players=[self.players[0], self.players[2]])
-        team_2 = Team(number=2, players=[self.players[1], self.players[2]])
+        team_1 = Team(players=[self.players[0], self.players[2]])
+        team_2 = Team(players=[self.players[1], self.players[2]])
         self.teams += [team_1, team_2]
 
     def play(self):

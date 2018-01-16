@@ -38,7 +38,7 @@ class Game:
             logger.info('{}{}\n'.format('-' * 180, self.trumpf))
             start_player_index = self.players.index(stich.player)
             self.stiche.append(stich)
-            if self.point_limit <= self.teams[0].points or self.point_limit <= self.teams[0].points:
+            if self.teams[0].won(self.point_limit) or self.teams[1].won(self.point_limit):
                 return True
         return False
 
@@ -72,13 +72,12 @@ class Game:
         return chosen_card
 
     def count_points(self, stich, last):
-        player = stich.player
-        player_index = self.players.index(player)
+        stich_player_index = self.players.index(stich.player)
         cards = [played_card.card for played_card in stich.played_cards]
-        if player_index % 2 == 0:
-            self.teams[0].points += count_stich(cards, self.trumpf, last=last) * counting_factor[self.trumpf]
-        else:
-            self.teams[1].points += count_stich(cards, self.trumpf, last=last) * counting_factor[self.trumpf]
+        self.add_points(team_index=(stich_player_index % 2), cards=cards, last=last)
+
+    def add_points(self, team_index, cards, last):
+        self.teams[team_index].points += count_stich(cards, self.trumpf, last=last) * counting_factor[self.trumpf]
 
 
 def get_player_index(start_index):

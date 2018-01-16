@@ -1,8 +1,6 @@
 class Team:
-    def __init__(self, number, players):
-        assert number in [1, 2]
+    def __init__(self, players=None):
         self.points = 0
-        self.number = number
         self.players = players
 
     def player_by_number(self, number):

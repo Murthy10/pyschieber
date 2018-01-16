@@ -24,8 +24,8 @@ def test_get_player_key(start_key, last_key):
 
 def test_game():
     random_players = [RandomPlayer(name=i) for i in range(4)]
-    team_1 = Team(number=1, players=[random_players[0], random_players[1]])
-    team_2 = Team(number=2, players=[random_players[1], random_players[2]])
+    team_1 = Team(players=[random_players[0], random_players[1]])
+    team_2 = Team(players=[random_players[1], random_players[2]])
     teams = [team_1, team_2]
     game = Game(teams=teams, point_limit=1500)
     game.start()
