@@ -19,7 +19,7 @@ pyschieber officially supports Python 3.4, 3.5, 3.6, 3.7, 3.5-dev, 3.6-dev, 3.7-
 Beside of the API, pyschieber provides a CLI client to play the funny Scheiber Jass game.
 Currently your opponent will be a bot choosing a random card.
 
-After the pip installation you could run the following ```pyschieber``` command on the console to play a game:
+After the pip installation you could run the ```pyschieber``` command on the console to play a game:
 ```bash
 $ pyschieber
 ------------------------------------------------------------------------------------------------------------------------
