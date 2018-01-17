@@ -16,9 +16,9 @@ class Tournament:
 
     def check_players(self):
         player_numbers = []
-        for key, player in enumerate(self.players):
+        for index, player in enumerate(self.players):
             assert isinstance(player, BasePlayer)
-            player_numbers.append(key)
+            player_numbers.append(index)
         assert {0, 1, 2, 3} == set(player_numbers)
 
     def register_player(self, player):
@@ -40,7 +40,7 @@ class Tournament:
             logger.info('-' * 200)
             logger.info('Round {} starts.'.format(self.round))
             logger.info('-' * 200)
-            end = game.start()
+            end = game.play()
             logger.info('Round {} is over.'.format(self.round))
             logger.info('Points: Team 1: {0} , Team 2: {1}. \n'.format(self.teams[0].points, self.teams[1].points))
             self.round += 1

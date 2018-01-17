@@ -28,7 +28,7 @@ def test_game():
     team_2 = Team(players=[random_players[1], random_players[2]])
     teams = [team_1, team_2]
     game = Game(teams=teams, point_limit=1500)
-    game.start()
+    game.play()
 
     for player in random_players:
         assert len(player.cards) == 0

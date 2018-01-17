@@ -18,17 +18,9 @@ class Game:
         self.deck = Deck()
         self.stiche = []
 
-    def start(self):
+    def play(self, start_player_index=0):
         shuffle(self.deck.cards)
         self.deal_cards()
-        return self.play()
-
-    def deal_cards(self):
-        for i, card in enumerate(self.deck.cards):
-            self.players[i % 4].set_card(card=card)
-
-    def play(self):
-        start_player_index = 0
         self.trumpf = self.players[start_player_index].choose_trumpf()
         logger.info('Chosen Trumpf: {0} \n'.format(self.trumpf))
         for i in range(9):
@@ -41,6 +33,10 @@ class Game:
             if self.teams[0].won(self.point_limit) or self.teams[1].won(self.point_limit):
                 return True
         return False
+
+    def deal_cards(self):
+        for i, card in enumerate(self.deck.cards):
+            self.players[i % 4].set_card(card=card)
 
     def play_stich(self, start_player_index):
         first_card = self.play_card(first_card=None, player=self.players[start_player_index])
