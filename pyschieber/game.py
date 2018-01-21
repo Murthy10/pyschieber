@@ -4,7 +4,7 @@ import logging
 from pyschieber.deck import Deck
 from pyschieber.rules.stich_rules import stich_rules, card_allowed
 from pyschieber.rules.count_rules import count_stich, counting_factor
-from pyschieber.stich import PlayedCard
+from pyschieber.stich import PlayedCard, stich_dict
 
 logger = logging.getLogger(__name__)
 
@@ -69,6 +69,9 @@ class Game:
 
     def add_points(self, team_index, cards, last):
         self.teams[team_index].points += count_stich(cards, self.trumpf, last=last) * counting_factor[self.trumpf]
+
+    def get_status(self):
+        return dict(stiche=[stich_dict(stich) for stich in self.stiche])
 
 
 def get_player_index(start_index):

@@ -12,7 +12,7 @@ class Tournament:
         self.point_limit = point_limit
         self.players = []
         self.teams = []
-        self.round = 1
+        self.games = []
 
     def check_players(self):
         player_numbers = []
@@ -37,10 +37,16 @@ class Tournament:
         end = False
         while not end:
             game = Game(teams=self.teams, point_limit=self.point_limit)
+            self.games.append(game)
             logger.info('-' * 200)
-            logger.info('Round {} starts.'.format(self.round))
+            logger.info('Round {} starts.'.format(len(self.games)))
             logger.info('-' * 200)
             end = game.play()
-            logger.info('Round {} is over.'.format(self.round))
+            logger.info('Round {} is over.'.format(len(self.games)))
             logger.info('Points: Team 1: {0} , Team 2: {1}. \n'.format(self.teams[0].points, self.teams[1].points))
-            self.round += 1
+
+    def get_status(self):
+        return {
+            'games': [game.get_status() for game in self.games],
+            'players': [player.get_dict() for player in self.players]
+        }

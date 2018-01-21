@@ -1,11 +1,17 @@
 import inspect
+from itertools import count
 
 
 class BasePlayer:
+    class_counter = count(0)
+
     def __init__(self, name='unknown'):
-        self.id = 0
+        self.id = next(self.class_counter)
         self.name = name
         self.cards = []
+
+    def get_dict(self):
+        return dict(id=self.id, name=self.name, type=type(self).__name__)
 
     def set_card(self, card):
         self.cards.append(card)
