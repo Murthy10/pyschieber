@@ -60,9 +60,7 @@ Content will follow...
 
 ## TODO
 * Implement Wies
-* Enhance tests
 * Enhance documentation
 * Architectural refactoring
 * Beautify the CLI
 * Implement Network Player
-* Game Status requests
