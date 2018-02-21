@@ -3,8 +3,10 @@ import logging
 
 from pyschieber.deck import Deck
 from pyschieber.rules.stich_rules import stich_rules, card_allowed
+from pyschieber.rules.trumpf_rules import trumpf_allowed
 from pyschieber.rules.count_rules import count_stich, counting_factor
 from pyschieber.stich import PlayedCard, stich_dict
+from pyschieber.trumpf import Trumpf
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +16,7 @@ class Game:
         self.teams = teams
         self.point_limit = point_limit
         self.players = teams[0].players + teams[1].players
+        self.geschoben = False
         self.trumpf = None
         self.deck = Deck()
         self.stiche = []
@@ -21,7 +24,7 @@ class Game:
     def play(self, start_player_index=0):
         shuffle(self.deck.cards)
         self.deal_cards()
-        self.trumpf = self.players[start_player_index].choose_trumpf()
+        self.define_trumpf(start_player_index=start_player_index)
         logger.info('Chosen Trumpf: {0} \n'.format(self.trumpf))
         for i in range(9):
             stich = self.play_stich(start_player_index)
@@ -33,6 +36,20 @@ class Game:
             if self.teams[0].won(self.point_limit) or self.teams[1].won(self.point_limit):
                 return True
         return False
+
+    def define_trumpf(self, start_player_index):
+        is_allowed_trumpf = False
+        generator = self.players[start_player_index].choose_trumpf(geschoben=self.geschoben)
+        chosen_trumpf = next(generator)
+        if chosen_trumpf == Trumpf.SCHIEBEN:
+            self.geschoben = True
+            generator = self.players[(start_player_index + 2) % 4].choose_trumpf(geschoben=self.geschoben)
+            chosen_trumpf = next(generator)
+            while not is_allowed_trumpf:
+                is_allowed_trumpf = trumpf_allowed(chosen_trumpf=chosen_trumpf, geschoben=self.geschoben)
+                trumpf = generator.send(is_allowed_trumpf)
+                chosen_trumpf = chosen_trumpf if trumpf is None else trumpf
+        self.trumpf = chosen_trumpf
 
     def deal_cards(self):
         for i, card in enumerate(self.deck.cards):
