@@ -88,7 +88,8 @@ class Game:
         self.teams[team_index].points += count_stich(cards, self.trumpf, last=last) * counting_factor[self.trumpf]
 
     def get_status(self):
-        return dict(stiche=[stich_dict(stich) for stich in self.stiche])
+        return dict(stiche=[stich_dict(stich) for stich in self.stiche], trumpf=str(self.trumpf),
+                    geschoben=self.geschoben)
 
 
 def get_player_index(start_index):
