@@ -33,7 +33,7 @@ stich_rules = {
     Trumpf.UNDE_UFE: partial(stich_obe_unde, operation=min, trumpf=Trumpf.UNDE_UFE),
 }
 
-for trumpf in filter(lambda x: x != Trumpf.OBE_ABE and x != Trumpf.UNDE_UFE, Trumpf):
+for trumpf in filter(lambda x: x != Trumpf.OBE_ABE and x != Trumpf.UNDE_UFE and x != Trumpf.SCHIEBEN, Trumpf):
     stich_rules[trumpf] = partial(stich_trumpf, trumpf=trumpf)
 
 
