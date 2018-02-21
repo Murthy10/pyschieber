@@ -49,7 +49,6 @@ class CliPlayer(BasePlayer):
             print('{0} : {1}'.format(i, card))
         print('')
 
-
 def move_allowed(move_function, message):
     allowed = False
     while not allowed:

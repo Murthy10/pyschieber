@@ -29,6 +29,7 @@ class Game:
         for i in range(9):
             stich = self.play_stich(start_player_index)
             self.count_points(stich, last=(i == 8))
+            self.stich_over_information()
             logger.info('\nStich: {0} \n'.format(stich.player))
             logger.info('{}{}\n'.format('-' * 180, self.trumpf))
             start_player_index = self.players.index(stich.player)
@@ -78,6 +79,9 @@ class Game:
             logger.info('Table: {0}:{1}'.format(player, chosen_card))
             player.cards.remove(chosen_card)
         return chosen_card
+
+    def stich_over_information(self):
+        map(lambda player: player.stich_over(), self.players)
 
     def count_points(self, stich, last):
         stich_player_index = self.players.index(stich.player)

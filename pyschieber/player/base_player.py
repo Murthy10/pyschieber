@@ -25,5 +25,8 @@ class BasePlayer:
     def choose_card(self):
         raise NotImplementedError(str(inspect.stack()[1][3]))
 
+    def stich_over(self):
+        pass
+
     def __str__(self):
         return '<Player:{}>'.format(self.name)

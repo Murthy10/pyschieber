@@ -1,11 +1,14 @@
 from enum import Enum
+from operator import itemgetter
 
 from pyschieber.suit import Suit
 from pyschieber.trumpf import Trumpf
+from pyschieber.rules.count_rules import counting_factor
 
 # https://www.jassverzeichnis.ch/index.php/blog/95-jass-tipps-trumpfansagen-schieber
 TrumpfType = Enum('TrumpfType',
-                  ['UNDER_4', 'NELL_ASS_5', 'UNDER_NELL_ASS', 'UNDER_NELL_3_2_ASS', 'STICHE_5', 'NO_TRUMPF'])
+                  ['UNDER_4', 'NELL_ASS_5', 'UNDER_NELL_ASS', 'UNDER_NELL_3_2_ASS', 'STICHE_5', 'NO_TRUMPF',
+                   'HAVE_TO_DECIDE'])
 
 
 def choose_trumpf(cards, geschoben):
@@ -21,8 +24,30 @@ def choose_trumpf(cards, geschoben):
     if not trumpf_type == TrumpfType.NO_TRUMPF:
         candidates.append((Trumpf.OBE_ABE, trumpf_type))
     if len(candidates) >= 1:
-        return candidates[0]
+        return choose_candidate(candidates)
+    elif geschoben:
+        return have_to_decide(cards)
     return Trumpf.SCHIEBEN, TrumpfType.NO_TRUMPF
+
+
+def choose_candidate(candidates):
+    max_index = 0
+    max_factor = 0
+    for i in range(0, len(candidates)):
+        trumpf, _ = candidates[i]
+        current_factor = counting_factor[trumpf]
+        if max_factor < current_factor:
+            max_factor = current_factor
+            max_index = i
+    return candidates[max_index]
+
+
+def have_to_decide(cards):
+    number_of_stiche = count_stiche_per_trumpf(cards)
+    number_of_stiche.append((Trumpf.OBE_ABE, len(count_stiche(cards=cards, best_card=14, step=-1))))
+    number_of_stiche.append((Trumpf.UNDE_UFE, len(count_stiche(cards=cards, best_card=6, step=1))))
+    trumpf, count = max(number_of_stiche, key=itemgetter(1))
+    return trumpf, TrumpfType.HAVE_TO_DECIDE
 
 
 def evalute_stich_trumpf(cards, suit_name):
@@ -43,41 +68,48 @@ def evalute_stich_trumpf(cards, suit_name):
 
 
 def evalute_unde_ufe(cards):
-    suits = split_cards_by_suit(cards)
-    stiche = []
-    for suit, suit_cards in suits:
-        best_card = 6
-        suit_card_copy = list(suit_cards)
-        for _ in suit_cards:
-            if best_card in suit_cards:
-                stiche.append((suit, best_card))
-                suit_card_copy.remove(best_card)
-                best_card += 1
-            else:
-                break
-        if best_card >= 8:
-            for card in suit_card_copy:
-                stiche.append((suit, card))
+    stiche = count_stiche(cards=cards, best_card=6, step=1)
     return TrumpfType.STICHE_5 if len(stiche) > 5 else TrumpfType.NO_TRUMPF
 
 
 def evalute_obe_abe(cards):
+    stiche = count_stiche(cards=cards, best_card=14, step=-1)
+    return TrumpfType.STICHE_5 if len(stiche) > 5 else TrumpfType.NO_TRUMPF
+
+
+def count_stiche_per_trumpf(cards):
+    stiche = []
+    suits = split_cards_by_suit(cards)
+    for suit, suit_cards in suits:
+        nell = bool(9 in suit_cards)
+        under = bool(11 in suit_cards)
+        stich_counter = 0
+        if under:
+            stich_counter += 1
+            if nell:
+                stich_counter += 1
+        stiche.append((Trumpf[suit.name], stich_counter))
+    return stiche
+
+
+def count_stiche(cards, best_card, step=1):
+    init_best_card = best_card
     suits = split_cards_by_suit(cards)
     stiche = []
     for suit, suit_cards in suits:
-        best_card = 14
         suit_card_copy = list(suit_cards)
         for _ in suit_cards:
             if best_card in suit_cards:
                 stiche.append((suit, best_card))
                 suit_card_copy.remove(best_card)
-                best_card -= 1
+                best_card += step
             else:
                 break
-        if best_card <= 12:
+        if abs(init_best_card - best_card) >= 3:
             for card in suit_card_copy:
                 stiche.append((suit, card))
-    return TrumpfType.STICHE_5 if len(stiche) > 5 else TrumpfType.NO_TRUMPF
+        best_card = init_best_card
+    return stiche
 
 
 def split_cards_by_suit(cards):

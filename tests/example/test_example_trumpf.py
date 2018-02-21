@@ -29,3 +29,16 @@ from pyschieber.trumpf import Trumpf
 def test_choose_trumpf_no_schieben(cards, trumpf, trumpf_type):
     evaluate_trumpf, evaluate_trumpf_type = choose_trumpf(cards=cards, geschoben=False)
     assert (evaluate_trumpf, evaluate_trumpf_type) == (trumpf, trumpf_type)
+
+
+@pytest.mark.parametrize("cards, trumpf, trumpf_type", [
+    ([Card(Suit.BELL, 10), Card(Suit.BELL, 12), Card(Suit.BELL, 6), Card(Suit.BELL, 8), Card(Suit.ACORN, 12),
+      Card(Suit.ACORN, 11), Card(Suit.SHIELD, 12), Card(Suit.SHIELD, 7), Card(Suit.ROSE, 9)], Trumpf.ACORN,
+     TrumpfType.HAVE_TO_DECIDE),
+    ([Card(Suit.BELL, 10), Card(Suit.BELL, 12), Card(Suit.BELL, 6), Card(Suit.BELL, 7), Card(Suit.ACORN, 12),
+      Card(Suit.ACORN, 11), Card(Suit.SHIELD, 12), Card(Suit.SHIELD, 7), Card(Suit.ROSE, 9)], Trumpf.UNDE_UFE,
+     TrumpfType.HAVE_TO_DECIDE),
+])
+def test_choose_trumpf_schieben(cards, trumpf, trumpf_type):
+    evaluate_trumpf, evaluate_trumpf_type = choose_trumpf(cards=cards, geschoben=True)
+    assert (evaluate_trumpf, evaluate_trumpf_type) == (trumpf, trumpf_type)

@@ -8,12 +8,10 @@ from example.example_player import ExamplePlayer
 
 def start_tournament(points):
     tournament = Tournament(point_limit=points)
-    example_player = ExamplePlayer(name='ExamplePlayer')
-    tournament.register_player(example_player, 1)
-    [tournament.register_player(RandomPlayer(name=str(i)), i) for i in range(2, 5)]
-    example_player.set_tournament(tournament)
+    example_player = ExamplePlayer.with_tournament(name='ExamplePlayer', tournament=tournament)
+    tournament.register_player(example_player)
+    [tournament.register_player(RandomPlayer(name=str(i))) for i in range(2, 5)]
     tournament.play()
-
 
 def set_logging():
     root = logging.getLogger()

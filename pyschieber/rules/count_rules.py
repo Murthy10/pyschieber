@@ -1,6 +1,6 @@
 from pyschieber.trumpf import Trumpf
 
-counting_factor = {Trumpf.ROSE: 1, Trumpf.BELL: 2, Trumpf.ACORN: 1, Trumpf.SHIELD: 2, Trumpf.OBE_ABE: 3,
+counting_factor = {Trumpf.ROSE: 1, Trumpf.ACORN: 1, Trumpf.BELL: 2,  Trumpf.SHIELD: 2, Trumpf.OBE_ABE: 3,
                    Trumpf.UNDE_UFE: 3}
 
 points_obe_abe = {6: 0, 7: 0, 8: 8, 9: 0, 10: 10, 11: 2, 12: 3, 13: 4, 14: 11}
@@ -10,7 +10,7 @@ points_non_trumpf_color = {6: 0, 7: 0, 8: 0, 9: 0, 10: 10, 11: 2, 12: 3, 13: 4, 
 
 card_points = {Trumpf.OBE_ABE: points_obe_abe, Trumpf.UNDE_UFE: points_unde_ufe}
 
-for trumpf in filter(lambda x: x != Trumpf.OBE_ABE and x != Trumpf.UNDE_UFE, Trumpf):
+for trumpf in filter(lambda x: x != Trumpf.OBE_ABE and x != Trumpf.UNDE_UFE and x != Trumpf.SCHIEBEN, Trumpf):
     card_points[trumpf] = points_trumpf_color
 
 
