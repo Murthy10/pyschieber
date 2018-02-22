@@ -5,9 +5,11 @@ from example.example_player import ExamplePlayer
 
 def start_tournament(points):
     tournament = Tournament(point_limit=points)
-    example_player = ExamplePlayer.with_tournament(name='ExamplePlayer', tournament=tournament)
-    tournament.register_player(example_player)
-    [tournament.register_player(RandomPlayer(name=str(i))) for i in range(2, 5)]
+
+    players = [RandomPlayer(name='Tick'), RandomPlayer(name='Trick'), RandomPlayer(name='Track'),
+               ExamplePlayer.with_tournament(name='Dagobert', tournament=tournament)]
+    map(tournament.register_player, players)
+
     tournament.play()
 
 

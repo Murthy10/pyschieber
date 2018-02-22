@@ -33,7 +33,7 @@ class Tournament:
 
     def play(self):
         self.build_teams()
-        logger.info('Tournament starts, the goal are {} points.'.format(self.point_limit))
+        logger.info('Tournament starts, the point limit is {}.'.format(self.point_limit))
         end = False
         while not end:
             game = Game(teams=self.teams, point_limit=self.point_limit)

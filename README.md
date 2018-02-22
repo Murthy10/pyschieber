@@ -54,17 +54,43 @@ Geschoben: False
 Please chose the trumpf by the number from 0 to 6: 
 ```
 
+## API
+The idea of pyschieber is to extend the game with your own implemented player.
+Henc schieber provides entry points to fulfill this requirement.
+
+## Environemnt introduction
+To get a first feeling for the pyschieber playground let's have a look at a runable example.
 
 
-### API
-Content will follow...
+1. The first thing you have to do, is to instantiate a new Tournament.
+```python
+from pyschieber.tournament import Tournament  
+
+tournament = Tournament(point_limit=1500)
+```
+
+2. Add the players to your tournament. In our example we use the erratic RandomPlayers Tick, Trick, Track and the ExamplePlayer Dagobert.
+```python
+from pyschieber.player.random_player import RandomPlayer
+from example.example_player import ExamplePlayer
+
+
+players = [RandomPlayer(name='Tick'), RandomPlayer(name='Trick'), RandomPlayer(name='Track'),
+           ExamplePlayer.with_tournament(name='Dagobert', tournament=tournament)]
+
+map(tournament.register_player, players)
+```
+
+3. Now we are ready to play, let the games begin!
+```python
+tournament.play()
+```
+
+## Build your own Player
 
 
 
-
-## TODO
-* Implement Wies
-* Enhance documentation
-* Architectural refactoring
+## Enhancements
+* Add Wiesen to the game
 * Beautify the CLI
-* Implement Network Player
+* Provide a simple network player
