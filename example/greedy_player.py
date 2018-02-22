@@ -1,11 +1,9 @@
-import random
-
 from pyschieber.player.base_player import BasePlayer
 
-from example.example_trumpf import choose_trumpf
+from example.trumpf_decision import choose_trumpf
 
 
-class ExamplePlayer(BasePlayer):
+class GreedyPlayer(BasePlayer):
     bad_trumpf_reward = -100
     bad_card_reward = -10
 
@@ -29,13 +27,16 @@ class ExamplePlayer(BasePlayer):
                 self.reward += self.bad_trumpf_reward
 
     def choose_card(self):
+        self.cards.sort()
         allowed = False
+        last = -1
         while not allowed:
-            card = random.choice(self.cards)
+            card = self.cards[last]
             allowed = yield card
             if allowed:
                 yield None
             else:
+                last -= 1
                 self.reward += self.bad_card_reward
 
     def stich_over(self):
