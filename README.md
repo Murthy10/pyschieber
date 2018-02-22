@@ -23,20 +23,21 @@ Currently your opponent will be a bot choosing a random card.
 After the pip installation you could run the ```pyschieber``` command on the console to play a game:
 ```bash
 $ pyschieber
-------------------------------------------------------------------------------------------------------------------------
+Tournament starts, the goal are 1500 points.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Round 1 starts.
-------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Hand cards: 
 
-0 : <ACORN:Under>
-1 : <ROSE:9>
-2 : <SHIELD:Banner>
-3 : <SHIELD:Ober>
-4 : <BELL:Under>
-5 : <SHIELD:Koennig>
-6 : <BELL:8>
-7 : <BELL:Koennig>
-8 : <ACORN:Koennig>
+0 : <BELL:Koennig>
+1 : <ACORN:9>
+2 : <ROSE:9>
+3 : <ACORN:Ober>
+4 : <ROSE:Banner>
+5 : <SHIELD:8>
+6 : <ACORN:Ass>
+7 : <ROSE:Ass>
+8 : <ROSE:Under>
 
 
 Trumpf:
@@ -46,8 +47,11 @@ Trumpf:
 3 : Trumpf.BELL
 4 : Trumpf.ACORN
 5 : Trumpf.SHIELD
-Please chose the trumpf by the number from 0 to 5: 
+6 : Trumpf.SCHIEBEN
 
+Geschoben: False
+
+Please chose the trumpf by the number from 0 to 6: 
 ```
 
 

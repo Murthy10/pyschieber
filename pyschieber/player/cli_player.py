@@ -7,12 +7,12 @@ class CliPlayer(BasePlayer):
         print('\nTrumpf:')
         for i, trumpf in enumerate(self.trumpf_list):
             print('{0} : {1}'.format(i, trumpf))
-        print('Geschoben: {0}'.format(geschoben))
-        move_allowed(move_function=self._choose_trumpf_input(), message="Schieben not allowed!\n")
+        print('\nGeschoben: {0}\n'.format(geschoben))
+        return move_allowed(move_function=self._choose_trumpf_input, message="Schieben not allowed!\n")
 
     def choose_card(self):
         self._print_cards()
-        move_allowed(move_function=self._choose_card_input, message="Card not allowed!\n")
+        return move_allowed(move_function=self._choose_card_input, message="Card not allowed!\n")
 
     def _choose_trumpf_input(self):
         while True:
@@ -48,6 +48,7 @@ class CliPlayer(BasePlayer):
         for i, card in enumerate(self.cards):
             print('{0} : {1}'.format(i, card))
         print('')
+
 
 def move_allowed(move_function, message):
     allowed = False
