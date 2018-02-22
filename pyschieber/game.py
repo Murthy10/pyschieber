@@ -1,7 +1,6 @@
-from random import shuffle
 import logging
 
-from pyschieber.deck import Deck
+from pyschieber.dealer import Dealer
 from pyschieber.rules.stich_rules import stich_rules, card_allowed
 from pyschieber.rules.trumpf_rules import trumpf_allowed
 from pyschieber.rules.count_rules import count_stich, counting_factor
@@ -16,14 +15,14 @@ class Game:
         self.teams = teams
         self.point_limit = point_limit
         self.players = teams[0].players + teams[1].players
+        self.dealer = Dealer(players=self.players)
         self.geschoben = False
         self.trumpf = None
-        self.deck = Deck()
         self.stiche = []
 
     def play(self, start_player_index=0):
-        shuffle(self.deck.cards)
-        self.deal_cards()
+        self.dealer.shuffle_cards()
+        self.dealer.deal_cards()
         self.define_trumpf(start_player_index=start_player_index)
         logger.info('Chosen Trumpf: {0} \n'.format(self.trumpf))
         for i in range(9):
@@ -51,10 +50,6 @@ class Game:
                 trumpf = generator.send(is_allowed_trumpf)
                 chosen_trumpf = chosen_trumpf if trumpf is None else trumpf
         self.trumpf = chosen_trumpf
-
-    def deal_cards(self):
-        for i, card in enumerate(self.deck.cards):
-            self.players[i % 4].set_card(card=card)
 
     def play_stich(self, start_player_index):
         first_card = self.play_card(first_card=None, player=self.players[start_player_index])

@@ -87,6 +87,14 @@ tournament.play()
 ```
 
 ## Build your own Player
+As you might have noticed we registered two different types of players on our tournament.
+Thus the idea is to implement your own Player to beat Trick, Trick and Track.
+
+Basically the Player has to provide the functions:
+ * set_card(card)
+   * 
+ * choose_trumpf
+ * choose_card
 
 
 
