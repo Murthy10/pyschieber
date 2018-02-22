@@ -90,13 +90,51 @@ tournament.play()
 As you might have noticed we registered two different types of players on our tournament.
 Thus the idea is to implement your own Player to beat Trick, Trick and Track.
 
-Basically the Player has to provide the functions:
+Basically the Player has to provide the methods:
  * set_card(card)
-   * 
- * choose_trumpf
- * choose_card
+   * called by the dealer to get your cards at the start of every round
+ * choose_trumpf(geschoben)
+   * called when it's your turn to choose a trumpf, this has to be a generator and is recalled until the chosen trumpf is allowed
+ * choose_card()
+   * called when it's your turn to choose a card, this has to be a generator and is recalled until the chosen card is allowed
+
+Additionally there is the stich_over() method, that is called after all players had chosen their cards.  
+
+The easiest way to implement your own player is to inherit from the BasePlayer class (due to the fact that Python uses duck typing it is not absolutely necessary), which provieds some basic functionality like store your cards.
+due to the fact that Python uses duck typing it is not absolutely necessary.
+
+To get more familiar with this concept let's have a look at the already mentioned Random Player.
+```python
+import random
+
+from pyschieber.player.base_player import BasePlayer
+from pyschieber.trumpf import Trumpf
 
 
+class RandomPlayer(BasePlayer):
+    def choose_trumpf(self, geschoben):
+        return move(choices=list(Trumpf))
+
+    def choose_card(self):
+        return move(choices=self.cards)
+
+
+def move(choices):
+    allowed = False
+    while not allowed:
+        choice = random.choice(choices)
+        allowed = yield choice
+        if allowed:
+            yield None
+```
+What's going on here?
+
+The Random Player is pretty naive and he simply chooses randomly a card or a trumpf from the list of choices. 
+If the turn is not allowed he randomly chooses a new one until the rules of Schieber are satisfied.
+
+Other player examples are the [ExamplePlayer](example/example_player.py) or the [CliPlayer](pyschieber/player/cli_player.py).
+
+Now you should be ready to get your hands dirty to implement your own player and beat the random players Tick, Trick and Track!
 
 ## Enhancements
 * Add Wiesen to the game
