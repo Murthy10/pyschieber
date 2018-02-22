@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/Murthy10/pyschieber.svg?branch=master)](https://travis-ci.org/Murthy10/pyschieber)
-<a href="url"><img src="/docs/images/jass.png" align="right" width="300" ></a>
+<a href="url"><img src="/docs/images/jasskarten.gif" align="right" width="300" ></a>
 # pyschieber
-Pyschieber is an implementation of the well known Swiss Schieber Jass game.
+Pyschieber is an implementation of the well known Swiss Schieber Jass game. :game_die:
 
 As OpenAI Gym provides APIs for several popular games to learn your algorithms master these games.
 Pyschieber aims to offer an API in the same manner.
@@ -16,7 +16,7 @@ pip install pyschieber
 ```
 pyschieber officially supports Python 3.4, 3.5, 3.6, 3.7, 3.5-dev, 3.6-dev, 3.7-dev, nightly and PyPy3.
 
-### CLI
+### CLI :computer:
 Beside of the API, pyschieber provides a CLI client to play the funny Scheiber Jass game.
 Currently your opponent will be a bot choosing a random card.
 
@@ -54,7 +54,7 @@ Geschoben: False
 Please chose the trumpf by the number from 0 to 6: 
 ```
 
-## API
+## API :clipboard:
 The idea of pyschieber is to extend the game with your own implemented player.
 Henc schieber provides entry points to fulfill this requirement.
 
@@ -86,7 +86,7 @@ map(tournament.register_player, players)
 tournament.play()
 ```
 
-## Build your own Player
+## Build your own Player :runner:
 As you might have noticed we registered two different types of players on our tournament.
 Thus the idea is to implement your own Player to beat Trick, Trick and Track.
 
@@ -134,9 +134,9 @@ If the turn is not allowed he randomly chooses a new one until the rules of Schi
 
 Other player examples are the [ExamplePlayer](example/example_player.py) or the [CliPlayer](pyschieber/player/cli_player.py).
 
-Now you should be ready to get your hands dirty to implement your own player and beat the random players Tick, Trick and Track!
+Now you should be ready to get your hands dirty to implement your own player and beat the random players Tick, Trick and Track! :trophy:
 
 ## Enhancements
 * Add Wiesen to the game
-* Beautify the CLI
+* Beautify the CLI :trollface:
 * Provide a simple network player
