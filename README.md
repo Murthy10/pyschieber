@@ -69,7 +69,7 @@ from pyschieber.tournament import Tournament
 tournament = Tournament(point_limit=1500)
 ```
 
-2. Add the players to your tournament. In our example we use the erratic RandomPlayers Tick, Trick, Track and the ExamplePlayer Dagobert.
+2. Add the players to your tournament. In our example we use the erratic RandomPlayers Tick, Trick, Track and the GreedyPlayer Dagobert.
 ```python
 from pyschieber.player.random_player import RandomPlayer
 from example.greedy_player import GreedyPlayer
