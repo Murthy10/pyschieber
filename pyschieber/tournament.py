@@ -17,7 +17,6 @@ class Tournament:
     def check_players(self):
         player_numbers = []
         for index, player in enumerate(self.players):
-            assert isinstance(player, BasePlayer)
             player_numbers.append(index)
         assert {0, 1, 2, 3} == set(player_numbers)
 

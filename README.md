@@ -78,7 +78,7 @@ from example.greedy_player import GreedyPlayer
 players = [RandomPlayer(name='Tick'), RandomPlayer(name='Trick'), RandomPlayer(name='Track'),
            GreedyPlayer.with_tournament(name='Dagobert', tournament=tournament)]
 
-map(tournament.register_player, players)
+[tournament.register_player(player) for player in players]
 ```
 
 3. Now we are ready to play, let the games begin!

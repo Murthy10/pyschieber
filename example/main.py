@@ -1,6 +1,6 @@
 from pyschieber.player.random_player import RandomPlayer
 from pyschieber.tournament import Tournament
-from example.example_player import GreedyPlayer
+from example.greedy_player import GreedyPlayer
 
 
 def start_tournament(points):
@@ -8,7 +8,8 @@ def start_tournament(points):
 
     players = [RandomPlayer(name='Tick'), RandomPlayer(name='Trick'), RandomPlayer(name='Track'),
                GreedyPlayer.with_tournament(name='Dagobert', tournament=tournament)]
-    map(tournament.register_player, players)
+
+    [tournament.register_player(player) for player in players]
 
     tournament.play()
 
