@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/Murthy10/pyschieber.svg?branch=master)](https://travis-ci.org/Murthy10/pyschieber)
 <a href="url"><img src="/docs/images/jasskarten.gif" align="right" width="300" ></a>
 # pyschieber
-Pyschieber is an implementation of the well known Swiss Schieber Jass game. :game_die:
+Pyschieber is an implementation of the well known Swiss Schieber Jass game.
 
 As OpenAI Gym provides APIs for several popular games to learn your algorithms master these games.
 Pyschieber aims to offer an API in the same manner.

@@ -1,18 +1,32 @@
 import logging
+from enum import Enum
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 from pyschieber.player.base_player import BasePlayer
 
+State = Enum('State', ['CHOOSE_CARD', 'CHOOSE_TRUMPF', 'NO_ACTION'])
 
-class NetworkPlayer(BasePlayer):
+
+# TODO Improve functionality
+class NetworkPlayer(BasePlayer, BaseHTTPRequestHandler):
     @classmethod
     def with_port(cls, name, port=3000):
         player = cls(name=name)
         player.port = port
+        player.state = dict(STATE=State.NO_ACTION)
+        player.chosen_trumpf = None
+        player.chosen_card = None
         return cls
 
     def choose_trumpf(self, geschoben):
-        pass
+        allowed = False
+        while not allowed:
+            trumpf = self.chosen_trumpf
+            allowed = yield trumpf
+            if allowed:
+                yield None
+            else:
+                self.state = State.CHOOSE_TRUMPF
 
     def choose_card(self):
         pass
@@ -20,10 +34,10 @@ class NetworkPlayer(BasePlayer):
     def stich_over(self):
         pass
 
-    def run(self, server_class=HTTPServer, handler_class=RequestHandler, port=3000):
+    def run(self, server_class=HTTPServer, port=3000):
         logging.basicConfig(level=logging.INFO)
         server_address = ('', port)
-        httpd = server_class(server_address, handler_class)
+        httpd = server_class(server_address, NetworkPlayer)
         logging.info('Starting httpd...\n')
         try:
             httpd.serve_forever()
@@ -32,11 +46,9 @@ class NetworkPlayer(BasePlayer):
         httpd.server_close()
         logging.info('Stopping httpd...\n')
 
-
-class RequestHandler(BaseHTTPRequestHandler):
     def _set_response(self):
         self.send_response(200)
-        self.send_header('Content-type', 'text/html')
+        self.send_header('Content-type', 'application/json')
         self.end_headers()
 
     def do_GET(self):
