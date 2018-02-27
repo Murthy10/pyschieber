@@ -9,7 +9,7 @@ python:
   - "3.7-dev" # 3.7 development branch
   - "nightly" # currently points to 3.7-dev
 install: "pip install -r requirements.txt"
-script: py.test
+script: pytest -v -m "not statistical"
 notifications:
   email: false
 deploy:
