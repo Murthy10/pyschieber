@@ -65,7 +65,7 @@ class Game:
 
     def play_card(self, first_card, player):
         is_allowed_card = False
-        generator = player.choose_card(status=self.get_status())
+        generator = player.choose_card(state=self.get_status())
         chosen_card = next(generator)
         while not is_allowed_card:
             is_allowed_card = card_allowed(first_card=first_card, chosen_card=chosen_card, hand_cards=player.cards,
