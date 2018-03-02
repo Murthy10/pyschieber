@@ -8,7 +8,7 @@ class RandomPlayer(BasePlayer):
     def choose_trumpf(self, geschoben):
         return move(choices=list(Trumpf))
 
-    def choose_card(self):
+    def choose_card(self, state=None):
         return move(choices=self.cards)
 
 

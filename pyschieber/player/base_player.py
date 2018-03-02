@@ -22,10 +22,10 @@ class BasePlayer:
     def choose_trumpf(self, geschoben):
         raise NotImplementedError(str(inspect.stack()[1][3]))
 
-    def choose_card(self):
+    def choose_card(self, state=None):
         raise NotImplementedError(str(inspect.stack()[1][3]))
 
-    def stich_over(self):
+    def stich_over(self, state=None):
         pass
 
     def __str__(self):

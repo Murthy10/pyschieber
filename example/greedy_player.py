@@ -26,7 +26,7 @@ class GreedyPlayer(BasePlayer):
             else:
                 self.reward += self.bad_trumpf_reward
 
-    def choose_card(self):
+    def choose_card(self, state=None):
         self.cards.sort()
         allowed = False
         last = -1
@@ -39,7 +39,7 @@ class GreedyPlayer(BasePlayer):
                 last -= 1
                 self.reward += self.bad_card_reward
 
-    def stich_over(self):
+    def stich_over(self, state=None):
         self.calculate_reward()
 
     def calculate_reward(self):

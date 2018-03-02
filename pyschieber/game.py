@@ -4,7 +4,7 @@ from pyschieber.dealer import Dealer
 from pyschieber.rules.stich_rules import stich_rules, card_allowed
 from pyschieber.rules.trumpf_rules import trumpf_allowed
 from pyschieber.rules.count_rules import count_stich, counting_factor
-from pyschieber.stich import PlayedCard, stich_dict
+from pyschieber.stich import PlayedCard, stich_dict, played_cards_dict
 from pyschieber.trumpf import Trumpf
 
 logger = logging.getLogger(__name__)
@@ -19,6 +19,7 @@ class Game:
         self.geschoben = False
         self.trumpf = None
         self.stiche = []
+        self.cards_on_table = []
 
     def play(self, start_player_index=0):
         self.dealer.shuffle_cards()
@@ -52,18 +53,19 @@ class Game:
         self.trumpf = chosen_trumpf
 
     def play_stich(self, start_player_index):
+        self.cards_on_table = []
         first_card = self.play_card(first_card=None, player=self.players[start_player_index])
-        played_cards = [PlayedCard(player=self.players[start_player_index], card=first_card)]
+        self.cards_on_table = [PlayedCard(player=self.players[start_player_index], card=first_card)]
         for i in get_player_index(start_index=start_player_index):
             current_player = self.players[i]
             card = self.play_card(first_card=first_card, player=current_player)
-            played_cards.append(PlayedCard(player=current_player, card=card))
-        stich = stich_rules[self.trumpf](played_cards=played_cards)
+            self.cards_on_table.append(PlayedCard(player=current_player, card=card))
+        stich = stich_rules[self.trumpf](played_cards=self.cards_on_table)
         return stich
 
     def play_card(self, first_card, player):
         is_allowed_card = False
-        generator = player.choose_card()
+        generator = player.choose_card(status=self.get_status())
         chosen_card = next(generator)
         while not is_allowed_card:
             is_allowed_card = card_allowed(first_card=first_card, chosen_card=chosen_card, hand_cards=player.cards,
@@ -88,7 +90,9 @@ class Game:
 
     def get_status(self):
         return dict(stiche=[stich_dict(stich) for stich in self.stiche], trumpf=str(self.trumpf),
-                    geschoben=self.geschoben)
+                    geschoben=self.geschoben, point_limit=self.point_limit,
+                    table=[played_cards_dict(played_card) for played_card in self.cards_on_table],
+                    teams=[dict(points=team.points) for team in self.teams])
 
 
 def get_player_index(start_index):

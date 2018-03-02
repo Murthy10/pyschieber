@@ -10,7 +10,7 @@ class CliPlayer(BasePlayer):
         print('\nGeschoben: {0}\n'.format(geschoben))
         return move_allowed(move_function=self._choose_trumpf_input, message="Schieben not allowed!\n")
 
-    def choose_card(self):
+    def choose_card(self, state=None):
         self._print_cards()
         return move_allowed(move_function=self._choose_card_input, message="Card not allowed!\n")
 
