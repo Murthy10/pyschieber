@@ -25,7 +25,7 @@ class Game:
         self.dealer.shuffle_cards()
         self.dealer.deal_cards()
         self.define_trumpf(start_player_index=start_player_index)
-        logger.info('Chosen Trumpf: {0} \n'.format(self.trumpf))
+        logger.info('Chosen Trumpf: {0} \n'.format(self.trumpf.name))
         for i in range(9):
             stich = self.play_stich(start_player_index)
             self.count_points(stich, last=(i == 8))
@@ -89,7 +89,7 @@ class Game:
         self.teams[team_index].points += count_stich(cards, self.trumpf, last=last) * counting_factor[self.trumpf]
 
     def get_status(self):
-        return dict(stiche=[stich_dict(stich) for stich in self.stiche], trumpf=str(self.trumpf),
+        return dict(stiche=[stich_dict(stich) for stich in self.stiche], trumpf=self.trumpf.name,
                     geschoben=self.geschoben, point_limit=self.point_limit,
                     table=[played_cards_dict(played_card) for played_card in self.cards_on_table],
                     teams=[dict(points=team.points) for team in self.teams])
