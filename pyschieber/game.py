@@ -78,7 +78,7 @@ class Game:
         return chosen_card
 
     def stich_over_information(self):
-        map(lambda player: player.stich_over(), self.players)
+        [player.stich_over(state=self.get_status()) for player in self.players]
 
     def count_points(self, stich, last):
         stich_player_index = self.players.index(stich.player)
