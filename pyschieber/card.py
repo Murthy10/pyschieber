@@ -26,6 +26,9 @@ class Card:
             name = Card.names[self.value]
         return self.format_string.format(self.suit.name, name)
 
+    def __repr__(self):
+        return str(self)
+
 
 def from_string_to_card(card_string):
     regex = re.sub(r'{(.+?)}', r'(?P<_\1>.+)', Card.format_string)

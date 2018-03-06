@@ -1,20 +1,17 @@
 import inspect
-from itertools import count
 
 from pyschieber.trumpf import Trumpf
 
 
 class BasePlayer:
-    class_counter = count(0)
-
     def __init__(self, name='unknown'):
-        self.id = next(self.class_counter)
         self.name = name
         self.cards = []
         self.trumpf_list = list(Trumpf)
+        self.id = None
 
     def get_dict(self):
-        return dict(id=self.id, name=self.name, type=type(self).__name__)
+        return dict(name=self.name, type=type(self).__name__)
 
     def set_card(self, card):
         self.cards.append(card)

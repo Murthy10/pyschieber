@@ -8,10 +8,10 @@ from pyschieber.tournament import Tournament
 @pytest.mark.statistical
 def test_is_random():
     point_limit = 1000
-    number_of_tournaments = 200
+    number_of_tournaments = 100
     mean = number_of_tournaments * 0.5  # assume that a RandomPlayer has a 50% chance to win
     variance = mean * (1 - 0.5)
-    standard_deviation = floor(sqrt(variance))
+    standard_deviation = int(floor(sqrt(variance)))
 
     random_players = [RandomPlayer(name=i) for i in range(4)]
     tournament = Tournament(point_limit=point_limit)

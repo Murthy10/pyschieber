@@ -13,7 +13,8 @@ class RandomPlayer(BasePlayer):
     def choose_card(self, state=None):
         table_cards = [from_string_to_card(entry['card']) for entry in state['table']]
         trumpf = Trumpf[state['trumpf']]
-        return move(choices=self.allowed_cards(table_cards=table_cards, trumpf=trumpf))
+        cards = self.allowed_cards(table_cards=table_cards, trumpf=trumpf)
+        return move(choices=cards)
 
     def allowed_cards(self, table_cards, trumpf):
         cards = []
@@ -22,7 +23,7 @@ class RandomPlayer(BasePlayer):
                 if card_allowed(table_cards[0], card, self.cards, trumpf):
                     cards.append(card)
         else:
-            cards = self.cards
+            cards += self.cards
         return cards
 
 

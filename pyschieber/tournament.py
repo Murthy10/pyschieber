@@ -20,13 +20,15 @@ class Tournament:
         assert {0, 1, 2, 3} == set(player_numbers)
 
     def register_player(self, player):
-        assert len(self.players) < 4
+        number_of_players = len(self.players)
+        assert number_of_players < 4
         self.players.append(player)
+        player.id = number_of_players
 
     def build_teams(self):
         self.check_players()
         team_1 = Team(players=[self.players[0], self.players[2]])
-        team_2 = Team(players=[self.players[1], self.players[2]])
+        team_2 = Team(players=[self.players[1], self.players[3]])
         self.teams = [team_1, team_2]
 
     def play(self):
