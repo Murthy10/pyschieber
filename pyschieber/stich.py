@@ -14,6 +14,6 @@ def played_cards_dict(played_card):
 def stich_dict(stich):
     return {
         'player_id': stich.player.id,
-        'trumpf': str(stich.trumpf),
+        'trumpf': stich.trumpf.name,
         'played_cards': [played_cards_dict(played_card) for played_card in stich.played_cards]
     }

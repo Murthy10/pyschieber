@@ -45,7 +45,7 @@ class GreedyPlayer(BasePlayer):
     def calculate_reward(self):
         teams = self.tournament.teams
         current_points_team_1 = teams[0].points
-        current_points_team_2 = teams[2].points
+        current_points_team_2 = teams[1].points
         diff_1 = current_points_team_1 - self.points_team_1
         diff_2 = current_points_team_2 - self.points_team_2
         self.points_team_1, self.points_team_2 = current_points_team_1, current_points_team_2
