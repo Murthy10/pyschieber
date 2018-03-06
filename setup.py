@@ -5,7 +5,7 @@ with open('README.md') as f:
 
     setup(
         name='pyschieber',
-        version='0.9.4',
+        version='0.9.5',
         description='pyschieber is a terminal application of the popular swiss card game Schieber and provides an API to the game',
         long_description=readme,
         author='Samuel Kurath',

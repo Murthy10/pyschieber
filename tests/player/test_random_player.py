@@ -1,4 +1,5 @@
 import pytest
+from timeit import default_timer as timer
 from math import sqrt, floor
 
 from pyschieber.player.random_player import RandomPlayer
@@ -19,12 +20,18 @@ def test_is_random():
 
     team_1_won = 0
     team_2_won = 0
+
+    start = timer()
+
     for _ in range(number_of_tournaments):
         tournament.play()
         if tournament.teams[0].won(point_limit=point_limit):
             team_1_won += 1
         else:
             team_2_won += 1
+
+    end = timer()
+    print("\nTo run {0} tournaments it took {1:.2f} seconds.".format(number_of_tournaments, end - start))
 
     difference = abs(team_1_won - team_2_won)
     print("Difference: ", difference)
