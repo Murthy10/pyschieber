@@ -46,9 +46,15 @@ class Tournament:
             logger.info('Points: Team 1: {0} , Team 2: {1}. \n'.format(self.teams[0].points, self.teams[1].points))
         winning_team = 0 if self.teams[0].won(point_limit=self.point_limit) else 1
         logger.info('Team {0} won! \n'.format(winning_team))
+        self.reset()
 
     def get_status(self):
         return {
             'games': [game.get_status() for game in self.games],
             'players': [player.get_dict() for player in self.players]
         }
+
+    def reset(self):
+        self.games = []
+        for player in self.players:
+            player.cards = []
