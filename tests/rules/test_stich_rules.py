@@ -41,6 +41,10 @@ def test_stich(trumpf, index, players, played_cards):
      Trumpf.OBE_ABE, False),
     (Card(Suit.ACORN, 11), Card(Suit.BELL, 12), [Card(Suit.ACORN, 12), Card(Suit.BELL, 11), Card(Suit.BELL, 12)],
      Trumpf.ACORN, True),
+    (Card(Suit.ACORN, 11), Card(Suit.ACORN, 11), [Card(Suit.BELL, 12), Card(Suit.ACORN, 11), Card(Suit.ACORN, 12)],
+     Trumpf.UNDE_UFE, True),
+    (Card(Suit.ACORN, 11), Card(Suit.ACORN, 11), [Card(Suit.BELL, 12), Card(Suit.ACORN, 12)],
+     Trumpf.UNDE_UFE, False),
 ])
 def test_card_allowed(first_card, chosen_card, hand_cards, trumpf, result):
     assert card_allowed(first_card, chosen_card, hand_cards, trumpf) == result

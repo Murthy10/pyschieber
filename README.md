@@ -101,7 +101,6 @@ Basically the Player has to provide the methods:
 Additionally there is the stich_over() method, that is called after all players had chosen their cards.  
 
 The easiest way to implement your own player is to inherit from the BasePlayer class (due to the fact that Python uses duck typing it is not absolutely necessary), which provieds some basic functionality like store your cards.
-due to the fact that Python uses duck typing it is not absolutely necessary.
 
 To get more familiar with this concept let's have a look at the already mentioned Random Player.
 ```python
