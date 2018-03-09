@@ -1,5 +1,6 @@
 import inspect
 
+from pyschieber.card import from_string_to_card
 from pyschieber.trumpf import Trumpf
 from pyschieber.rules.stich_rules import card_allowed
 
@@ -26,7 +27,9 @@ class BasePlayer:
     def stich_over(self, state=None):
         pass
 
-    def allowed_cards(self, table_cards, trumpf):
+    def allowed_cards(self, state):
+        table_cards = [from_string_to_card(entry['card']) for entry in state['table']]
+        trumpf = Trumpf[state['trumpf']]
         cards = []
         if len(table_cards) > 0:
             for card in self.cards:

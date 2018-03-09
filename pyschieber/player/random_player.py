@@ -10,9 +10,7 @@ class RandomPlayer(BasePlayer):
         return move(choices=list(Trumpf))
 
     def choose_card(self, state=None):
-        table_cards = [from_string_to_card(entry['card']) for entry in state['table']]
-        trumpf = Trumpf[state['trumpf']]
-        cards = self.allowed_cards(table_cards=table_cards, trumpf=trumpf)
+        cards = self.allowed_cards(state=state)
         return move(choices=cards)
 
 def move(choices):
