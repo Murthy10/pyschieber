@@ -1,6 +1,6 @@
 import pytest
 
-from pyschieber.rules.stich_rules import stich_rules, card_allowed
+from pyschieber.rules.stich_rules import stich_rules, card_allowed, allowed_cards
 from pyschieber.trumpf import Trumpf
 from pyschieber.card import Card
 from pyschieber.player.random_player import RandomPlayer
@@ -33,12 +33,12 @@ def test_stich(trumpf, index, players, played_cards):
 
 
 @pytest.mark.parametrize("first_card, chosen_card, hand_cards, trumpf, result", [
+    (Card(Suit.ACORN, 12), Card(Suit.BELL, 12), [Card(Suit.ACORN, 11), Card(Suit.BELL, 12), Card(Suit.BELL, 11)],
+     Trumpf.OBE_ABE, False),
     (Card(Suit.BELL, 12), Card(Suit.BELL, 12), [Card(Suit.BELL, 12), Card(Suit.BELL, 11)], Trumpf.BELL, True),
     (None, Card(Suit.BELL, 12), [Card(Suit.BELL, 12), Card(Suit.BELL, 11)], Trumpf.BELL, True),
     (Card(Suit.BELL, 12), Card(Suit.BELL, 12), [Card(Suit.BELL, 12), Card(Suit.BELL, 11)], Trumpf.OBE_ABE, True),
     (Card(Suit.ACORN, 12), Card(Suit.BELL, 12), [Card(Suit.BELL, 12), Card(Suit.BELL, 11)], Trumpf.OBE_ABE, True),
-    (Card(Suit.ACORN, 12), Card(Suit.BELL, 12), [Card(Suit.ACORN, 11), Card(Suit.BELL, 12), Card(Suit.BELL, 11)],
-     Trumpf.OBE_ABE, False),
     (Card(Suit.ACORN, 11), Card(Suit.BELL, 12), [Card(Suit.ACORN, 12), Card(Suit.BELL, 11), Card(Suit.BELL, 12)],
      Trumpf.ACORN, True),
     (Card(Suit.ACORN, 11), Card(Suit.ACORN, 11), [Card(Suit.BELL, 12), Card(Suit.ACORN, 11), Card(Suit.ACORN, 12)],
@@ -48,3 +48,12 @@ def test_stich(trumpf, index, players, played_cards):
 ])
 def test_card_allowed(first_card, chosen_card, hand_cards, trumpf, result):
     assert card_allowed(first_card, chosen_card, hand_cards, trumpf) == result
+
+
+@pytest.mark.parametrize("hand_cards, table_cards, trumpf, result", [
+    ([Card(Suit.BELL, 12)], [Card(Suit.BELL, 11)], Trumpf.BELL, [Card(Suit.BELL, 12)]),
+    ([Card(Suit.BELL, 12), Card(Suit.ROSE, 12)], [Card(Suit.BELL, 11)], Trumpf.ACORN, [Card(Suit.BELL, 12)]),
+    ([Card(Suit.BELL, 12)], [Card(Suit.ROSE, 11)], Trumpf.ACORN, [Card(Suit.BELL, 12)]),
+])
+def test_allowed_cards(hand_cards, table_cards, trumpf, result):
+    assert allowed_cards(hand_cards=hand_cards, table_cards=table_cards, trumpf=trumpf) == result

@@ -2,7 +2,7 @@ import inspect
 
 from pyschieber.card import from_string_to_card
 from pyschieber.trumpf import Trumpf
-from pyschieber.rules.stich_rules import card_allowed
+from pyschieber.rules.stich_rules import allowed_cards
 
 
 class BasePlayer:
@@ -30,14 +30,7 @@ class BasePlayer:
     def allowed_cards(self, state):
         table_cards = [from_string_to_card(entry['card']) for entry in state['table']]
         trumpf = Trumpf[state['trumpf']]
-        cards = []
-        if len(table_cards) > 0:
-            for card in self.cards:
-                if card_allowed(table_cards[0], card, self.cards, trumpf):
-                    cards.append(card)
-        else:
-            cards += self.cards
-        return cards
+        return allowed_cards(hand_cards=self.cards, table_cards=table_cards, trumpf=trumpf)
 
     def __str__(self):
         return '<Player:{}>'.format(self.name)

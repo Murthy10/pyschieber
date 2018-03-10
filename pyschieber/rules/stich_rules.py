@@ -3,6 +3,9 @@ from functools import partial
 from pyschieber.stich import Stich
 from pyschieber.trumpf import Trumpf
 
+UNDER = 11
+NAELL = 9
+
 
 def stich_obe_unde(played_cards, operation, trumpf):
     suit = played_cards[0].card.suit
@@ -16,11 +19,11 @@ def stich_trumpf(played_cards, trumpf):
                played_card.card.suit.name == trumpf.name]
     if trumpfs:
         values = [trumpf[0] for trumpf in trumpfs]
-        if 12 in values:  # Under
-            index = trumpfs[values.index(12)][1]
+        if UNDER in values:  # Under
+            index = trumpfs[values.index(UNDER)][1]
             return Stich(player=played_cards[index].player, played_cards=played_cards, trumpf=trumpf)
-        if 9 in values:  # Näll
-            index = trumpfs[values.index(9)][1]
+        if NAELL in values:
+            index = trumpfs[values.index(NAELL)][1]
             return Stich(player=played_cards[index].player, played_cards=played_cards, trumpf=trumpf)
         index = max(trumpfs)[1]
         return Stich(player=played_cards[index].player, played_cards=played_cards, trumpf=trumpf)
@@ -47,9 +50,23 @@ def card_allowed(first_card, chosen_card, hand_cards, trumpf):
     if first_suit == chosen_suit or chosen_suit.name == trumpf.name:
         return True
     else:
-        hand_suits = [hand_card.suit for hand_card in hand_cards if
-                      hand_card.suit.name != trumpf.name and hand_card.value != 12]
+        if trumpf not in [Trumpf.OBE_ABE, Trumpf.UNDE_UFE]:
+            hand_suits = [hand_card.suit for hand_card in hand_cards if
+                          hand_card.suit.name != trumpf.name and hand_card.value != UNDER]
+        else:
+            hand_suits = [hand_card.suit for hand_card in hand_cards]
         if first_suit in hand_suits:
             return False
         else:
             return True
+
+
+def allowed_cards(hand_cards, table_cards, trumpf):
+    cards = []
+    if len(table_cards) > 0:
+        for card in hand_cards:
+            if card_allowed(table_cards[0], card, hand_cards, trumpf):
+                cards.append(card)
+    else:
+        cards += hand_cards
+    return cards
