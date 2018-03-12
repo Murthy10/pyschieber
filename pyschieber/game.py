@@ -29,11 +29,11 @@ class Game:
         for i in range(9):
             stich = self.play_stich(start_player_index)
             self.count_points(stich, last=(i == 8))
-            self.stich_over_information()
             logger.info('\nStich: {0} \n'.format(stich.player))
             logger.info('{}{}\n'.format('-' * 180, self.trumpf))
             start_player_index = self.players.index(stich.player)
             self.stiche.append(stich)
+            self.stich_over_information()
             if self.teams[0].won(self.point_limit) or self.teams[1].won(self.point_limit):
                 return True
         return False
