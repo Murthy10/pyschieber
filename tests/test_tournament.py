@@ -4,7 +4,7 @@ from pyschieber.tournament import Tournament
 
 def test_tournament_rounds():
     random_players = [RandomPlayer(name=i) for i in range(4)]
-    point_limit = 1000
+    point_limit = 100
     tournament = Tournament(point_limit=point_limit)
     [tournament.register_player(player=player) for player in random_players]
     tournament.play(rounds=20)
