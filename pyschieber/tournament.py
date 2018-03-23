@@ -31,19 +31,24 @@ class Tournament:
         team_2 = Team(players=[self.players[1], self.players[3]])
         self.teams = [team_1, team_2]
 
-    def play(self):
+    def play(self, rounds=0):
         self.build_teams()
         logger.info('Tournament starts, the point limit is {}.'.format(self.point_limit))
         end = False
+        whole_rounds = True if rounds > 0 else False
+        round_counter = 0
         while not end:
             game = Game(teams=self.teams, point_limit=self.point_limit)
             self.games.append(game)
             logger.info('-' * 200)
             logger.info('Round {} starts.'.format(len(self.games)))
             logger.info('-' * 200)
-            end = game.play(start_player_index=((len(self.games) - 1) % 4))
+            end = game.play(start_player_index=((len(self.games) - 1) % 4), whole_rounds=whole_rounds)
             logger.info('Round {} is over.'.format(len(self.games)))
             logger.info('Points: Team 1: {0} , Team 2: {1}. \n'.format(self.teams[0].points, self.teams[1].points))
+            round_counter += 1
+            if whole_rounds and round_counter == rounds:
+                end = True
         winning_team = 0 if self.teams[0].won(point_limit=self.point_limit) else 1
         logger.info('Team {0} won! \n'.format(winning_team))
         self.reset()

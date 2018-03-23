@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class Game:
-    def __init__(self, teams=None, point_limit=2500):
+    def __init__(self, teams=None, point_limit=1500):
         self.teams = teams
         self.point_limit = point_limit
         self.players = teams[0].players + teams[1].players
@@ -21,7 +21,7 @@ class Game:
         self.stiche = []
         self.cards_on_table = []
 
-    def play(self, start_player_index=0):
+    def play(self, start_player_index=0, whole_rounds=False):
         self.dealer.shuffle_cards()
         self.dealer.deal_cards()
         self.define_trumpf(start_player_index=start_player_index)
@@ -34,7 +34,7 @@ class Game:
             start_player_index = self.players.index(stich.player)
             self.stiche.append(stich)
             self.stich_over_information()
-            if self.teams[0].won(self.point_limit) or self.teams[1].won(self.point_limit):
+            if (self.teams[0].won(self.point_limit) or self.teams[1].won(self.point_limit)) and not whole_rounds:
                 return True
         return False
 
