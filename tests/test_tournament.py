@@ -20,3 +20,16 @@ def test_tournament():
     tournament.play()
     points = [tournament.teams[0].points, tournament.teams[1].points]
     assert point_limit <= max(points) and point_limit > min(points)
+
+
+def test_tournament_register():
+    random_players = [RandomPlayer(name='Tick'), RandomPlayer(name='Trick'), RandomPlayer(name='Track'),
+                      RandomPlayer(name='Dagobert')]
+    for _ in range(3):
+        tournament = Tournament()
+        [tournament.register_player(player=player) for player in random_players]
+        tournament.play(rounds=1)
+        assert tournament.teams[0].players[0].name == 'Tick'
+        assert tournament.teams[0].players[1].name == 'Track'
+        assert tournament.teams[1].players[0].name == 'Trick'
+        assert tournament.teams[1].players[1].name == 'Dagobert'
