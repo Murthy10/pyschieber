@@ -32,3 +32,15 @@ def test_game():
 
     for player in random_players:
         assert len(player.cards) == 0
+
+
+@pytest.mark.parametrize("start_key, next_key", [
+    (0, 1),
+    (1, 2),
+    (2, 3),
+    (3, 0),
+])
+def test_get_player_index(start_key, next_key):
+    generator = get_player_index(start_index=start_key)
+    current_key = next(generator)
+    assert current_key == next_key
