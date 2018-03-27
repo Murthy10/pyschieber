@@ -23,7 +23,7 @@ class Tournament:
         number_of_players = len(self.players)
         assert number_of_players < 4
         self.players.append(player)
-        player.id = number_of_players - 1
+        player.id = number_of_players
 
     def build_teams(self):
         self.check_players()
