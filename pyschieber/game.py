@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class Game:
-    def __init__(self, teams=None, point_limit=1500):
+    def __init__(self, teams=None, point_limit=1500, use_counting_factor=True):
         self.teams = teams
         self.point_limit = point_limit
         self.players = [teams[0].players[0], teams[1].players[0], teams[0].players[1], teams[1].players[1]]
@@ -20,6 +20,7 @@ class Game:
         self.trumpf = None
         self.stiche = []
         self.cards_on_table = []
+        self.use_counting_factor = use_counting_factor
 
     def play(self, start_player_index=0, whole_rounds=False):
         self.dealer.shuffle_cards()
@@ -86,7 +87,9 @@ class Game:
         self.add_points(team_index=(stich_player_index % 2), cards=cards, last=last)
 
     def add_points(self, team_index, cards, last):
-        self.teams[team_index].points += count_stich(cards, self.trumpf, last=last) * counting_factor[self.trumpf]
+        points = count_stich(cards, self.trumpf, last=last)
+        points = points * counting_factor[self.trumpf] if self.use_counting_factor else points
+        self.teams[team_index].points += points
 
     def get_status(self):
         return dict(stiche=[stich_dict(stich) for stich in self.stiche], trumpf=self.trumpf.name,

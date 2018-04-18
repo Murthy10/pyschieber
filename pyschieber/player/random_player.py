@@ -1,6 +1,5 @@
 import random
 
-from pyschieber.card import from_string_to_card
 from pyschieber.player.base_player import BasePlayer
 from pyschieber.trumpf import Trumpf
 
