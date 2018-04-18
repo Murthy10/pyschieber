@@ -31,14 +31,14 @@ class Tournament:
         team_2 = Team(players=[self.players[1], self.players[3]])
         self.teams = [team_1, team_2]
 
-    def play(self, rounds=0):
+    def play(self, rounds=0, use_counting_factor=True):
         self.build_teams()
         logger.info('Tournament starts, the point limit is {}.'.format(self.point_limit))
         end = False
         whole_rounds = True if rounds > 0 else False
         round_counter = 0
         while not end:
-            game = Game(teams=self.teams, point_limit=self.point_limit)
+            game = Game(teams=self.teams, point_limit=self.point_limit, use_counting_factor=use_counting_factor)
             self.games.append(game)
             logger.info('-' * 200)
             logger.info('Round {} starts.'.format(len(self.games)))
