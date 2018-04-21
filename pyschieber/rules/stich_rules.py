@@ -52,13 +52,17 @@ def card_allowed(first_card, chosen_card, hand_cards, trumpf):
     else:
         if trumpf not in [Trumpf.OBE_ABE, Trumpf.UNDE_UFE]:
             hand_suits = [hand_card.suit for hand_card in hand_cards if
-                          hand_card.suit.name != trumpf.name and hand_card.value != UNDER]
+                          not is_trumpf_under(trumpf=trumpf, card=hand_card)]
         else:
             hand_suits = [hand_card.suit for hand_card in hand_cards]
         if first_suit in hand_suits:
             return False
         else:
             return True
+
+
+def is_trumpf_under(trumpf, card):
+    return card.suit.name == trumpf.name and card.value == UNDER
 
 
 def allowed_cards(hand_cards, table_cards, trumpf):

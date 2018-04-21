@@ -1,6 +1,6 @@
 import pytest
 
-from pyschieber.rules.stich_rules import stich_rules, card_allowed, allowed_cards
+from pyschieber.rules.stich_rules import stich_rules, card_allowed, allowed_cards, is_trumpf_under
 from pyschieber.trumpf import Trumpf
 from pyschieber.card import Card
 from pyschieber.player.random_player import RandomPlayer
@@ -40,11 +40,15 @@ def test_stich(trumpf, index, players, played_cards):
     (Card(Suit.BELL, 12), Card(Suit.BELL, 12), [Card(Suit.BELL, 12), Card(Suit.BELL, 11)], Trumpf.OBE_ABE, True),
     (Card(Suit.ACORN, 12), Card(Suit.BELL, 12), [Card(Suit.BELL, 12), Card(Suit.BELL, 11)], Trumpf.OBE_ABE, True),
     (Card(Suit.ACORN, 11), Card(Suit.BELL, 12), [Card(Suit.ACORN, 12), Card(Suit.BELL, 11), Card(Suit.BELL, 12)],
-     Trumpf.ACORN, True),
+     Trumpf.ACORN, False),
     (Card(Suit.ACORN, 11), Card(Suit.ACORN, 11), [Card(Suit.BELL, 12), Card(Suit.ACORN, 11), Card(Suit.ACORN, 12)],
      Trumpf.UNDE_UFE, True),
     (Card(Suit.ACORN, 11), Card(Suit.ACORN, 11), [Card(Suit.BELL, 12), Card(Suit.ACORN, 12)],
      Trumpf.UNDE_UFE, False),
+    (Card(Suit.ROSE, 6), Card(Suit.ACORN, 11), [Card(Suit.ROSE, 10), Card(Suit.ACORN, 11)],
+     Trumpf.ROSE, False),
+    (Card(Suit.ROSE, 6), Card(Suit.ACORN, 11), [Card(Suit.ROSE, 11), Card(Suit.ACORN, 11)],
+     Trumpf.ROSE, True),
 ])
 def test_card_allowed(first_card, chosen_card, hand_cards, trumpf, result):
     assert card_allowed(first_card, chosen_card, hand_cards, trumpf) == result
@@ -57,3 +61,14 @@ def test_card_allowed(first_card, chosen_card, hand_cards, trumpf, result):
 ])
 def test_allowed_cards(hand_cards, table_cards, trumpf, result):
     assert allowed_cards(hand_cards=hand_cards, table_cards=table_cards, trumpf=trumpf) == result
+
+
+@pytest.mark.parametrize("trumpf, card, result", [
+    (Trumpf.BELL, Card(Suit.BELL, 12), False),
+    (Trumpf.BELL, Card(Suit.BELL, 11), True),
+    (Trumpf.ROSE, Card(Suit.BELL, 11), False),
+    (Trumpf.OBE_ABE, Card(Suit.BELL, 11), False),
+    (Trumpf.ROSE, Card(Suit.ROSE, 11), True),
+])
+def test_is_trumpf_under(trumpf, card, result):
+    assert is_trumpf_under(trumpf=trumpf, card=card) == result
