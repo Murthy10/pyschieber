@@ -1,13 +1,14 @@
 from pyschieber.player.random_player import RandomPlayer
 from pyschieber.tournament import Tournament
 from example.greedy_player import GreedyPlayer
+from example.challenge_player.challenge_player import ChallengePlayer
 
 
 def start_tournament(points):
     tournament = Tournament(point_limit=points)
 
-    players = [RandomPlayer(name='Tick'), RandomPlayer(name='Trick'), RandomPlayer(name='Track'),
-               GreedyPlayer.with_tournament(name='Dagobert', tournament=tournament)]
+    players = [RandomPlayer(name='Tick'), RandomPlayer(name='Trick'), ChallengePlayer(name='Track'),
+               GreedyPlayer(name='Dagobert')]
 
     [tournament.register_player(player) for player in players]
 

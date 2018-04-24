@@ -1,7 +1,7 @@
 from enum import Enum
 from operator import itemgetter
 
-from pyschieber.suit import Suit
+from example.helpers.game_helper import *
 from pyschieber.trumpf import Trumpf
 from pyschieber.rules.count_rules import counting_factor
 
@@ -110,11 +110,3 @@ def count_stiche(cards, best_card, step=1):
                 stiche.append((suit, card))
         best_card = init_best_card
     return stiche
-
-
-def split_cards_by_suit(cards):
-    suits = []
-    for suit in Suit:
-        suit_cards = [card.value for card in cards if card.suit.name == suit.name]
-        suits.append((suit, suit_cards))
-    return suits

@@ -1,0 +1,1 @@
+class Mode: pass
