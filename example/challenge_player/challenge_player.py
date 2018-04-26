@@ -7,7 +7,9 @@ from example.challenge_player.strategy.jass_strategy import JassStrategy
 class ChallengePlayer(BasePlayer):
     def __init__(self, name='unknown'):
         BasePlayer.__init__(self, name)
-        self.strategy = JassStrategy()
+
+    def game_started(self):
+        self.strategy = JassStrategy(self.id)
 
     def choose_trumpf(self, geschoben):
         allowed = False
@@ -18,11 +20,12 @@ class ChallengePlayer(BasePlayer):
                 yield None
 
     def choose_card(self, state=None):
+        #process table cards
         cards = self.allowed_cards(state=state)
         return move(choices=cards)
 
-    def stich_over(self, state=None):
-        print(state)
+    def move_made(self, player_id, card, state):
+        self.strategy.move_made(player_id, card, state)
 
 
 def move(choices):

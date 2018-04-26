@@ -8,7 +8,7 @@ from example.challenge_player.strategy.jass_strategy import JassStrategy
 
 @pytest.fixture
 def js():
-    return JassStrategy()
+    return JassStrategy(0)
 
 @pytest.mark.parametrize("cards, trumpf", [
     ([Card(Suit.BELL, 13), Card(Suit.BELL, 12), Card(Suit.BELL, 11), Card(Suit.BELL, 8), Card(Suit.ACORN, 12),

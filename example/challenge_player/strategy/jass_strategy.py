@@ -1,10 +1,14 @@
 from example.challenge_player.strategy.mode.trumpf_color_mode import *
 from example.challenge_player.strategy.mode.top_down_mode import *
 from example.challenge_player.strategy.mode.bottom_up_mode import *
+from example.challenge_player.strategy.card_counter import CardCounter
 from pyschieber.trumpf import Trumpf
 
 
 class JassStrategy:
+    def __init__(self, my_id):
+        self.card_counter = CardCounter(my_id)
+
     def chose_trumpf(self, cards, geschoben):
         scores = []
 
@@ -22,3 +26,6 @@ class JassStrategy:
             scores.append((Trumpf[suit.name], tcm.calculate_mode_score(cards, geschoben)))
 
         return max(scores, key=lambda x: x[1])[0]
+
+    def move_made(self, player_id, card, state):
+        self.card_counter.card_played(player_id, card, state)

@@ -6,7 +6,7 @@ class BottomUpMode(UncoloredTrumpf):
     def calculate_mode_score(self, cards, geschoben):
         score = 0
 
-        cards_by_suit = split_cards_by_suit(cards)
+        cards_by_suit = split_card_values_by_suit(cards)
 
         for suit, suit_cards in cards_by_suit:
             sorted_cards = sorted(suit_cards)
@@ -21,3 +21,6 @@ class BottomUpMode(UncoloredTrumpf):
                         score += 10
 
         return score
+
+    def stronger_cards_remaining(self, card, card_counter):
+        return card_counter.filter_not_dead_cards_of_same_suit(card, lambda x: x.value < card.value)

@@ -79,7 +79,7 @@ def evalute_obe_abe(cards):
 
 def count_stiche_per_trumpf(cards):
     stiche = []
-    suits = split_cards_by_suit(cards)
+    suits = split_card_values_by_suit(cards)
     for suit, suit_cards in suits:
         nell = bool(9 in suit_cards)
         under = bool(11 in suit_cards)
@@ -94,7 +94,7 @@ def count_stiche_per_trumpf(cards):
 
 def count_stiche(cards, best_card, step=1):
     init_best_card = best_card
-    suits = split_cards_by_suit(cards)
+    suits = split_card_values_by_suit(cards)
     stiche = []
     for suit, suit_cards in suits:
         suit_card_copy = list(suit_cards)

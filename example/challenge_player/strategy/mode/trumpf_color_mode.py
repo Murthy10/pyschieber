@@ -9,7 +9,7 @@ class TrumpfColorMode(Mode):
     def calculate_mode_score(self, cards, geschoben):
         score = 0
 
-        cards_by_suit = split_cards_by_suit(cards)
+        cards_by_suit = split_card_values_by_suit(cards)
 
         for suit, suit_cards in cards_by_suit:
             if suit == self.suit:
@@ -37,3 +37,16 @@ class TrumpfColorMode(Mode):
                         break
 
         return score
+
+    def stronger_cards_remaining(self, card, card_counter):
+        stronger_cards = []
+
+        if card.suit.name == self.suit:
+            stronger_cards.extend(card_counter.filter_not_dead_cards_of_same_suit(card, lambda x: x.get_trumpf_rank() > card.get_trumpf_rank()))
+        else:
+            for suit_cards in split_cards_by_suit(card_counter.remaining_cards(card_counter.dead_cards())):
+                if suit_cards[0].name == self.suit:
+                    stronger_cards.extend(suit_cards[1])
+            stronger_cards.extend(card_counter.filter_not_dead_cards_of_same_suit(card, lambda x: x.value > card.value))
+
+        return stronger_cards

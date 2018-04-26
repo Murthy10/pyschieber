@@ -21,6 +21,8 @@ class Game:
         self.stiche = []
         self.cards_on_table = []
         self.use_counting_factor = use_counting_factor
+        for player in self.players:
+            player.game_started()
 
     def play(self, start_player_index=0, whole_rounds=False):
         self.dealer.shuffle_cards()
@@ -56,10 +58,12 @@ class Game:
     def play_stich(self, start_player_index):
         self.cards_on_table = []
         first_card = self.play_card(first_card=None, player=self.players[start_player_index])
+        self.move_made(self.players[start_player_index].id, first_card)
         self.cards_on_table = [PlayedCard(player=self.players[start_player_index], card=first_card)]
         for i in get_player_index(start_index=start_player_index):
             current_player = self.players[i]
             card = self.play_card(first_card=first_card, player=current_player)
+            self.move_made(current_player.id, card)
             self.cards_on_table.append(PlayedCard(player=current_player, card=card))
         stich = stich_rules[self.trumpf](played_cards=self.cards_on_table)
         return stich
@@ -77,6 +81,10 @@ class Game:
             logger.info('Table: {0}:{1}'.format(player, chosen_card))
             player.cards.remove(chosen_card)
         return chosen_card
+
+    def move_made(self, player_id, card):
+        for player in self.players:
+            player.move_made(player_id, card, self.get_status())
 
     def stich_over_information(self):
         [player.stich_over(state=self.get_status()) for player in self.players]
