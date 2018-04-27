@@ -1,7 +1,7 @@
 import pytest
 
-from example.trumpf_decision import choose_trumpf, TrumpfType
 from pyschieber.card import Card
+from pyschieber.example.trumpf_decision import choose_trumpf, TrumpfType
 from pyschieber.suit import Suit
 from pyschieber.trumpf import Trumpf
 

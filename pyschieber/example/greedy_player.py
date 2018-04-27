@@ -1,8 +1,6 @@
-from pyschieber.trumpf import Trumpf
-
+from pyschieber.example.trumpf_decision import choose_trumpf
 from pyschieber.player.base_player import BasePlayer
-
-from example.trumpf_decision import choose_trumpf
+from pyschieber.trumpf import Trumpf
 
 
 class GreedyPlayer(BasePlayer):
