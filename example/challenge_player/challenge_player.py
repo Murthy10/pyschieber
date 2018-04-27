@@ -9,7 +9,7 @@ class ChallengePlayer(BasePlayer):
         BasePlayer.__init__(self, name)
 
     def game_started(self):
-        self.strategy = JassStrategy(self.id)
+        self.strategy = JassStrategy(self)
 
     def choose_trumpf(self, geschoben):
         allowed = False

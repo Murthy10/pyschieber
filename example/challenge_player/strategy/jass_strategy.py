@@ -6,8 +6,9 @@ from pyschieber.trumpf import Trumpf
 
 
 class JassStrategy:
-    def __init__(self, my_id):
-        self.card_counter = CardCounter(my_id)
+    def __init__(self, player):
+        self.me = player
+        self.card_counter = CardCounter(player)
 
     def chose_trumpf(self, cards, geschoben):
         scores = []

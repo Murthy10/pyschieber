@@ -1,10 +1,14 @@
 from example.challenge_player.strategy.mode.mode import Mode
 from example.helpers.game_helper import *
+from pyschieber.trumpf import Trumpf
 
 
 class TrumpfColorMode(Mode):
     def __init__(self, suit):
         self.suit = suit
+
+    def trumpf_name(self):
+        return Trumpf[self.suit]
 
     def calculate_mode_score(self, cards, geschoben):
         score = 0
@@ -50,3 +54,6 @@ class TrumpfColorMode(Mode):
             stronger_cards.extend(card_counter.filter_not_dead_cards_of_same_suit(card, lambda x: x.value > card.value))
 
         return stronger_cards
+
+    def is_trumpf(self, card):
+        return card.suit == self.suit

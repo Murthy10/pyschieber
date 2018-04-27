@@ -33,6 +33,18 @@ class Card:
     def get_trumpf_rank(self):
         return self.trumpf_rank[self.value]
 
+    def is_higher_trumpf_than(self, other):
+        return self.trumpf_rank > other.trumpf_rank
+
+    def is_higher_than(self, other):
+        return self.suit == other.suit and self.value > other.value
+
+    def get_score(self, trumpf):
+        if trumpf.name == self.suit:
+            return 50 + self.get_trumpf_rank()
+        else:
+            return self.value
+
 
 def from_string_to_card(card_string):
     regex = re.sub(r'{(.+?)}', r'(?P<_\1>.+)', Card.format_string)

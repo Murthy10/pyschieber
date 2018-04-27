@@ -4,11 +4,14 @@ from pyschieber.card import Card
 from pyschieber.suit import Suit
 from pyschieber.trumpf import Trumpf
 from example.challenge_player.strategy.jass_strategy import JassStrategy
+from example.challenge_player.challenge_player import ChallengePlayer
 
 
 @pytest.fixture
 def js():
-    return JassStrategy(0)
+    p = ChallengePlayer()
+    p.id = 0
+    return JassStrategy(p)
 
 @pytest.mark.parametrize("cards, trumpf", [
     ([Card(Suit.BELL, 13), Card(Suit.BELL, 12), Card(Suit.BELL, 11), Card(Suit.BELL, 8), Card(Suit.ACORN, 12),

@@ -1,8 +1,12 @@
 from example.challenge_player.strategy.mode.uncolored_trumpf import UncoloredTrumpf
 from example.helpers.game_helper import *
+from pyschieber.trumpf import Trumpf
 
 
 class TopDownMode(UncoloredTrumpf):
+    def trumpf_name(self):
+        return Trumpf.OBE_ABE
+
     def calculate_mode_score(self, cards, geschoben):
         score = 0
 
