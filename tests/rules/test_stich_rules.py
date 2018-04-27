@@ -1,6 +1,7 @@
 import pytest
 
-from pyschieber.rules.stich_rules import stich_rules, card_allowed, allowed_cards, is_trumpf_under, does_under_trumpf
+from pyschieber.rules.stich_rules import stich_rules, card_allowed, allowed_cards, is_trumpf_under, does_under_trumpf, \
+    is_chosen_card_best_trumpf
 from pyschieber.trumpf import Trumpf
 from pyschieber.card import Card
 from pyschieber.player.random_player import RandomPlayer
@@ -74,12 +75,23 @@ def test_is_trumpf_under(trumpf, card, result):
     assert is_trumpf_under(trumpf=trumpf, card=card) == result
 
 
-@pytest.mark.parametrize("table_cards, chosen_card, trumpf, result", [
-    ([Card(Suit.ACORN, 12)], Card(Suit.BELL, 12), Trumpf.OBE_ABE, False),
-    ([Card(Suit.ACORN, 12)], Card(Suit.ACORN, 6), Trumpf.ACORN, True),
-    ([Card(Suit.ACORN, 12)], Card(Suit.ACORN, 13), Trumpf.ACORN, False),
-    ([Card(Suit.BELL, 12)], Card(Suit.BELL, 13), Trumpf.BELL, False),
-    ([Card(Suit.BELL, 12)], Card(Suit.BELL, 6), Trumpf.BELL, True),
+@pytest.mark.parametrize("table_cards, chosen_card, hand_cards, trumpf, result", [
+    ([Card(Suit.ACORN, 12)], Card(Suit.BELL, 12), [Card(Suit.BELL, 12)], Trumpf.OBE_ABE, False),
+    ([Card(Suit.ACORN, 12)], Card(Suit.ACORN, 6), [Card(Suit.ACORN, 6), Card(Suit.BELL, 6)], Trumpf.ACORN, True),
+    ([Card(Suit.ACORN, 12)], Card(Suit.ACORN, 13), [Card(Suit.ACORN, 13)], Trumpf.ACORN, False),
+    ([Card(Suit.BELL, 12)], Card(Suit.BELL, 13), [Card(Suit.BELL, 13)], Trumpf.BELL, False),
+    ([Card(Suit.BELL, 12)], Card(Suit.BELL, 6), [Card(Suit.BELL, 6), Card(Suit.ROSE, 6)], Trumpf.BELL, True),
+    ([Card(Suit.BELL, 12)], Card(Suit.BELL, 6), [Card(Suit.BELL, 6), Card(Suit.BELL, 7)], Trumpf.BELL, False),
 ])
-def test_does_under_trumpf(table_cards, chosen_card, trumpf, result):
-    assert does_under_trumpf(table_cards, chosen_card, trumpf) == result
+def test_does_under_trumpf(table_cards, chosen_card, hand_cards, trumpf, result):
+    assert does_under_trumpf(table_cards, chosen_card, hand_cards, trumpf) == result
+
+
+@pytest.mark.parametrize("table_cards, chosen_card, trumpf, result", [
+    ([Card(Suit.ACORN, 12)], Card(Suit.ACORN, 11), Trumpf.ACORN, True),
+    ([Card(Suit.ACORN, 11)], Card(Suit.ACORN, 12), Trumpf.ACORN, False),
+    ([Card(Suit.ACORN, 13), Card(Suit.ACORN, 14)], Card(Suit.ACORN, 6), Trumpf.ACORN, False),
+    ([Card(Suit.ACORN, 13), Card(Suit.ACORN, 14)], Card(Suit.ACORN, 11), Trumpf.ACORN, True),
+])
+def test_is_chosen_card_best_trumpf(table_cards, chosen_card, trumpf, result):
+    assert is_chosen_card_best_trumpf(table_cards, chosen_card, trumpf) == result

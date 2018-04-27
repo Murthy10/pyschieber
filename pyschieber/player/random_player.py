@@ -12,6 +12,7 @@ class RandomPlayer(BasePlayer):
         cards = self.allowed_cards(state=state)
         return move(choices=cards)
 
+
 def move(choices):
     allowed = False
     while not allowed:

@@ -48,7 +48,7 @@ def card_allowed(table_cards, chosen_card, hand_cards, trumpf):
     if chosen_card not in hand_cards:
         return False
 
-    if not table_cards:
+    if not table_cards or len(hand_cards) == 1:
         return True
 
     first_card = table_cards[0]
@@ -58,31 +58,44 @@ def card_allowed(table_cards, chosen_card, hand_cards, trumpf):
         return True
 
     if trumpf in [Trumpf.OBE_ABE, Trumpf.UNDE_UFE]:
-        hand_suits = [hand_card.suit for hand_card in hand_cards]
-        return not (first_suit in hand_suits)
+        hand_suits = set([hand_card.suit for hand_card in hand_cards])
     else:
         if chosen_suit.name == trumpf.name:
-            return not does_under_trumpf(table_cards=table_cards, chosen_card=chosen_card, trumpf=trumpf)
-
-        hand_suits = [hand_card.suit for hand_card in hand_cards if not is_trumpf_under(trumpf=trumpf, card=hand_card)]
-        return not (first_suit in hand_suits)
+            return not does_under_trumpf(table_cards=table_cards, chosen_card=chosen_card, hand_cards=hand_cards,
+                                         trumpf=trumpf)
+        hand_suits = set([card.suit for card in hand_cards if not is_trumpf_under(trumpf=trumpf, card=card)])
+    return not (first_suit in hand_suits)
 
 
 def is_trumpf_under(trumpf, card):
     return card.suit.name == trumpf.name and card.value == UNDER
 
 
-def does_under_trumpf(table_cards, chosen_card, trumpf):
+def does_under_trumpf(table_cards, chosen_card, hand_cards, trumpf):
+    if is_chosen_card_best_trumpf(table_cards=table_cards, chosen_card=chosen_card, trumpf=trumpf):
+        return False
+
+    trumpf_cards_on_hand = [card for card in hand_cards if card.suit.name == trumpf.name]
+    if len(trumpf_cards_on_hand) < len(hand_cards):
+        return True
+
+    for trumpf_card in trumpf_cards_on_hand:
+        if is_chosen_card_best_trumpf(table_cards=table_cards, chosen_card=trumpf_card, trumpf=trumpf):
+            return True
+    return False
+
+
+def is_chosen_card_best_trumpf(table_cards, chosen_card, trumpf):
     trumpfs = [(card.value, i) for i, card in enumerate(table_cards) if card.suit.name == trumpf.name]
     chosen_card_index = len(trumpfs)
     trumpfs.append((chosen_card.value, chosen_card_index))
     winner_index = _stich_trumpf_cards(trumpfs=trumpfs)
-    return winner_index != chosen_card_index
+    return winner_index == chosen_card_index
 
 
 def allowed_cards(hand_cards, table_cards, trumpf):
     cards = []
-    if len(table_cards) > 0:
+    if len(table_cards) > 0 or len(hand_cards) > 1:
         for card in hand_cards:
             if card_allowed(table_cards, card, hand_cards, trumpf):
                 cards.append(card)
