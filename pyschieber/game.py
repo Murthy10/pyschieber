@@ -55,21 +55,22 @@ class Game:
 
     def play_stich(self, start_player_index):
         self.cards_on_table = []
-        first_card = self.play_card(first_card=None, player=self.players[start_player_index])
+        first_card = self.play_card(table_cards=self.cards_on_table, player=self.players[start_player_index])
         self.cards_on_table = [PlayedCard(player=self.players[start_player_index], card=first_card)]
         for i in get_player_index(start_index=start_player_index):
             current_player = self.players[i]
-            card = self.play_card(first_card=first_card, player=current_player)
+            card = self.play_card(table_cards=self.cards_on_table, player=current_player)
             self.cards_on_table.append(PlayedCard(player=current_player, card=card))
         stich = stich_rules[self.trumpf](played_cards=self.cards_on_table)
         return stich
 
-    def play_card(self, first_card, player):
+    def play_card(self, table_cards, player):
+        cards = [played_card.card for played_card in table_cards]
         is_allowed_card = False
         generator = player.choose_card(state=self.get_status())
         chosen_card = next(generator)
         while not is_allowed_card:
-            is_allowed_card = card_allowed(first_card=first_card, chosen_card=chosen_card, hand_cards=player.cards,
+            is_allowed_card = card_allowed(table_cards=cards, chosen_card=chosen_card, hand_cards=player.cards,
                                            trumpf=self.trumpf)
             card = generator.send(is_allowed_card)
             chosen_card = chosen_card if card is None else card
