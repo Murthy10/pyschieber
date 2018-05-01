@@ -30,7 +30,7 @@ def _stich_trumpf_cards(trumpfs):
         return trumpfs[values.index(UNDER)][1]
     if NAELL in values:
         return trumpfs[values.index(NAELL)][1]
-    return max(trumpfs)[1]
+    return values.index(max(values))
 
 
 stich_rules = {
