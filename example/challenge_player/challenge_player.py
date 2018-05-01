@@ -2,6 +2,7 @@ import random
 
 from pyschieber.player.base_player import BasePlayer
 from example.challenge_player.strategy.jass_strategy import JassStrategy
+from pyschieber.card import Card
 
 
 class ChallengePlayer(BasePlayer):
@@ -20,18 +21,35 @@ class ChallengePlayer(BasePlayer):
                 yield None
 
     def choose_card(self, state=None):
-        #process table cards
+        if len(state['stiche']) == 0:
+            if len(state['table']) == 0:
+                if state['geschoben']:
+                    self.role = 'Partner'
+                else:
+                    self.role = 'Trumpf'
+
+            elif len(state['table']) == 2:
+                if state['geschoben']:
+                    self.role = 'Trumpf'
+                else:
+                    self.role = 'Partner'
+
+            else:
+                self.role = 'Off'
+
         cards = self.allowed_cards(state=state)
-        return move(choices=cards)
+
+        allowed = False
+        while not allowed:
+            if state['trumpf'] == 'UNDE_UFE' or state['trumpf'] == 'OBE_ABE':
+                card = self.strategy.choose_card(cards, state, self.role)
+                if not isinstance(card, Card):
+                    card = random.choice(cards)
+            else:
+                card = random.choice(cards)
+            allowed = yield card
+            if allowed:
+                yield None
 
     def move_made(self, player_id, card, state):
         self.strategy.move_made(player_id, card, state)
-
-
-def move(choices):
-    allowed = False
-    while not allowed:
-        choice = random.choice(choices)
-        allowed = yield choice
-        if allowed:
-            yield None

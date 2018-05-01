@@ -8,9 +8,10 @@ from example.challenge_player.strategy.flags.suit_verworfen_flag import SuitVerw
 from pyschieber.deck import Deck
 from pyschieber.card import from_string_to_card
 from pyschieber.rules.stich_rules import stich_rules
-from pyschieber.trumpf import Trumpf
+from pyschieber.trumpf import get_trumpf
 from pyschieber.stich import PlayedCard
 from pyschieber.suit import Suit
+from math import floor
 
 
 class CardCounter:
@@ -19,10 +20,11 @@ class CardCounter:
         self.flags = [[],[],[],[]]
         self.played_count = 0
         self.current_stich = {}
-        self.stiche = []
         self.my_id = me.id
         self.me = me
         self.partner_id = (self.my_id + 2) % 4
+        self.opponent_1_id = (self.my_id+1)%4
+        self.opponent_2_id = (self.my_id+3)%4
 
     def card_played(self, player_id, card, state):
         self.played_cards[player_id].append(card)
@@ -35,7 +37,7 @@ class CardCounter:
             self.current_stich = {}
 
     def current_round(self):
-        return self.played_count/4
+        return floor(self.played_count/4)
 
     def update_flags(self, player_id, card, state):
         current_stich_color = None
@@ -123,8 +125,13 @@ class CardCounter:
             dead.extend(self.played_cards[player_id][0:current_round])
         return dead
 
+    def filter_cards_of_same_suit(self, card, predicate):
+        unknown_of_same_suit = list(filter(lambda x: x.suit == card.suit, self.unknown_cards()))
+        return list(filter(predicate, unknown_of_same_suit))
+
     def filter_not_dead_cards_of_same_suit(self, card, predicate):
-        remaining_of_same_suit = list(filter(lambda x: x.suit == card.suit, self.remaining_cards(self.dead_cards())))
+        remaining_cards = self.remaining_cards(self.dead_cards())
+        remaining_of_same_suit = list(filter(lambda x: (x.suit == card.suit), remaining_cards))
         return list(filter(predicate, remaining_of_same_suit))
 
     def had_stich_previously(self, p_id):
@@ -132,6 +139,72 @@ class CardCounter:
             if isinstance(flag, PreviouslyHadStichFlag):
                 return True
         return False
+
+    def has_suit_likelihood(self, player_id, suit, state):
+        return self.has_cards_likelihood(player_id, self.remaining_by_suit(suit), state)
+
+    def has_cards_likelihood(self, player_id, cards, state):
+        likelihood = 1
+        for card in cards:
+            likelihood = likelihood * (1 - self.has_card_likelihood(player_id, card, state))
+        return 1 - likelihood
+
+    def has_card_likelihood(self, player_id, card, state):
+        if card in self.get_hand() or card in [x[0] for x in self.played_cards if len(x) != 0]:
+            return 0
+
+        if state['trumpf'] == card.suit and card.value == 11:
+            return 1/3
+
+        for flag in self.flags[player_id]:
+            if isinstance(flag, FailedToServeSuitFlag):
+                if card.suit == flag.color:
+                    return 0
+            elif isinstance(flag, DoesntHaveCardFlag):
+                if flag.card == card:
+                    return 0
+
+        potential_holders = 3
+        for p_id in range(0, 4):
+            if p_id != self.my_id and p_id != player_id:
+                for flag in self.flags[p_id]:
+                    if isinstance(flag, FailedToServeSuitFlag):
+                        if card.suit == flag.color:
+                            potential_holders -= 1
+                            break
+                        elif isinstance(flag, DoesntHaveCardFlag):
+                            if card == flag.card:
+                                potential_holders -= 1
+                                break
+
+        if potential_holders > 0:
+            return 1 / potential_holders
+        else:
+            return 0
+
+    def get_suits_by_strength(self, player_id):
+        flags_of_player = self.flags[player_id]
+        weak = []
+
+        for flag in flags_of_player:
+            if isinstance(flag, FailedToServeSuitFlag):
+                if flag.color not in weak:
+                    weak.append(flag.color)
+
+        for flag in flags_of_player:
+            if isinstance(flag, SuitVerworfenFlag):
+                if flag.color not in weak:
+                    weak.append(flag.color)
+
+        for color in Suit:
+            if color.name not in weak:
+                weak.append(color.name)
+
+        return list(reversed(weak))
+
+    def tossed_suits(self, player_id):
+        return list(map(lambda y: y.color, filter(lambda x: isinstance(x, SuitVerworfenFlag), self.flags[player_id])))
+
 
 
 
@@ -144,14 +217,4 @@ def get_mode(trumpf):
         'BELL': TrumpfColorMode('BELL'),
         'ACORN': TrumpfColorMode('ACORN'),
         'SHIELD': TrumpfColorMode('SHIELD'),
-    }[trumpf]
-
-def get_trumpf(trumpf):
-    return {
-        'OBE_ABE': Trumpf.OBE_ABE,
-        'UNDE_UFE': Trumpf.UNDE_UFE,
-        'ROSE': Trumpf.ROSE,
-        'BELL': Trumpf.BELL,
-        'ACORN': Trumpf.ACORN,
-        'SHIELD': Trumpf.SHIELD,
     }[trumpf]

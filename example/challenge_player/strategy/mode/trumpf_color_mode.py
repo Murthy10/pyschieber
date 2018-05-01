@@ -57,3 +57,5 @@ class TrumpfColorMode(Mode):
 
     def is_trumpf(self, card):
         return card.suit == self.suit
+
+    def get_card_to_play(self, available_cards, card_counter, state, role): pass
