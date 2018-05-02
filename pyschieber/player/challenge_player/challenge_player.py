@@ -1,7 +1,7 @@
 import random
 
 from pyschieber.player.base_player import BasePlayer
-from example.challenge_player.strategy.jass_strategy import JassStrategy
+from pyschieber.player.challenge_player.strategy.jass_strategy import JassStrategy
 from pyschieber.card import Card
 
 

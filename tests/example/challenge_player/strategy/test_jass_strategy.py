@@ -3,8 +3,8 @@ import pytest
 from pyschieber.card import Card
 from pyschieber.suit import Suit
 from pyschieber.trumpf import Trumpf
-from example.challenge_player.strategy.jass_strategy import JassStrategy
-from example.challenge_player.challenge_player import ChallengePlayer
+from pyschieber.player.challenge_player.strategy.jass_strategy import JassStrategy
+from pyschieber.player.challenge_player.challenge_player import ChallengePlayer
 
 
 @pytest.fixture

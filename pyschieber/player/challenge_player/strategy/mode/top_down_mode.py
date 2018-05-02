@@ -1,12 +1,12 @@
-from example.challenge_player.strategy.mode.uncolored_trumpf import UncoloredTrumpf
-from example.helpers.game_helper import *
+from pyschieber.player.challenge_player.strategy.mode.uncolored_trumpf import UncoloredTrumpf
+from pyschieber.helpers.game_helper import *
 from pyschieber.trumpf import Trumpf
 from pyschieber.card import from_string_to_card
 
 
-class BottomUpMode(UncoloredTrumpf):
+class TopDownMode(UncoloredTrumpf):
     def trumpf_name(self):
-        return Trumpf.UNDE_UFE
+        return Trumpf.OBE_ABE
 
     def calculate_mode_score(self, cards, geschoben):
         score = 0
@@ -15,20 +15,20 @@ class BottomUpMode(UncoloredTrumpf):
 
         for suit, suit_cards in cards_by_suit:
             sorted_cards = self.sort_by_rank(suit_cards)
-            best_remaining_rank = 6
+            best_remaining_rank = 14
 
             for card in sorted_cards:
                 if card == best_remaining_rank:
-                    best_remaining_rank += 1
+                    best_remaining_rank -= 1
                     score += 13
                 else:
-                    if best_remaining_rank > 8:
+                    if best_remaining_rank < 12:
                         score += 10
 
         return score
 
     def stronger_cards_remaining(self, card, card_counter):
-        return card_counter.filter_not_dead_cards_of_same_suit(card, lambda x: x.value < card.value)
+        return card_counter.filter_not_dead_cards_of_same_suit(card, lambda x: x.value > card.value)
 
     def get_stich_card(self, cards_by_suit, card_counter, state):
         if len(state['table']) > 0:
@@ -53,7 +53,7 @@ class BottomUpMode(UncoloredTrumpf):
             if len(stich_cards) > 0:
                 s_cards = self.sort_by_rank(stich_cards)
                 for card in s_cards:
-                    if card.value == 10:
+                    if card.value == 10 or card.value == 8:
                         return card
                 return s_cards[0]
         return None
@@ -70,7 +70,7 @@ class BottomUpMode(UncoloredTrumpf):
             beatable = card_counter.has_cards_likelihood(card_counter.opponent_1_id, self.cards_beating_current_stich(card_counter.unknown_cards(), card_counter, state), state) != 0
             if card_counter.round_leader(state) == card_counter.partner_id and (len(state['table']) == 3 or not beatable):
                 for card in weak_cards:
-                    if card.value == 10:
+                    if card.value == 10 or card.value == 8:
                         return card
             return weak_cards[len(weak_cards) - 1]
 
@@ -99,23 +99,14 @@ class BottomUpMode(UncoloredTrumpf):
 
             if card_counter.round_leader(state) == card_counter.partner_id and (len(state['table']) == 3 or not beatable):
                 for card in weak_cards:
-                    if card.value == 10:
+                    if card.value == 8 or card.value == 10:
                         return card
                 return weak_cards[len(weak_cards) - 1]
             else:
                 return weak_cards[len(weak_cards) - 1]
 
-
-
-    def bock_distance(self, card, card_counter, state):
-        stronger = card_counter.filter_not_dead_cards_of_same_suit(card, lambda x: x.value < card.value)
-        stronger = [x for x in stronger if x not in card_counter.get_hand()]
-        table_cards = [from_string_to_card(x['card']) for x in state['table']]
-        stronger = [x for x in stronger if x not in table_cards]
-        return len(stronger)
-
     def stronger_cards_unknown(self, card, card_counter):
-        return card_counter.filter_cards_of_same_suit(card, lambda x: x.value < card.value)
+        return card_counter.filter_cards_of_same_suit(card, lambda x: x.value > card.value)
 
     def sort_by_rank(self, cards):
-        return sorted(cards)
+        return sorted(cards, reverse=True)

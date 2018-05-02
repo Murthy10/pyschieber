@@ -1,4 +1,4 @@
-from example.helpers.game_helper import *
+from pyschieber.helpers.game_helper import *
 from pyschieber.card import from_string_to_card
 from pyschieber.trumpf import get_trumpf
 

@@ -1,10 +1,10 @@
-import pytest
 from timeit import default_timer as timer
 
+import pytest
+
+from pyschieber.example.greedy_player import GreedyPlayer
 from pyschieber.player.random_player import RandomPlayer
 from pyschieber.tournament import Tournament
-
-from example.greedy_player import GreedyPlayer
 
 
 @pytest.mark.statistical

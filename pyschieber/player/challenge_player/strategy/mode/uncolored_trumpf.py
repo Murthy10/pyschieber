@@ -1,5 +1,5 @@
-from example.challenge_player.strategy.mode.mode import Mode
-from example.helpers.game_helper import *
+from pyschieber.player.challenge_player.strategy.mode.mode import Mode
+from pyschieber.helpers.game_helper import *
 from pyschieber.card import from_string_to_card
 
 

@@ -2,7 +2,7 @@ import pytest
 
 from pyschieber.card import Card
 from pyschieber.suit import Suit
-from example.challenge_player.strategy.mode.bottom_up_mode import BottomUpMode
+from pyschieber.player.challenge_player.strategy.mode.bottom_up_mode import BottomUpMode
 
 
 @pytest.fixture

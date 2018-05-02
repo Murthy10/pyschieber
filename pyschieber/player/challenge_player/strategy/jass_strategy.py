@@ -1,7 +1,7 @@
-from example.challenge_player.strategy.mode.trumpf_color_mode import *
-from example.challenge_player.strategy.mode.top_down_mode import *
-from example.challenge_player.strategy.mode.bottom_up_mode import *
-from example.challenge_player.strategy.card_counter import *
+from pyschieber.player.challenge_player.strategy.mode.trumpf_color_mode import *
+from pyschieber.player.challenge_player.strategy.mode.top_down_mode import *
+from pyschieber.player.challenge_player.strategy.mode.bottom_up_mode import *
+from pyschieber.player.challenge_player.strategy.card_counter import *
 from pyschieber.trumpf import Trumpf
 
 

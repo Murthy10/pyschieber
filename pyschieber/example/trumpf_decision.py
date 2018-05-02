@@ -1,7 +1,7 @@
 from enum import Enum
 from operator import itemgetter
 
-from example.helpers.game_helper import *
+from pyschieber.helpers.game_helper import *
 from pyschieber.trumpf import Trumpf
 from pyschieber.rules.count_rules import counting_factor
 

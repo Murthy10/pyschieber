@@ -27,9 +27,11 @@ def test_dealer_all_cards(players):
 
 def test_shuffle_cards(players):
     dealer = Dealer(players=players)
-    card = dealer.deck.cards[0]
+    first_card = dealer.deck.cards[0]
+    secound_card = dealer.deck.cards[1]
     dealer.shuffle_cards()
-    assert dealer.deck.cards[0] != card
+    is_not_equal = (dealer.deck.cards[0] != first_card) and (dealer.deck.cards[1] != secound_card)
+    assert is_not_equal
 
 
 def test_dealer_deck_count(players):
