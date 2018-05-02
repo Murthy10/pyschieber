@@ -85,6 +85,8 @@ class CardCounter:
                     self.flags[player_id].append(SuitVerworfenFlag(card.suit))
 
     def round_leader(self, state):
+        if len(self.get_table_cards()) == 0:
+            return None
         return stich_rules[get_trumpf(state['trumpf'])](played_cards=self.get_table_cards()).player
 
     def get_hand(self):
@@ -205,16 +207,12 @@ class CardCounter:
     def tossed_suits(self, player_id):
         return list(map(lambda y: y.color, filter(lambda x: isinstance(x, SuitVerworfenFlag), self.flags[player_id])))
 
-
-
-
-
 def get_mode(trumpf):
     return {
         'OBE_ABE': TopDownMode(),
         'UNDE_UFE': BottomUpMode(),
-        'ROSE': TrumpfColorMode('ROSE'),
-        'BELL': TrumpfColorMode('BELL'),
-        'ACORN': TrumpfColorMode('ACORN'),
-        'SHIELD': TrumpfColorMode('SHIELD'),
+        'ROSE': TrumpfColorMode(Suit['ROSE']),
+        'BELL': TrumpfColorMode(Suit['BELL']),
+        'ACORN': TrumpfColorMode(Suit['ACORN']),
+        'SHIELD': TrumpfColorMode(Suit['SHIELD']),
     }[trumpf]

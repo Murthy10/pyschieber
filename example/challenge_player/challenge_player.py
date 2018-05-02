@@ -41,11 +41,8 @@ class ChallengePlayer(BasePlayer):
 
         allowed = False
         while not allowed:
-            if state['trumpf'] == 'UNDE_UFE' or state['trumpf'] == 'OBE_ABE':
-                card = self.strategy.choose_card(cards, state, self.role)
-                if not isinstance(card, Card):
-                    card = random.choice(cards)
-            else:
+            card = self.strategy.choose_card(cards, state, self.role)
+            if not isinstance(card, Card):
                 card = random.choice(cards)
             allowed = yield card
             if allowed:

@@ -161,7 +161,7 @@ class UncoloredTrumpf(Mode):
             if len([x[1] for x in split_cards_by_suit(card_counter.unknown_cards()) if x[0] == color]) == 0 and \
                     len([x[1] for x in cards_by_suit if x[0] == color]) > 1:
                 we_lose_stich_if_we_dont = True
-        else:
+        elif card_counter.has_suit_likelihood(card_counter.opponent_1_id, color, state) == 1:
             if len([x[1] for x in split_cards_by_suit(card_counter.unknown_cards()) if x[0] == color]) == 1 and \
                     len([x[1] for x in cards_by_suit if x[0] == color]) > 1:
                 we_lose_stich_if_we_dont = True

@@ -40,7 +40,7 @@ class Card:
         return self.suit == other.suit and self.value > other.value
 
     def get_score(self, trumpf):
-        if trumpf.name == self.suit:
+        if trumpf.name == self.suit.name:
             return 50 + self.get_trumpf_rank()
         else:
             return self.value
