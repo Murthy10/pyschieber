@@ -18,11 +18,17 @@ class BasePlayer:
     def set_card(self, card):
         self.cards.append(card)
 
+    def game_started(self):
+        pass
+
     def choose_trumpf(self, geschoben):
         raise NotImplementedError(str(inspect.stack()[1][3]))
 
     def choose_card(self, state=None):
         raise NotImplementedError(str(inspect.stack()[1][3]))
+
+    def move_made(self, player_id, card, state):
+        pass
 
     def stich_over(self, state=None):
         pass
