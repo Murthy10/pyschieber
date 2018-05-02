@@ -53,6 +53,15 @@ def test_stich(trumpf, index, played_cards):
     ([Card(Suit.ROSE, 7)], Card(Suit.ROSE, 6), [Card(Suit.ROSE, 6), Card(Suit.ACORN, 11)], Trumpf.ROSE, True),
     ([Card(Suit.ACORN, 6), Card(Suit.ROSE, 7)], Card(Suit.ROSE, 6), [Card(Suit.ROSE, 6), Card(Suit.ACORN, 11)],
      Trumpf.ROSE, False),
+    ([Card(Suit.ROSE, 12), Card(Suit.SHIELD, 11)], Card(Suit.ROSE, 8),
+     [Card(Suit.ROSE, 6), Card(Suit.ROSE, 8), Card(Suit.SHIELD, 12), Card(Suit.ACORN, 11), Card(Suit.SHIELD, 14),
+      Card(Suit.SHIELD, 8), Card(Suit.BELL, 11), Card(Suit.BELL, 10)], Trumpf.ROSE, True),
+    ([Card(Suit.SHIELD, 6), Card(Suit.ROSE, 6), Card(Suit.ROSE, 9)], Card(Suit.ROSE, 10),
+     [Card(Suit.ROSE, 10), Card(Suit.BELL, 11)], Trumpf.ROSE, False),
+    ([Card(Suit.SHIELD, 13), Card(Suit.ACORN, 6), Card(Suit.SHIELD, 10)], Card(Suit.ROSE, 8),
+     [Card(Suit.SHIELD, 8), Card(Suit.SHIELD, 9), Card(Suit.BELL, 13), Card(Suit.ROSE, 12), Card(Suit.ROSE, 13),
+      Card(Suit.ROSE, 8), Card(Suit.ACORN, 6), Card(Suit.BELL, 6), Card(Suit.BELL, 14)], Trumpf.ROSE, True),
+
 ])
 def test_card_allowed(table_cards, chosen_card, hand_cards, trumpf, result):
     assert card_allowed(table_cards=table_cards, chosen_card=chosen_card, hand_cards=hand_cards,

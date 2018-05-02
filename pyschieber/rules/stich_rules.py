@@ -30,7 +30,9 @@ def _stich_trumpf_cards(trumpfs):
         return trumpfs[values.index(UNDER)][1]
     if NAELL in values:
         return trumpfs[values.index(NAELL)][1]
-    return values.index(max(values))
+    return max(trumpfs)[1]
+
+    #return values.index(max(values))
 
 
 stich_rules = {
@@ -87,7 +89,7 @@ def does_under_trumpf(table_cards, chosen_card, hand_cards, trumpf):
 
 def is_chosen_card_best_trumpf(table_cards, chosen_card, trumpf):
     trumpfs = [(card.value, i) for i, card in enumerate(table_cards) if card.suit.name == trumpf.name]
-    chosen_card_index = len(trumpfs)
+    chosen_card_index = len(table_cards)
     trumpfs.append((chosen_card.value, chosen_card_index))
     winner_index = _stich_trumpf_cards(trumpfs=trumpfs)
     return winner_index == chosen_card_index
