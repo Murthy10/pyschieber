@@ -8,6 +8,7 @@ def split_card_values_by_suit(cards):
         suits.append((suit, suit_cards))
     return suits
 
+
 def split_cards_by_suit(cards):
     suits = []
     for suit in Suit:
