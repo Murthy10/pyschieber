@@ -131,7 +131,7 @@ What's going on here?
 The Random Player is pretty naive and he simply chooses randomly a card or a trumpf from the list of choices. 
 If the turn is not allowed he randomly chooses a new one until the rules of Schieber are satisfied.
 
-Other player examples are the [GreedyPlayer](example/greedy_player.py) or the [CliPlayer](pyschieber/player/cli_player.py).
+Other player examples are the [GreedyPlayer](pyschieber/example/greedy_player.py) or the [CliPlayer](pyschieber/player/cli_player.py).
 
 Now you should be ready to get your hands dirty to implement your own player and beat the random players Tick, Trick and Track! :trophy:
 
