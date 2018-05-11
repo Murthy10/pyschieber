@@ -10,14 +10,15 @@ from tests.example.statistical_helper import run_statistics
 
 @pytest.mark.statistical
 def test_greedy():
-    players = [GreedyPlayer(name='Greedy1'), RandomPlayer(name='Track'), GreedyPlayer(name='Greedy2'),
-               RandomPlayer(name='Track')]
+    players = [GreedyPlayer(name='Greedy1'), RandomPlayer(name='Track1'), GreedyPlayer(name='Greedy2'),
+               RandomPlayer(name='Track2')]
 
     run_statistics(players=players)
 
 
 @pytest.mark.statistical
 def test_challenge():
-    players = [GreedyPlayer(name='Greedy1'), ChallengePlayer(name='Track'), GreedyPlayer(name='Greedy2'),
-               ChallengePlayer(name='Track')]
+    players = [ChallengePlayer(name='Trick1'), GreedyPlayer(name='Greedy1'), ChallengePlayer(name='Trick2'),
+               GreedyPlayer(name='Greedy2')]
+    
     run_statistics(players=players)
