@@ -1,5 +1,5 @@
-from pyschieber.example.trumpf_decision import choose_trumpf
 from pyschieber.player.base_player import BasePlayer
+from pyschieber.player.greedy_player.trumpf_decision import choose_trumpf
 from pyschieber.trumpf import Trumpf
 
 

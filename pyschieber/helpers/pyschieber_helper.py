@@ -1,5 +1,5 @@
-from pyschieber.example.greedy_player import GreedyPlayer
 from pyschieber.player.challenge_player.challenge_player import ChallengePlayer
+from pyschieber.player.greedy_player.greedy_player import GreedyPlayer
 from pyschieber.player.random_player import RandomPlayer
 
 
