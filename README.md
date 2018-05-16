@@ -75,8 +75,8 @@ from pyschieber.player.random_player import RandomPlayer
 from pyschieber.player.greedy_player.greedy_player import GreedyPlayer
 
 
-players = [RandomPlayer(name='Tick'), RandomPlayer(name='Trick'), RandomPlayer(name='Track'),
-           GreedyPlayer.with_tournament(name='Dagobert', tournament=tournament)]
+players = [RandomPlayer(name='Tick'), RandomPlayer(name='Trick'), 
+           RandomPlayer(name='Track'), GreedyPlayer(name='Dagobert')]
 
 [tournament.register_player(player) for player in players]
 ```
@@ -95,10 +95,10 @@ Basically the Player has to provide the methods:
    * called by the dealer to get your cards at the start of every round
  * choose_trumpf(geschoben)
    * called when it's your turn to choose a trumpf, this has to be a generator and is recalled until the chosen trumpf is allowed
- * choose_card()
+ * choose_card(state)
    * called when it's your turn to choose a card, this has to be a generator and is recalled until the chosen card is allowed
 
-Additionally there is the stich_over() method, that is called after all players had chosen their cards.  
+Additionally there is the stich_over(state) method, that is called after all players had chosen their cards.  
 
 The easiest way to implement your own player is to inherit from the BasePlayer class (due to the fact that Python uses duck typing it is not absolutely necessary), which provieds some basic functionality like store your cards.
 
@@ -131,7 +131,7 @@ What's going on here?
 The Random Player is pretty naive and he simply chooses randomly a card or a trumpf from the list of choices. 
 If the turn is not allowed he randomly chooses a new one until the rules of Schieber are satisfied.
 
-Other player examples are the [GreedyPlayer](pyschieber/example/greedy_player.py) or the [CliPlayer](pyschieber/player/cli_player.py).
+Other player examples are the [GreedyPlayer](pyschieber/player/greedy_player/greedy_player.py) or the [CliPlayer](pyschieber/player/cli_player.py).
 
 Now you should be ready to get your hands dirty to implement your own player and beat the random players Tick, Trick and Track! :trophy:
 
