@@ -39,7 +39,7 @@ if __name__ == "__main__":
                         help='Chose your first opponent. (1: Random player, 2: Greedy player, 3: Challenge player)')
     parser.add_argument('-s', '--second_opponent', dest='second_opponent', type=int,
                         help='Chose your second opponent. (1: Random player, 2: Greedy player, 3: Challenge player)')
-    parser.add_argument('-t', '--teammate', dest='second_opponent', type=int,
+    parser.add_argument('-t', '--teammate', dest='teammate', type=int,
                         help='Chose your opponents. (1: Random player, 2: Greedy player, 3: Challenge player)')
     parser.set_defaults(points=1500, first_opponent=1, second_opponent=1, teammate=1)
     args = parser.parse_args()
