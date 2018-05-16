@@ -25,15 +25,6 @@ def test_dealer_all_cards(players):
     assert number_of_cards == 36
 
 
-def test_shuffle_cards(players):
-    dealer = Dealer(players=players)
-    first_card = dealer.deck.cards[0]
-    secound_card = dealer.deck.cards[1]
-    dealer.shuffle_cards()
-    is_not_equal = (dealer.deck.cards[0] != first_card) and (dealer.deck.cards[1] != secound_card)
-    assert is_not_equal
-
-
 def test_dealer_deck_count(players):
     dealer = Dealer(players=players)
     assert len(dealer.deck.cards) == 36
