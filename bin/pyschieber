@@ -2,16 +2,16 @@
 
 import sys, signal, argparse, logging
 
+from pyschieber.helpers.pyschieber_helper import parse_player_choice
 from pyschieber.player.cli_player import CliPlayer
-from pyschieber.player.random_player import RandomPlayer
 from pyschieber.tournament import Tournament
 
 
-def start_tournament(points):
+def start_tournament(points, players):
     tournament = Tournament(point_limit=points)
     cli_player = CliPlayer(name='CliPlayer')
-    tournament.register_player(cli_player)
-    [tournament.register_player(RandomPlayer(name=str(i))) for i in range(1, 4)]
+    register_players = [cli_player] + players
+    [tournament.register_player(player=player) for player in register_players]
     tournament.play()
 
 
@@ -29,11 +29,22 @@ def handler(signum, frame):
     print('\n pyschieber terminated!  Goodbye!')
     sys.exit(0)
 
+
 if __name__ == "__main__":
     set_logging()
     signal.signal(signal.SIGINT, handler)
     parser = argparse.ArgumentParser(description='CLI pyschieber', )
     parser.add_argument('-p', '--points', dest='points', type=int, help='Tournament points')
-    parser.set_defaults(points=1500)
+    parser.add_argument('-f', '--first_opponent', dest='first_opponent', type=int,
+                        help='Chose your first opponent. (1: Random player, 2: Greedy player, 3: Challenge player)')
+    parser.add_argument('-s', '--second_opponent', dest='second_opponent', type=int,
+                        help='Chose your second opponent. (1: Random player, 2: Greedy player, 3: Challenge player)')
+    parser.add_argument('-t', '--teammate', dest='second_opponent', type=int,
+                        help='Chose your opponents. (1: Random player, 2: Greedy player, 3: Challenge player)')
+    parser.set_defaults(points=1500, first_opponent=1, second_opponent=1, teammate=1)
     args = parser.parse_args()
-    start_tournament(args.points)
+
+    players = [parse_player_choice(args.first_opponent, 'first opponent'),
+               parse_player_choice(args.teammate, 'teammate'),
+               parse_player_choice(args.second_opponent, 'second opponent')]
+    start_tournament(args.points, players)
