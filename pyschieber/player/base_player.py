@@ -18,9 +18,6 @@ class BasePlayer:
     def set_card(self, card):
         self.cards.append(card)
 
-    def game_started(self):
-        pass
-
     def choose_trumpf(self, geschoben):
         raise NotImplementedError(str(inspect.stack()[1][3]))
 

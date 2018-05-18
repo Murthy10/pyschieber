@@ -6,11 +6,10 @@ from pyschieber.card import Card
 
 
 class ChallengePlayer(BasePlayer):
-    def __init__(self, name='unknown'):
-        BasePlayer.__init__(self, name)
-
-    def game_started(self):
-        self.strategy = JassStrategy(self)
+    def set_card(self, card):
+        self.cards.append(card)
+        if len(self.cards) == 9:
+            self.strategy = JassStrategy(self)
 
     def choose_trumpf(self, geschoben):
         allowed = False
@@ -47,6 +46,7 @@ class ChallengePlayer(BasePlayer):
             allowed = yield card
             if allowed:
                 yield None
+
 
     def move_made(self, player_id, card, state):
         self.strategy.move_made(player_id, card, state)

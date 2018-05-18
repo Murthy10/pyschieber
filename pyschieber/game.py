@@ -21,8 +21,6 @@ class Game:
         self.stiche = []
         self.cards_on_table = []
         self.use_counting_factor = use_counting_factor
-        for player in self.players:
-            player.game_started()
 
     def play(self, start_player_index=0, whole_rounds=False):
         self.dealer.shuffle_cards()
