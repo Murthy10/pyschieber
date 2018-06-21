@@ -1,6 +1,6 @@
 from pyschieber.suit import Suit
 
-from build.lib.pyschieber.card import Card
+from pyschieber.card import Card
 from pyschieber.deck import Deck
 
 from pyschieber.helpers.game_helper import split_card_values_by_suit, split_cards_by_suit
