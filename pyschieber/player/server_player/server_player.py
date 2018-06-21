@@ -2,7 +2,7 @@ import json
 import logging
 from enum import Enum
 
-from pyschieber.player.server_player.parser.game_type_parser import pyschieber_trumpf_to_game_type, \
+from pyschieber.player.server_player.helpers.parser.game_type_parser import pyschieber_trumpf_to_game_type, \
     game_type_to_pyschieber_trumpf
 
 from pyschieber.player.server_player.helpers import messages

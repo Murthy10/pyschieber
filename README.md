@@ -54,6 +54,17 @@ Geschoben: False
 Please chose the trumpf by the number from 0 to 6: 
 ```
 
+### Jass Challenge
+The usage of a CLI to play Schieber Jass could be boring.
+Therefore pyschieber provides a wrapper for your bots to play on the Zühlke Jass Server.
+
+The [ServerPlayer](pyschieber/player/server_player/server_player.py) takes a pyschieber conform player
+An example how to launch is provide under [Server Launcher](pyschieber/example/server_launcher.py). 
+
+For further information have a look at: 
+*  https://github.com/webplatformz/challenge
+*  https://github.com/jakeret/elbotto
+
 ## API :clipboard:
 The idea of pyschieber is to extend the game with your own implemented player.
 Henc schieber provides entry points to fulfill this requirement.
