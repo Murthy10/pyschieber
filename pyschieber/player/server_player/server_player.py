@@ -107,6 +107,7 @@ class ServerPlayer:
                 self.player = player
                 self.pyschieber_bot.id = player.seatId
                 self.pyschieber_bot.game_started()
+                self.clear_at_init()
             self.players_in_session = data["playersInSession"]
 
         elif message_type == MessageType.BROADCAST_STICH:
@@ -148,6 +149,9 @@ class ServerPlayer:
         else:
             logger.warning("Sorry, i cannot handle this message: " + json.dumps(message))
         return answer
+
+    def clear_at_init(self):
+        self.handle_game_finished()
 
     def handle_played_cards(self, played_cards):
         self.update_hand(played_cards)
