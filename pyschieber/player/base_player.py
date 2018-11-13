@@ -30,6 +30,9 @@ class BasePlayer:
     def stich_over(self, state=None):
         pass
 
+    def game_started(self):
+        pass
+
     def allowed_cards(self, state):
         table_cards = [from_string_to_card(entry['card']) for entry in state['table']]
         trumpf = Trumpf[state['trumpf']]

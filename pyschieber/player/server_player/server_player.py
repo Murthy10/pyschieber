@@ -69,7 +69,7 @@ class ServerPlayer:
 
         elif message_type == MessageType.REQUEST_SESSION_CHOICE:
             answer = messages.create(MessageType.CHOOSE_SESSION,
-                                     "AUTOJOIN",
+                                     "JOIN_EXISTING",
                                      self.session_name,
                                      SessionType.SINGLE_GAME.name,
                                      False,
@@ -79,7 +79,8 @@ class ServerPlayer:
         elif message_type == MessageType.DEAL_CARDS:
             self.last_round_points = 0
             self.hand_cards = data
-            self.pyschieber_bot.cards = [challenge_card_to_pyschieber_card(card) for card in self.hand_cards]
+            for card in self.hand_cards:
+                self.pyschieber_bot.set_card(challenge_card_to_pyschieber_card(card))
 
         elif message_type == MessageType.REQUEST_TRUMPF:
             game_type = self.handle_request_trumpf()
