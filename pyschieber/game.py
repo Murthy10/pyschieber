@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class Game:
-    def __init__(self, teams=None, point_limit=1500, use_counting_factor=True):
+    def __init__(self, teams=None, point_limit=1500, use_counting_factor=False):
         self.teams = teams
         self.point_limit = point_limit
         self.players = [teams[0].players[0], teams[1].players[0], teams[0].players[1], teams[1].players[1]]
