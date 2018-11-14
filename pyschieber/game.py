@@ -71,6 +71,7 @@ class Game:
                 trumpf = generator.send(is_allowed_trumpf)
                 chosen_trumpf = chosen_trumpf if trumpf is None else trumpf
         self.trumpf = chosen_trumpf
+        return self.trumpf
 
     def play_stich(self, start_player_index):
         """
@@ -156,6 +157,13 @@ class Game:
                     geschoben=self.geschoben, point_limit=self.point_limit,
                     table=[played_card_dict(played_card) for played_card in self.cards_on_table],
                     teams=[dict(points=team.points) for team in self.teams])
+
+    def reset_points(self):
+        """
+        Resets the points of the teams to 0. This is used when single games are played.
+        :return:
+        """
+        [team.reset_points() for team in self.teams]
 
 
 def get_player_index(start_index):

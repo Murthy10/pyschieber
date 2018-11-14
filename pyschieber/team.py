@@ -21,3 +21,10 @@ class Team:
         :return: true if the points of the team are larger than the point limit and false otherwise
         """
         return self.points >= point_limit
+
+    def reset_points(self):
+        """
+        Resets the points to 0. This is used when single games and no tournaments are played.
+        :return:
+        """
+        self.points = 0

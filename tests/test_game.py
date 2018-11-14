@@ -39,6 +39,23 @@ def test_game():
         assert len(player.cards) == 0
 
 
+def test_reset_points():
+    random_players = [RandomPlayer(name=i) for i in range(4)]
+    team_1 = Team(players=[random_players[0], random_players[1]])
+    team_2 = Team(players=[random_players[1], random_players[2]])
+    teams = [team_1, team_2]
+    game = Game(teams=teams, point_limit=1500)
+    game.play()
+
+    for team in game.teams:
+        assert team.points > 0
+
+    game.reset_points()
+
+    for team in game.teams:
+        assert team.points == 0
+
+
 @pytest.mark.parametrize("start_key, next_key", [
     (0, 1),
     (1, 2),
