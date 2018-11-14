@@ -4,7 +4,7 @@ PlayedCard = namedtuple('PlayedCard', ['player', 'card'])
 Stich = namedtuple('Stich', ['player', 'played_cards', 'trumpf'])
 
 
-def played_cards_dict(played_card):
+def played_card_dict(played_card):
     """
     Returns a dictionary containing:
     - the player who played the card
@@ -30,5 +30,5 @@ def stich_dict(stich):
     return {
         'player_id': stich.player.id,
         'trumpf': stich.trumpf.name,
-        'played_cards': [played_cards_dict(played_card) for played_card in stich.played_cards]
+        'played_cards': [played_card_dict(played_card) for played_card in stich.played_cards]
     }

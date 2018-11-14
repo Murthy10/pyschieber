@@ -4,7 +4,7 @@ from pyschieber.dealer import Dealer
 from pyschieber.rules.stich_rules import stich_rules, card_allowed
 from pyschieber.rules.trumpf_rules import trumpf_allowed
 from pyschieber.rules.count_rules import count_stich, counting_factor
-from pyschieber.stich import PlayedCard, stich_dict, played_cards_dict
+from pyschieber.stich import PlayedCard, stich_dict, played_card_dict
 from pyschieber.trumpf import Trumpf
 
 logger = logging.getLogger(__name__)
@@ -154,7 +154,7 @@ class Game:
         """
         return dict(stiche=[stich_dict(stich) for stich in self.stiche], trumpf=self.trumpf.name,
                     geschoben=self.geschoben, point_limit=self.point_limit,
-                    table=[played_cards_dict(played_card) for played_card in self.cards_on_table],
+                    table=[played_card_dict(played_card) for played_card in self.cards_on_table],
                     teams=[dict(points=team.points) for team in self.teams])
 
 
