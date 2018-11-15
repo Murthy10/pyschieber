@@ -1,4 +1,4 @@
-from random import shuffle
+import random
 
 from pyschieber.deck import Deck
 
@@ -8,12 +8,14 @@ class Dealer:
         self.players = players
         self.deck = Deck()
 
-    def shuffle_cards(self):
+    def shuffle_cards(self, seed=None):
         """
         Shuffles the cards to a random ordering.
+        :param seed
         :return:
         """
-        shuffle(self.deck.cards)
+        random.seed(seed)
+        random.shuffle(self.deck.cards)
 
     def deal_cards(self):
         """

@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 class Tournament:
-    def __init__(self, point_limit=1500):
+    def __init__(self, point_limit=1500, seed=None):
         """
         Sets the point limit and initializes the players, teams and games arrays.
         :param point_limit:
@@ -16,6 +16,7 @@ class Tournament:
         self.players = []
         self.teams = []
         self.games = []
+        self.seed = seed
 
     def check_players(self):
         """
@@ -62,7 +63,11 @@ class Tournament:
         whole_rounds = True if rounds > 0 else False
         round_counter = 0
         while not end:
-            game = Game(teams=self.teams, point_limit=self.point_limit, use_counting_factor=use_counting_factor)
+            if self.seed is not None:
+                # Increment seed by one so that each game is different.
+                # But still the sequence of games is the same each time
+                self.seed += 1
+            game = Game(teams=self.teams, point_limit=self.point_limit, use_counting_factor=use_counting_factor, seed=self.seed)
             self.games.append(game)
             logger.info('-' * 200)
             logger.info('Round {} starts.'.format(len(self.games)))

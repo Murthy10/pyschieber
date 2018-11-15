@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class Game:
-    def __init__(self, teams=None, point_limit=1500, use_counting_factor=False):
+    def __init__(self, teams=None, point_limit=1500, use_counting_factor=False, seed=None):
         self.teams = teams
         self.point_limit = point_limit
         self.players = [teams[0].players[0], teams[1].players[0], teams[0].players[1], teams[1].players[1]]
@@ -22,6 +22,7 @@ class Game:
         self.cards_on_table = []
         self.use_counting_factor = use_counting_factor
         self.is_over = False
+        self.seed = seed
 
     def play(self, start_player_index=0, whole_rounds=False):
         """
@@ -38,7 +39,11 @@ class Game:
         :param whole_rounds:
         :return:
         """
-        self.dealer.shuffle_cards()
+        if self.seed is not None:
+            # Increment seed by one so that each game is different.
+            # But still the sequence of games is the same each time
+            self.seed += 1
+        self.dealer.shuffle_cards(self.seed)
         self.dealer.deal_cards()
         self.define_trumpf(start_player_index=start_player_index)
         logger.info('Chosen Trumpf: {0} \n'.format(self.trumpf.name))
