@@ -21,6 +21,7 @@ class Game:
         self.stiche = []
         self.cards_on_table = []
         self.use_counting_factor = use_counting_factor
+        self.is_over = False
 
     def play(self, start_player_index=0, whole_rounds=False):
         """
@@ -51,6 +52,7 @@ class Game:
             self.stich_over_information()
             if (self.teams[0].won(self.point_limit) or self.teams[1].won(self.point_limit)) and not whole_rounds:
                 return True
+        self.is_over = True
         return False
 
     def define_trumpf(self, start_player_index):
