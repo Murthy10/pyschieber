@@ -6,7 +6,7 @@ from pyschieber.tournament import Tournament
 def run_statistics(players, number_of_tournaments=10):
     point_limit = 1000
 
-    tournament = Tournament(point_limit=point_limit)
+    tournament = Tournament(point_limit=point_limit, seed=42)
     [tournament.register_player(player=player) for player in players]
 
     team_1_won = 0
