@@ -58,8 +58,8 @@ Please chose the trumpf by the number from 0 to 6:
 The usage of a CLI to play Schieber Jass could be boring.
 Therefore pyschieber provides a wrapper for your bots to play on the Zühlke Jass Server.
 
-The [ServerPlayer](pyschieber/player/server_player/server_player.py) takes a pyschieber conform player
-An example how to launch is provide under [Server Launcher](pyschieber/example/server_launcher.py). 
+The [ServerPlayer](schieber/player/server_player/server_player.py) takes a pyschieber conform player
+An example how to launch is provide under [Server Launcher](schieber/example/server_launcher.py). 
 
 For further information have a look at: 
 *  https://github.com/webplatformz/challenge
@@ -142,7 +142,7 @@ What's going on here?
 The Random Player is pretty naive and he simply chooses randomly a card or a trumpf from the list of choices. 
 If the turn is not allowed he randomly chooses a new one until the rules of Schieber are satisfied.
 
-Other player examples are the [GreedyPlayer](pyschieber/player/greedy_player/greedy_player.py) or the [CliPlayer](pyschieber/player/cli_player.py).
+Other player examples are the [GreedyPlayer](schieber/player/greedy_player/greedy_player.py) or the [CliPlayer](schieber/player/cli_player.py).
 
 Now you should be ready to get your hands dirty to implement your own player and beat the random players Tick, Trick and Track! :trophy:
 

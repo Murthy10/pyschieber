@@ -1,17 +1,15 @@
-from setuptools import setup, find_packages
+import setuptools
 
-with open('README.md') as f:
-    readme = f.read()
-
-    setup(
-        name='pyschieber',
-        version='1.3.0',
-        description='pyschieber is a terminal application of the popular swiss card game Schieber and provides an API to the game',
-        long_description=readme,
-        author='Samuel Kurath',
-        author_email='samuel.kurath@gmail.com',
-        url='https://github.com/Murthy10/pyschieber',
-        license='MIT',
-        packages=find_packages(exclude=('tests', 'docs')),
-        scripts=['bin/pyschieber'],
-    )
+setuptools.setup(
+    name='schieber',
+    version='0.0.1',
+    description='Schieber is a terminal application of the popular swiss card game Schieber and provides an API to the game',
+    long_description=open('README.md', "r").read(),
+    long_description_content_type="text/markdown",
+    author='Joel Niklaus',
+    author_email='me@joelniklaus.ch',
+    url='https://github.com/JoelNiklaus/schieber',
+    license=open('LICENSE', "r").read(),
+    packages=setuptools.find_packages(exclude=('tests', 'docs')),
+    scripts=['bin/schieber'],
+)

@@ -1,9 +1,9 @@
 import pytest
 
-from pyschieber.card import Card
-from pyschieber.player.greedy_player.trumpf_decision import choose_trumpf, TrumpfType
-from pyschieber.suit import Suit
-from pyschieber.trumpf import Trumpf
+from schieber.card import Card
+from schieber.player.greedy_player.trumpf_decision import choose_trumpf, TrumpfType
+from schieber.suit import Suit
+from schieber.trumpf import Trumpf
 
 
 @pytest.mark.parametrize("cards, trumpf, trumpf_type", [

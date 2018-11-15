@@ -2,8 +2,8 @@ import pytest
 from timeit import default_timer as timer
 from math import sqrt, floor
 
-from pyschieber.player.random_player import RandomPlayer
-from pyschieber.tournament import Tournament
+from schieber.player.random_player import RandomPlayer
+from schieber.tournament import Tournament
 
 
 @pytest.mark.statistical

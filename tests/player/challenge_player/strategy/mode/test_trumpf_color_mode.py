@@ -1,8 +1,8 @@
 import pytest
 
-from pyschieber.card import Card
-from pyschieber.suit import Suit
-from pyschieber.player.challenge_player.strategy.mode.trumpf_color_mode import TrumpfColorMode
+from schieber.card import Card
+from schieber.suit import Suit
+from schieber.player.challenge_player.strategy.mode.trumpf_color_mode import TrumpfColorMode
 
 
 @pytest.mark.parametrize("suit, cards, score", [

@@ -1,8 +1,8 @@
 import pytest
 
-from pyschieber.card import Card
-from pyschieber.suit import Suit
-from pyschieber.player.challenge_player.strategy.mode.top_down_mode import TopDownMode
+from schieber.card import Card
+from schieber.suit import Suit
+from schieber.player.challenge_player.strategy.mode.top_down_mode import TopDownMode
 
 
 @pytest.fixture

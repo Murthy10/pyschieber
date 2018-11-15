@@ -1,6 +1,6 @@
 from timeit import default_timer as timer
 
-from pyschieber.tournament import Tournament
+from schieber.tournament import Tournament
 
 
 def run_statistics(players, number_of_tournaments=10):

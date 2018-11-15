@@ -1,7 +1,7 @@
 import pytest
 
-from pyschieber.trumpf import Trumpf
-from pyschieber.rules.trumpf_rules import trumpf_allowed
+from schieber.trumpf import Trumpf
+from schieber.rules.trumpf_rules import trumpf_allowed
 
 
 @pytest.mark.parametrize("trumpf, geschoben, result", [

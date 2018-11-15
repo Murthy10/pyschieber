@@ -1,4 +1,4 @@
-from pyschieber.player.base_player import BasePlayer
+from schieber.player.base_player import BasePlayer
 from itertools import count
 
 

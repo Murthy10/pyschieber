@@ -1,9 +1,9 @@
-from pyschieber.suit import Suit
+from schieber.suit import Suit
 
-from pyschieber.card import Card
-from pyschieber.deck import Deck
+from schieber.card import Card
+from schieber.deck import Deck
 
-from pyschieber.helpers.game_helper import split_card_values_by_suit, split_cards_by_suit
+from schieber.helpers.game_helper import split_card_values_by_suit, split_cards_by_suit
 
 
 def test_split_card_values_by_suit():

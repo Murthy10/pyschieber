@@ -1,0 +1,60 @@
+#!/usr/bin/env python
+
+import sys, signal, argparse, logging
+
+from schieber.player.cli_player import CliPlayer
+from schieber.player.challenge_player.challenge_player import ChallengePlayer
+from schieber.player.greedy_player.greedy_player import GreedyPlayer
+from schieber.player.random_player import RandomPlayer
+from schieber.tournament import Tournament
+
+
+def parse_player_choice(player_choice=1, name_suffix=''):
+    player_choices = {1: RandomPlayer(name='RandomPlayer ' + name_suffix),
+                      2: GreedyPlayer(name='GreedyPlayer ' + name_suffix),
+                      3: ChallengePlayer(name='ChallengePlayer ' + name_suffix)}
+    choice = player_choice if player_choice in player_choices else 1
+    return player_choices[choice]
+
+
+def start_tournament(points, players):
+    tournament = Tournament(point_limit=points)
+    cli_player = CliPlayer(name='CliPlayer')
+    register_players = [cli_player] + players
+    [tournament.register_player(player=player) for player in register_players]
+    tournament.play()
+
+
+def set_logging():
+    root = logging.getLogger()
+    root.setLevel(logging.INFO)
+    stream_handler = logging.StreamHandler(sys.stdout)
+    stream_handler.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(message)s')
+    stream_handler.setFormatter(formatter)
+    root.addHandler(stream_handler)
+
+
+def handler(signum, frame):
+    print('\n schieber terminated!  Goodbye!')
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    set_logging()
+    signal.signal(signal.SIGINT, handler)
+    parser = argparse.ArgumentParser(description='CLI schieber', )
+    parser.add_argument('-p', '--points', dest='points', type=int, help='Tournament points')
+    parser.add_argument('-f', '--first_opponent', dest='first_opponent', type=int,
+                        help='Chose your first opponent. (1: Random player, 2: Greedy player, 3: Challenge player)')
+    parser.add_argument('-s', '--second_opponent', dest='second_opponent', type=int,
+                        help='Chose your second opponent. (1: Random player, 2: Greedy player, 3: Challenge player)')
+    parser.add_argument('-t', '--teammate', dest='teammate', type=int,
+                        help='Chose your opponents. (1: Random player, 2: Greedy player, 3: Challenge player)')
+    parser.set_defaults(points=1500, first_opponent=1, second_opponent=1, teammate=1)
+    args = parser.parse_args()
+
+    players = [parse_player_choice(args.first_opponent, 'first opponent'),
+               parse_player_choice(args.teammate, 'teammate'),
+               parse_player_choice(args.second_opponent, 'second opponent')]
+    start_tournament(args.points, players)

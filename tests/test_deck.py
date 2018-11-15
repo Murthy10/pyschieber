@@ -1,5 +1,5 @@
-from pyschieber.card import Card
-from pyschieber.deck import Deck
+from schieber.card import Card
+from schieber.deck import Deck
 
 
 def test_deck_count():

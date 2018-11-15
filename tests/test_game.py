@@ -1,14 +1,14 @@
 import pytest
-from pyschieber.rules.count_rules import counting_factor
+from schieber.rules.count_rules import counting_factor
 
-from pyschieber.deck import Deck
+from schieber.deck import Deck
 
-from pyschieber.trumpf import Trumpf
+from schieber.trumpf import Trumpf
 
-from pyschieber.player.random_player import RandomPlayer
+from schieber.player.random_player import RandomPlayer
 
-from pyschieber.game import Game, get_player_index
-from pyschieber.team import Team
+from schieber.game import Game, get_player_index
+from schieber.team import Team
 
 
 @pytest.mark.parametrize("start_key, last_key", [

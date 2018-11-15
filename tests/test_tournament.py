@@ -1,6 +1,6 @@
 import pytest
-from pyschieber.player.random_player import RandomPlayer
-from pyschieber.tournament import Tournament
+from schieber.player.random_player import RandomPlayer
+from schieber.tournament import Tournament
 
 
 @pytest.fixture(scope='module')

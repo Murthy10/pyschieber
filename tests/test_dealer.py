@@ -1,8 +1,8 @@
 import pytest
 
-from pyschieber.player.random_player import RandomPlayer
+from schieber.player.random_player import RandomPlayer
 
-from pyschieber.dealer import Dealer
+from schieber.dealer import Dealer
 
 
 @pytest.fixture(scope="function")

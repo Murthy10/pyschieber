@@ -1,8 +1,8 @@
 import pytest
 
-from pyschieber.suit import Suit
+from schieber.suit import Suit
 
-from pyschieber.card import Card, from_string_to_card
+from schieber.card import Card, from_string_to_card
 
 
 @pytest.fixture(scope='module')

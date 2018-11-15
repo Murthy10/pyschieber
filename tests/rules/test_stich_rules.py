@@ -1,12 +1,12 @@
 import pytest
 
-from pyschieber.rules.stich_rules import stich_rules, card_allowed, allowed_cards, is_trumpf_under, does_under_trumpf, \
+from schieber.rules.stich_rules import stich_rules, card_allowed, allowed_cards, is_trumpf_under, does_under_trumpf, \
     is_chosen_card_best_trumpf
-from pyschieber.trumpf import Trumpf
-from pyschieber.card import Card
-from pyschieber.player.random_player import RandomPlayer
-from pyschieber.stich import PlayedCard
-from pyschieber.suit import Suit
+from schieber.trumpf import Trumpf
+from schieber.card import Card
+from schieber.player.random_player import RandomPlayer
+from schieber.stich import PlayedCard
+from schieber.suit import Suit
 
 
 @pytest.fixture(scope="module", autouse=True)

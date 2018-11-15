@@ -1,7 +1,7 @@
 import pytest
 
-from pyschieber.player.random_player import RandomPlayer
-from pyschieber.team import Team
+from schieber.player.random_player import RandomPlayer
+from schieber.team import Team
 
 
 @pytest.mark.parametrize("points, point_limit, won", [
