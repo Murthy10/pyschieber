@@ -6,11 +6,12 @@ from pyschieber.rules.stich_rules import allowed_cards
 
 
 class BasePlayer:
-    def __init__(self, name='unknown'):
+    def __init__(self, name='unknown', seed=None):
         self.name = name
         self.cards = []
         self.trumpf_list = list(Trumpf)
         self.id = None
+        self.seed = seed
 
     def get_dict(self):
         """
