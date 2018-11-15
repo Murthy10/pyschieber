@@ -42,6 +42,7 @@ class ChallengePlayer(BasePlayer):
         while not allowed:
             card = self.strategy.choose_card(cards, state, self.role)
             if not isinstance(card, Card):
+                random.seed(self.seed)
                 card = random.choice(cards)
             allowed = yield card
             if allowed:

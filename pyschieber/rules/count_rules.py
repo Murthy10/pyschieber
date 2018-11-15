@@ -15,6 +15,13 @@ for trumpf in filter(lambda x: x != Trumpf.OBE_ABE and x != Trumpf.UNDE_UFE and 
 
 
 def count_stich(cards, trumpf, last=False):
+    """
+    Counts the points of a stich based on the rules of Jassen
+    :param cards:
+    :param trumpf:
+    :param last:
+    :return:
+    """
     points = 0 if not last else 5
     for card in cards:
         if trumpf == Trumpf.OBE_ABE or trumpf == Trumpf.UNDE_UFE or card.suit.name == trumpf.name:

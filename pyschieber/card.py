@@ -4,6 +4,9 @@ from pyschieber.suit import Suit
 
 
 class Card:
+    """
+    Defines a card used in the game of Jassen.
+    """
     names = {6: '6', 7: '7', 8: '8', 9: '9', 10: 'Banner', 11: 'Under', 12: 'Ober', 13: 'Koennig', 14: 'Ass'}
     trumpf_rank = {6: 6, 7: 7, 8: 8, 10: 10, 12: 12, 13: 13, 14: 14, 9: 15, 11: 16}
     format_string = '<{0}:{1}>'
@@ -47,6 +50,11 @@ class Card:
 
 
 def from_string_to_card(card_string):
+    """
+    Converts a string representation of a card back to a card object.
+    :param card_string:
+    :return:
+    """
     regex = re.sub(r'{(.+?)}', r'(?P<_\1>.+)', Card.format_string)
     values = list(re.search(regex, card_string).groups())
     suit = Suit[values[0]]
