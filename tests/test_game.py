@@ -47,9 +47,6 @@ def test_reset_points():
     game = Game(teams=teams, point_limit=1500)
     game.play()
 
-    for team in game.teams:
-        assert team.points > 0
-
     game.reset_points()
 
     for team in game.teams:
