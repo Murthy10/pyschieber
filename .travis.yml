@@ -20,4 +20,5 @@ deploy:
   on:
     branch: master
     python: '3.6'
+    # tags: true # only deploys it when the commit is tagged
   skip_existing: true
