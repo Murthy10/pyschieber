@@ -1,28 +1,28 @@
-[![Build Status](https://travis-ci.org/Murthy10/pyschieber.svg?branch=master)](https://travis-ci.org/Murthy10/pyschieber)
+[![Build Status](https://travis-ci.org/JoelNiklaus/schieber.svg?branch=master)](https://travis-ci.org/JoelNiklaus/schieber)
 <a href="url"><img src="/docs/images/jasskarten.gif" align="right" width="300" ></a>
-# pyschieber
-Pyschieber is an implementation of the well known Swiss Schieber Jass game.
+# schieber
+Schieber is an implementation of the well known Swiss Schieber Jass game.
 
 As OpenAI Gym provides APIs for several popular games to learn your algorithms master these games.
-Pyschieber aims to offer an API in the same manner.
+Schieber aims to offer an API in the same manner.
 
 
 
 ## Usage
-To install pyschieber, simply:
+To install schieber, simply:
 ```bash
-pip install pyschieber
+pip install schieber
 
 ```
-pyschieber officially supports Python 3.4, 3.5, 3.6, 3.7, 3.5-dev, 3.6-dev, 3.7-dev, nightly and PyPy3.
+schieber officially supports Python 3.4, 3.5, 3.6, 3.7, 3.5-dev, 3.6-dev, 3.7-dev, nightly and PyPy3.
 
 ### CLI :computer:
-Beside of the API, pyschieber provides a CLI client to play the funny Scheiber Jass game.
+Beside of the API, schieber provides a CLI client to play the funny Scheiber Jass game.
 Currently your opponent will be a bot choosing a random card.
 
-After the pip installation you could run the ```pyschieber``` command on the console to play a game:
+After the pip installation you could run the ```schieber``` command on the console to play a game:
 ```bash
-$ pyschieber
+$ schieber
 Tournament starts, the goal are 1500 points.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Round 1 starts.
@@ -56,9 +56,9 @@ Please chose the trumpf by the number from 0 to 6:
 
 ### Jass Challenge
 The usage of a CLI to play Schieber Jass could be boring.
-Therefore pyschieber provides a wrapper for your bots to play on the Zühlke Jass Server.
+Therefore schieber provides a wrapper for your bots to play on the Zühlke Jass Server.
 
-The [ServerPlayer](schieber/player/server_player/server_player.py) takes a pyschieber conform player
+The [ServerPlayer](schieber/player/server_player/server_player.py) takes a schieber conform player
 An example how to launch is provide under [Server Launcher](schieber/example/server_launcher.py). 
 
 For further information have a look at: 
@@ -66,24 +66,24 @@ For further information have a look at:
 *  https://github.com/jakeret/elbotto
 
 ## API :clipboard:
-The idea of pyschieber is to extend the game with your own implemented player.
-Henc schieber provides entry points to fulfill this requirement.
+The idea of schieber is to extend the game with your own implemented player.
+Hence schieber provides entry points to fulfill this requirement.
 
-## Environemnt introduction
-To get a first feeling for the pyschieber playground let's have a look at a runable example.
+## Environment introduction
+To get a first feeling for the schieber playground let's have a look at a runable example.
 
 
 1. The first thing you have to do, is to instantiate a new Tournament.
 ```python
-from pyschieber.tournament import Tournament  
+from schieber.tournament import Tournament  
 
 tournament = Tournament(point_limit=1500)
 ```
 
 2. Add the players to your tournament. In our example we use the erratic RandomPlayers Tick, Trick, Track and the GreedyPlayer Dagobert.
 ```python
-from pyschieber.player.random_player import RandomPlayer
-from pyschieber.player.greedy_player.greedy_player import GreedyPlayer
+from schieber.player.random_player import RandomPlayer
+from schieber.player.greedy_player.greedy_player import GreedyPlayer
 
 
 players = [RandomPlayer(name='Tick'), RandomPlayer(name='Trick'), 
@@ -117,8 +117,8 @@ To get more familiar with this concept let's have a look at the already mentione
 ```python
 import random
 
-from pyschieber.player.base_player import BasePlayer
-from pyschieber.trumpf import Trumpf
+from schieber.player.base_player import BasePlayer
+from schieber.trumpf import Trumpf
 
 
 class RandomPlayer(BasePlayer):
