@@ -21,6 +21,7 @@ class WebSocketHandler:
                     message = await websocket.recv()
                 except websockets.exceptions.ConnectionClosed:
                     self.started = False
+                    logger.debug("Stopped, because connection is closed.")
                     break
                 logger.debug("Received message {}".format(message))
                 payload = json.loads(message)

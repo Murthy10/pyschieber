@@ -150,3 +150,4 @@ Now you should be ready to get your hands dirty to implement your own player and
 * Add Wiesen to the game
 * Beautify the CLI :trollface:
 * Provide a simple network player
+* Implement Matschbonus!

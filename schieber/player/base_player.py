@@ -10,7 +10,7 @@ class BasePlayer:
         self.name = name
         self.cards = []
         self.trumpf_list = list(Trumpf)
-        self.id = None
+        self.id = name
         self.seed = seed
 
     def get_dict(self):

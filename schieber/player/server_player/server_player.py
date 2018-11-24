@@ -269,4 +269,4 @@ class ServerPlayer:
         self.stiche.append(stich)
 
     def is_max_game_reached(self):
-        return self.max_games >= 0 and self.max_games <= self.count_games
+        return 0 <= self.max_games <= self.count_games
