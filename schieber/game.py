@@ -160,10 +160,15 @@ class Game:
         - the teams
         :return:
         """
-        return dict(stiche=[stich_dict(stich) for stich in self.stiche], trumpf=self.trumpf.name,
-                    geschoben=self.geschoben, point_limit=self.point_limit,
-                    table=[played_card_dict(played_card) for played_card in self.cards_on_table],
-                    teams=[dict(points=team.points) for team in self.teams])
+        return dict(
+            stiche=[stich_dict(stich) for stich in self.stiche],
+            trumpf=self.trumpf.name,
+            geschoben=self.geschoben,
+            point_limit=self.point_limit,
+            table=[played_card_dict(played_card) for played_card in self.cards_on_table],
+            teams=[dict(points=team.points) for team in self.teams],
+            is_over=self.is_over
+        )
 
     def reset_points(self):
         """
