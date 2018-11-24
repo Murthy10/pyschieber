@@ -49,6 +49,23 @@ class Card:
             return self.value
 
 
+def from_card_to_tuple(card):
+    return card.suit.value, card.value - 6
+
+
+def from_tuple_to_card(card_tuple):
+    return Card(suit=Suit(card_tuple[0]), value=card_tuple[1] + 6)
+
+
+def from_string_to_tuple(card_string):
+    card = from_string_to_card(card_string)
+    return from_card_to_tuple(card)
+
+def from_tuple_to_string(card_tuple):
+    card = from_tuple_to_card(card_tuple)
+    return str(card)
+
+
 def from_string_to_card(card_string):
     """
     Converts a string representation of a card back to a card object.
