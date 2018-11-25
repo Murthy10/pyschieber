@@ -81,6 +81,7 @@ class ExternalPlayer(BasePlayer):
     def choose_card(self, state=None):
         self.observation_received.acquire()
         self.observation = state
+        self.observation["cards"] = self.cards
         self.observation_received.notify()
         self.observation_received.release()
 
