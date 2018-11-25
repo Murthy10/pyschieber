@@ -1,10 +1,9 @@
-import re
-
 from pyschieber.suit import Suit
 
 
 class Card:
     names = {6: '6', 7: '7', 8: '8', 9: '9', 10: 'Banner', 11: 'Under', 12: 'Ober', 13: 'Koennig', 14: 'Ass'}
+    values = {v: k for k, v in names.items()}
     trumpf_rank = {6: 6, 7: 7, 8: 8, 10: 10, 12: 12, 13: 13, 14: 14, 9: 15, 11: 16}
     format_string = '<{0}:{1}>'
 
@@ -46,13 +45,15 @@ class Card:
             return self.value
 
 
-def from_string_to_card(card_string):
-    regex = re.sub(r'{(.+?)}', r'(?P<_\1>.+)', Card.format_string)
-    values = list(re.search(regex, card_string).groups())
-    suit = Suit[values[0]]
-    card_value = ''
-    for key, value in Card.names.items():
-        if value == values[1]:
-            card_value = key
-            break
-    return Card(suit=suit, value=card_value)
+def from_string_to_card(card_string: str):
+    # Remove surrounding "<" and ">"
+    card_string = card_string[1:-1]
+
+    # Split into suit and value part
+    suit_name, value_name = card_string.split(':')
+
+    # Convert strings to actual types
+    card_suit = Suit[suit_name]
+    card_value = Card.values[value_name]
+
+    return Card(suit=card_suit, value=card_value)
