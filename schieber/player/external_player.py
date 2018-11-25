@@ -64,7 +64,7 @@ class ExternalPlayer(BasePlayer):
         self.action_received.acquire()
         self.action = await websocket.recv()
         self.action = jsonpickle.decode(self.action)
-        logger.debug("async received action:", self.action)
+        logger.debug(f"async received action: {self.action}")
         self.action_received.notify()
         self.action_received.release()
 
@@ -73,7 +73,7 @@ class ExternalPlayer(BasePlayer):
         # only wait when it not before the first stich
         if wait:
             self.observation_received.wait()
-        logger.debug("async received observation", self.observation)
+        logger.debug(f"async received observation: {self.observation}")
         await websocket.send(jsonpickle.encode(self.observation))
         logger.debug("async sent observation")
         self.observation_received.release()
@@ -85,15 +85,15 @@ class ExternalPlayer(BasePlayer):
         self.observation_received.notify()
         self.observation_received.release()
 
-        logger.debug("choose received observation", self.observation)
+        logger.debug(f"choose received observation: {self.observation}" )
         self.action_received.acquire()
         self.action_received.wait()
-        logger.debug("choose received action", self.action)
+        logger.debug(f"choose received action: {self.action}")
         allowed_cards = self.allowed_cards(state=state)
-        if self.action["chosen_card"] is not None:
-            if self.action["chosen_card"] in allowed_cards:
-                logger.info("Successfully chose the card ", self.action["chosen_card"])
-                allowed = yield self.action["chosen_card"]
+        if self.action is not None:
+            if self.action in allowed_cards:
+                logger.info(f"Successfully chose the card: {self.action}")
+                allowed = yield self.action
                 if allowed:
                     yield None
             else:
