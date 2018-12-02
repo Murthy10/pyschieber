@@ -28,83 +28,20 @@ class ExternalPlayer(BasePlayer):
         rl methods which are already implemented (openai baselines: https://github.com/openai/baselines).
     """
 
-    def __init__(self, name='unknown', seed=None, hostname='localhost', port='8765'):
+    def __init__(self, name='unknown', seed=None):
         super().__init__(name, seed)
         self.action_received = Condition()
         self.observation_received = Condition()
-        self.sent_initial_observation = False
+
         self.action = {}
         self.observation = {}
 
-        self.hostname = hostname
-        self.port = port
-
-
-        # start the server in a new thread
-        new_loop = asyncio.new_event_loop()
-        thread = Thread(target=self.start_server, args=(new_loop,))
-        thread.start()
-        print("init finished")
-
-    async def start(self, stop):
-        print("start server")
-        async with websockets.serve(self.receive_action_and_send_observation, self.hostname, self.port):
-            print("running")
-            await stop
-
-    def start_server(self, event_loop=None):
-        asyncio.set_event_loop(event_loop)
-        # use this in case you want to supply the method with parameters
-        # bound_handler = functools.partial(self.receive_action_and_send_observation)
-        start_server = websockets.serve(self.receive_action_and_send_observation, self.hostname, self.port)
-        event_loop.run_until_complete(start_server)
-        event_loop.run_forever()
-
-    async def receive_action_and_send_observation(self, websocket, path):
-        print("receive")
-        # At the beginning of each game: wait for rl player to request the initial observation.
-        # This can only be done once!
-        if self.before_first_stich() and not self.sent_initial_observation:
-            self.sent_initial_observation = True
-            await self.send_observation(websocket, wait=False)
-        else:
-            await self.receive_action(websocket)
-            await self.send_observation(websocket)
-
-    async def receive_action(self, websocket):
-        self.action_received.acquire()
-        self.action = await websocket.recv()
-        self.action = jsonpickle.decode(self.action)
-        logger.debug(f"async received action: {self.action}")
-        self.action_received.notify()
-        self.action_received.release()
-
-    async def send_observation(self, websocket, wait=True):
-        self.observation_received.acquire()
-        # only wait when it not before the first stich
-        if wait:
-            self.observation_received.wait()
-        logger.debug(f"async received observation: {self.observation}")
-        await websocket.send(jsonpickle.encode(self.observation))
-        logger.debug("async sent observation")
-        self.observation_received.release()
-
-    def get_observation(self, wait=True):
-        self.observation_received.acquire()
-        # only wait when it not before the first stich
-        if wait:
-            self.observation_received.wait()
-        observation = self.observation
-        logger.debug(f"get observation {observation}")
-        self.observation_received.release()
-        return observation
-
-    def set_action(self, action):
-        self.action_received.acquire()
-        self.action = action
-        logger.debug(f"set action: {self.action}")
-        self.action_received.notify()
-        self.action_received.release()
+    def choose_trumpf(self, geschoben):
+        allowed = False
+        while not allowed:
+            allowed = yield Trumpf.OBE_ABE  # always choose obe abe for now
+            if allowed:
+                yield None
 
     def choose_card(self, state=None):
         self.observation_received.acquire()
@@ -134,12 +71,22 @@ class ExternalPlayer(BasePlayer):
 
         self.action_received.release()
 
-    def choose_trumpf(self, geschoben):
-        allowed = False
-        while not allowed:
-            allowed = yield Trumpf.OBE_ABE  # always choose obe abe for now
-            if allowed:
-                yield None
+    def get_observation(self, wait=True):
+        self.observation_received.acquire()
+        # only wait when not before the first stich
+        if wait:
+            self.observation_received.wait()
+        observation = self.observation
+        logger.debug(f"get observation {observation}")
+        self.observation_received.release()
+        return observation
+
+    def set_action(self, action):
+        self.action_received.acquire()
+        self.action = action
+        logger.debug(f"set action: {self.action}")
+        self.action_received.notify()
+        self.action_received.release()
 
     def before_first_stich(self):
         return len(self.cards) == 9
