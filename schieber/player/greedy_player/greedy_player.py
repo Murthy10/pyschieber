@@ -8,7 +8,8 @@ class GreedyPlayer(BasePlayer):
         allowed = False
         while not allowed:
             trumpf, _ = choose_trumpf(cards=self.cards, geschoben=geschoben)
-            allowed = yield trumpf
+            # allowed = yield trumpf
+            allowed = yield Trumpf.OBE_ABE  # always choose obe abe for now
             if allowed:
                 yield None
 
