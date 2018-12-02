@@ -1,8 +1,10 @@
+import time
+
 import jsonpickle
 import logging
 import asyncio
 from multiprocessing import Condition
-from threading import Thread
+from threading import Thread, Event
 
 import websockets
 
@@ -37,12 +39,20 @@ class ExternalPlayer(BasePlayer):
         self.hostname = hostname
         self.port = port
 
+
         # start the server in a new thread
         new_loop = asyncio.new_event_loop()
         thread = Thread(target=self.start_server, args=(new_loop,))
         thread.start()
+        print("init finished")
 
-    def start_server(self, event_loop):
+    async def start(self, stop):
+        print("start server")
+        async with websockets.serve(self.receive_action_and_send_observation, self.hostname, self.port):
+            print("running")
+            await stop
+
+    def start_server(self, event_loop=None):
         asyncio.set_event_loop(event_loop)
         # use this in case you want to supply the method with parameters
         # bound_handler = functools.partial(self.receive_action_and_send_observation)
@@ -51,6 +61,7 @@ class ExternalPlayer(BasePlayer):
         event_loop.run_forever()
 
     async def receive_action_and_send_observation(self, websocket, path):
+        print("receive")
         # At the beginning of each game: wait for rl player to request the initial observation.
         # This can only be done once!
         if self.before_first_stich() and not self.sent_initial_observation:
@@ -78,6 +89,23 @@ class ExternalPlayer(BasePlayer):
         logger.debug("async sent observation")
         self.observation_received.release()
 
+    def get_observation(self, wait=True):
+        self.observation_received.acquire()
+        # only wait when it not before the first stich
+        if wait:
+            self.observation_received.wait()
+        observation = self.observation
+        logger.debug(f"get observation {observation}")
+        self.observation_received.release()
+        return observation
+
+    def set_action(self, action):
+        self.action_received.acquire()
+        self.action = action
+        logger.debug(f"set action: {self.action}")
+        self.action_received.notify()
+        self.action_received.release()
+
     def choose_card(self, state=None):
         self.observation_received.acquire()
         self.observation = state
@@ -85,7 +113,7 @@ class ExternalPlayer(BasePlayer):
         self.observation_received.notify()
         self.observation_received.release()
 
-        logger.debug(f"choose received observation: {self.observation}" )
+        logger.debug(f"choose received observation: {self.observation}")
         self.action_received.acquire()
         self.action_received.wait()
         logger.debug(f"choose received action: {self.action}")
@@ -97,7 +125,7 @@ class ExternalPlayer(BasePlayer):
                 if allowed:
                     yield None
             else:
-                logger.error("Please choose a valid card! Choosing the first allowed card now.")
+                logger.error(f"{self.action} is not a valid card! Choosing the first allowed card now.")
                 allowed = yield allowed_cards[0]
                 if allowed:
                     yield None

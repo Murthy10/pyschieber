@@ -95,31 +95,37 @@ def from_string_to_index(card_string):
 
 
 def from_index_to_string(card_index):
-    """
-    The index is a number between 1 and 36 representing a card in the following way:
-    SUIT    6   7   8   9   Banner  Under   Ober    Koennig Ass
-    ROSE    1   2   3   4   5       6       7       8       9
-    BELL    10  11  12  13  14      15      16      17      18
-    ACORN   19  20  21  22  23      24      25      26      27
-    SHIELD  28  29  30  31  32      33      34      35      36
-    :param card_index:
-    :return:
-    """
     card = from_index_to_card(card_index)
     return from_card_to_string(card)
 
 
 def from_index_to_card(card_index):
-    return Card(suit=Suit(get_suit(card_index)), value=get_value(card_index))
+    """
+        The index is a number between 1 and 36 representing a card in the following way:
+        SUIT    6   7   8   9   Banner  Under   Ober    Koennig Ass
+        ROSE    1   2   3   4   5       6       7       8       9
+        BELL    10  11  12  13  14      15      16      17      18
+        ACORN   19  20  21  22  23      24      25      26      27
+        SHIELD  28  29  30  31  32      33      34      35      36
+        An index of 0 denotes an empty Card --> None
+        :param card_index:
+        :return:
+        """
+    assert 0 <= card_index <= 36
+    if card_index == 0:
+        return None
+    return Card(suit=Suit(_get_suit(card_index)), value=_get_value(card_index))
 
 
 def from_card_to_index(card):
+    if card is None:
+        return 0
     return card.value + card.suit.value * 9 - 5
 
 
-def get_suit(card_index):
-    return int(math.floor(card_index / 9.0))
+def _get_suit(card_index):
+    return int(math.floor(card_index / 9.1))
 
 
-def get_value(card_index):
-    return card_index - get_suit(card_index) * 9 + 5
+def _get_value(card_index):
+    return card_index - _get_suit(card_index) * 9 + 5
