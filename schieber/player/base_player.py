@@ -38,14 +38,18 @@ class BasePlayer:
         pass
 
     def allowed_cards(self, state):
+        return self.allowed_cards_with_hand_cards(state, self.cards)
+
+    def allowed_cards_with_hand_cards(self, state, hand_cards):
         """
         Returns the cards on the hand of the player which he/she is allowed to play in the current state
+        :param hand_cards:
         :param state:
         :return:
         """
         table_cards = [from_string_to_card(entry['card']) for entry in state['table']]
         trumpf = Trumpf[state['trumpf']]
-        return allowed_cards(hand_cards=self.cards, table_cards=table_cards, trumpf=trumpf)
+        return allowed_cards(hand_cards=hand_cards, table_cards=table_cards, trumpf=trumpf)
 
     def __str__(self):
         return '<Player:{}>'.format(self.name)
