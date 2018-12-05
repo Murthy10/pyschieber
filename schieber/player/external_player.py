@@ -50,7 +50,9 @@ class ExternalPlayer(BasePlayer):
         self.observation_received.release()
 
         self.action_received.acquire()
-        self.action_received.wait()
+        received = self.action_received.wait()
+        if not received:
+            logger.debug("Timeout occurred. action_received condition has not been notified.")
         logger.debug(f"choose_card received action: {self.action}")
         allowed_cards = self.allowed_cards(state=state)
         chosen_card = allowed_cards[0]  # set chosen_card to the first allowed card in case anything goes south
@@ -87,7 +89,9 @@ class ExternalPlayer(BasePlayer):
         self.observation_received.acquire()
         # do not wait before the first stich
         if wait:
-            self.observation_received.wait(0.01)
+            received = self.observation_received.wait(0.01)
+            if not received:
+                logger.debug("Timeout occurred. observation_received condition has not been notified.")
         observation = self.observation
         logger.debug(f"get observation {observation}")
         self.observation_received.release()

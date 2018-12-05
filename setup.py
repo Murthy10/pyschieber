@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='schieber',
-    version='0.1.6',
+    version='0.1.7',
     description='Schieber is a terminal application of the popular swiss card game Schieber and provides an API to the game',
     long_description=open('README.md', "r").read(),
     long_description_content_type="text/markdown",

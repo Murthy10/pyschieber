@@ -43,8 +43,12 @@ class Game:
                 self.endless_play_control.acquire()
                 # timeout in case something goes wrong in the reset, or reset is not called for any reason.
                 # In the normal case we just want to continue playing
-                self.endless_play_control.wait(0.01)
-                logger.debug("endless play received control message")
+                received = self.endless_play_control.wait(0.01)
+                if received:
+                    logger.debug("endless play received control message")
+                else:
+                    logger.debug(
+                        "endless play did not receive control message! Timeout occurred. Endless play resuming.")
                 if self.stop_playing:
                     logger.debug("stopping endless play")
                     break
