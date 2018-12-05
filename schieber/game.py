@@ -23,6 +23,18 @@ class Game:
         self.use_counting_factor = use_counting_factor
         self.seed = seed
 
+    def play_endless(self, start_player_index=0, whole_rounds=True):
+        """
+        Plays one game after the other with no end. This can be used for training a RL Player. Like this we can reuse
+        one game. When we are training with tournaments, each time we play a game, it is added to the list of games.
+        This could result in very high unneeded memory usage.
+        :param start_player_index:
+        :param whole_rounds:
+        :return:
+        """
+        while True:
+            self.play(start_player_index, whole_rounds)
+
     def play(self, start_player_index=0, whole_rounds=False):
         """
         Plays a game from the start to the end in the following manner:
