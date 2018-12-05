@@ -71,7 +71,7 @@ class ExternalPlayer(BasePlayer):
         self.observation_received.acquire()
         # do not wait before the first stich
         if wait:
-            self.observation_received.wait()
+            self.observation_received.wait(0.1)
         observation = self.observation
         logger.debug(f"get observation {observation}")
         self.observation_received.release()
