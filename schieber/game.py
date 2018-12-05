@@ -22,6 +22,7 @@ class Game:
         self.cards_on_table = []
         self.use_counting_factor = use_counting_factor
         self.seed = seed
+        self.playing = True  # used to control the termination of the play_endless method
 
     def play_endless(self, start_player_index=0, whole_rounds=True):
         """
@@ -32,8 +33,17 @@ class Game:
         :param whole_rounds:
         :return:
         """
-        while True:
+        while self.playing:
+            self.reset()
             self.play(start_player_index, whole_rounds)
+
+    def reset(self):
+        """
+        Resets the game so that a new game can be started. Used in the endless mode
+        :return:
+        """
+        self.reset_points()
+        self.stiche = []
 
     def play(self, start_player_index=0, whole_rounds=False):
         """
