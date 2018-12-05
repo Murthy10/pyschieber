@@ -37,6 +37,11 @@ class ExternalPlayer(BasePlayer):
                 yield None
 
     def choose_card(self, state=None):
+        """
+        Chooses the card and verifies if the chosen card is allowed to be played in the current game state.
+        :param state:
+        :return:
+        """
         self.observation_received.acquire()
         self.observation = state
         self.observation["cards"] = self.cards
@@ -57,6 +62,12 @@ class ExternalPlayer(BasePlayer):
             yield None
 
     def set_chosen_card(self, allowed_cards, chosen_card):
+        """
+        Sets the chosen card based on the action of the RL player.
+        :param allowed_cards:
+        :param chosen_card:
+        :return:
+        """
         if self.action is not None:
             if self.action in allowed_cards:
                 logger.info(f"Successfully chose the card: {self.action}")
@@ -68,16 +79,26 @@ class ExternalPlayer(BasePlayer):
         return chosen_card
 
     def get_observation(self, wait=True):
+        """
+        Gets the observation obtained by the game
+        :param wait:
+        :return:
+        """
         self.observation_received.acquire()
         # do not wait before the first stich
         if wait:
-            self.observation_received.wait(0.1)
+            self.observation_received.wait(0.01)
         observation = self.observation
         logger.debug(f"get observation {observation}")
         self.observation_received.release()
         return observation
 
     def set_action(self, action):
+        """
+        Sets the action chosen by the RL player
+        :param action:
+        :return:
+        """
         self.action_received.acquire()
         self.action = action
         logger.debug(f"set action: {self.action}")
@@ -85,4 +106,8 @@ class ExternalPlayer(BasePlayer):
         self.action_received.release()
 
     def before_first_stich(self):
+        """
+        Checks if the player has already played any cards in this game
+        :return:
+        """
         return len(self.cards) == 9
