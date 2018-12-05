@@ -1,12 +1,5 @@
-import time
-
-import jsonpickle
 import logging
-import asyncio
 from multiprocessing import Condition
-from threading import Thread, Event
-
-import websockets
 
 from schieber.player.base_player import BasePlayer
 from schieber.trumpf import Trumpf

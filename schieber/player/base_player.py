@@ -42,7 +42,7 @@ class BasePlayer:
 
     def allowed_cards_with_hand_cards(self, state, hand_cards):
         """
-        Returns the cards on the hand of the player which he/she is allowed to play in the current state
+        Returns the cards on the hand of the player which he/she is allowed to play in the current state according to the rules
         :param hand_cards:
         :param state:
         :return:
