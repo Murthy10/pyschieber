@@ -40,33 +40,36 @@ class ExternalPlayer(BasePlayer):
         self.observation_received.acquire()
         self.observation = state
         self.observation["cards"] = self.cards
-        self.observation_received.notify()
+        logger.debug(f"choose_card received observation: {self.observation}")
+        self.observation_received.notify_all()  # notify all threads to be sure
         self.observation_received.release()
 
-        logger.debug(f"choose received observation: {self.observation}")
         self.action_received.acquire()
         self.action_received.wait()
-        logger.debug(f"choose received action: {self.action}")
+        logger.debug(f"choose_card received action: {self.action}")
         allowed_cards = self.allowed_cards(state=state)
+        chosen_card = allowed_cards[0]  # set chosen_card to the first allowed card in case anything goes south
+        chosen_card = self.set_chosen_card(allowed_cards, chosen_card)
+        self.action_received.release()
+
+        allowed = yield chosen_card
+        if allowed:
+            yield None
+
+    def set_chosen_card(self, allowed_cards, chosen_card):
         if self.action is not None:
             if self.action in allowed_cards:
                 logger.info(f"Successfully chose the card: {self.action}")
-                allowed = yield self.action
-                if allowed:
-                    yield None
+                chosen_card = self.action
             else:
                 logger.error(f"{self.action} is not a valid card! Choosing the first allowed card now.")
-                allowed = yield allowed_cards[0]
-                if allowed:
-                    yield None
         else:
             logger.debug("chosen card is None")
-
-        self.action_received.release()
+        return chosen_card
 
     def get_observation(self, wait=True):
         self.observation_received.acquire()
-        # only wait when not before the first stich
+        # do not wait before the first stich
         if wait:
             self.observation_received.wait()
         observation = self.observation
@@ -78,7 +81,7 @@ class ExternalPlayer(BasePlayer):
         self.action_received.acquire()
         self.action = action
         logger.debug(f"set action: {self.action}")
-        self.action_received.notify()
+        self.action_received.notify_all()  # notify all threads to be sure
         self.action_received.release()
 
     def before_first_stich(self):
