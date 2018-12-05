@@ -1,4 +1,5 @@
 import logging
+from multiprocessing import Condition
 
 from schieber.dealer import Dealer
 from schieber.rules.stich_rules import stich_rules, card_allowed
@@ -22,7 +23,8 @@ class Game:
         self.cards_on_table = []
         self.use_counting_factor = use_counting_factor
         self.seed = seed
-        self.playing = True  # used to control the termination of the play_endless method
+        self.endless_play_control = Condition()  # used to control the termination of the play_endless method
+        self.stop_playing = False  # has to be set to true in order to stop the endless play
 
     def play_endless(self, start_player_index=0, whole_rounds=True):
         """
@@ -33,9 +35,21 @@ class Game:
         :param whole_rounds:
         :return:
         """
-        while self.playing:
-            self.reset()
+        while True:
+            logger.debug("start playing game")
             self.play(start_player_index, whole_rounds)
+            logger.debug("game finished")
+            try:
+                self.endless_play_control.acquire()
+                self.endless_play_control.wait()
+                logger.debug("endless play received control message")
+                if self.stop_playing:
+                    logger.debug("stopping endless play")
+                    break
+            finally:
+                self.endless_play_control.release()
+            logger.debug("reset game")
+            self.reset()
 
     def reset(self):
         """
