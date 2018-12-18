@@ -1,6 +1,8 @@
 import math
 import re
 
+import numpy as np
+
 from schieber.suit import Suit
 
 
@@ -121,6 +123,31 @@ def from_card_to_index(card):
     if card is None:
         return 0
     return card.value + card.suit.value * 9 - 5
+
+
+def from_card_to_onehot(card):
+    suit_onehot = 4 * [0]
+    suit_onehot[card.suit.value] = 1
+    value_onehot = 9 * [0]
+    value_onehot[card.value - 6] = 1
+    return suit_onehot + value_onehot
+
+
+def from_onehot_to_card(card_onehot):
+    ones = np.where(np.array(card_onehot) == 1)[0]  # gets the indices where there is a one in the vector
+    suit = ones[0]  # suit encoded in the first 4 bits (index 0 to 3)
+    value = ones[1] - 4 + 6  # value encoded in the following 9 bits (index 4 to 12)
+    return Card(Suit(suit), value)
+
+
+def from_onehot_to_string(card_onehot):
+    card = from_onehot_to_card(card_onehot)
+    return from_card_to_string(card)
+
+
+def from_string_to_onehot(card_string):
+    card = from_string_to_card(card_string)
+    return from_card_to_onehot(card)
 
 
 def _get_suit(card_index):
