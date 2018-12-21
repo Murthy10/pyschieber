@@ -52,6 +52,8 @@ class Card:
             return self.value
 
 
+# TODO transform these methods to @staticmethod in order to eliminate unnecessarily long imports
+
 def from_card_to_string(card):
     return str(card)
 

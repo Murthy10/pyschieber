@@ -42,6 +42,9 @@ class ExternalPlayer(BasePlayer):
         :param state:
         :return:
         """
+        # if self.at_last_stich():
+        #    allowed = yield self.cards[0]
+        # else:
         self.observation_received.acquire()
         self.observation = state
         self.observation["cards"] = self.cards
@@ -60,6 +63,7 @@ class ExternalPlayer(BasePlayer):
         self.action_received.release()
 
         allowed = yield chosen_card
+
         if allowed:
             yield None
 
@@ -80,20 +84,17 @@ class ExternalPlayer(BasePlayer):
             logger.debug("chosen card is None")
         return chosen_card
 
-    def get_observation(self, wait=True):
+    def get_observation(self):
         """
         Gets the observation obtained by the game
-        :param wait:
         :return:
         """
         self.observation_received.acquire()
-        # do not wait before the first stich
-        if wait:
-            received = self.observation_received.wait(0.01)
-            if not received:
-                logger.debug("Timeout occurred. observation_received condition has not been notified.")
+        received = self.observation_received.wait(0.01)
+        if not received:
+            print("Timeout occurred. observation_received condition has not been notified.")
         observation = self.observation
-        logger.debug(f"get observation {observation}")
+        logger.debug(f"get_observation {observation}")
         self.observation_received.release()
         return observation
 
@@ -103,9 +104,11 @@ class ExternalPlayer(BasePlayer):
         :param action:
         :return:
         """
+        if self.hand_empty():
+            logger.error("set_action: There are no cards on my hand, so I cannot choose any card!")
         self.action_received.acquire()
         self.action = action
-        logger.debug(f"set action: {self.action}")
+        logger.debug(f"set_action: {self.action}")
         self.action_received.notify_all()  # notify all threads to be sure
         self.action_received.release()
 
@@ -115,3 +118,17 @@ class ExternalPlayer(BasePlayer):
         :return:
         """
         return len(self.cards) == 9
+
+    def at_last_stich(self):
+        """
+        Checks if the player is at the last stich where there is no choice anymore
+        :return:
+        """
+        return len(self.cards) == 1
+
+    def hand_empty(self):
+        """
+        Checks if the hand is empty or if there are any cards left.
+        :return:
+        """
+        return len(self.cards) == 0
