@@ -9,45 +9,45 @@ from tests.benchmarks.statistical_helper import run_statistics
 
 @pytest.mark.statistical
 def test_against_random():
-    players = [ModelPlayer(name='Model1'), RandomPlayer(name='Random1'), ModelPlayer(name='Model2'),
-               RandomPlayer(name='Random2')]
+    players = [ModelPlayer(name='ModelActor'), RandomPlayer(name='RandomOpponent1'),
+               ModelPlayer(name='ModelPartner'), RandomPlayer(name='RandomOpponent2')]
     run_statistics(players=players)
 
 
 @pytest.mark.statistical
 def test_with_and_against_random():
-    players = [ModelPlayer(name='Model1'), RandomPlayer(name='Random1'), RandomPlayer(name='RandomPartner'),
-               RandomPlayer(name='Random2')]
+    players = [ModelPlayer(name='ModelActor'), RandomPlayer(name='RandomOpponent1'),
+               RandomPlayer(name='RandomPartner'), RandomPlayer(name='RandomOpponent2')]
     run_statistics(players=players)
 
 
 @pytest.mark.statistical
 def test_against_greedy():
-    players = [ModelPlayer(name='Model1'), GreedyPlayer(name='Greedy1'), ModelPlayer(name='Model2'),
-               GreedyPlayer(name='Greedy2')]
+    players = [ModelPlayer(name='ModelActor'), GreedyPlayer(name='GreedyOpponent1'),
+               ModelPlayer(name='ModelPartner'), GreedyPlayer(name='GreedyOpponent2')]
 
     run_statistics(players=players)
 
 
 @pytest.mark.statistical
 def test_with_and_against_greedy():
-    players = [ModelPlayer(name='Model1'), GreedyPlayer(name='Greedy1'), GreedyPlayer(name='GreedyPartner'),
-               GreedyPlayer(name='Greedy2')]
+    players = [ModelPlayer(name='ModelActor'), GreedyPlayer(name='GreedyOpponent1'),
+               GreedyPlayer(name='GreedyPartner'), GreedyPlayer(name='GreedyOpponent2')]
 
     run_statistics(players=players)
 
 
 @pytest.mark.statistical
 def test_against_challenge():
-    players = [ModelPlayer(name='Model1'), ChallengePlayer(name='Challenge2'), ModelPlayer(name='Model2'),
-               ChallengePlayer(name='Challenge1')]
+    players = [ModelPlayer(name='ModelActor'), ChallengePlayer(name='ChallengeOpponent1'),
+               ModelPlayer(name='ModelPartner'), ChallengePlayer(name='ChallengeOpponent2')]
 
     run_statistics(players=players)
 
 
 @pytest.mark.statistical
 def test_with_and_against_challenge():
-    players = [ModelPlayer(name='Model1'), ChallengePlayer(name='Challenge1'), ChallengePlayer(name='ChallengePartner'),
-               ChallengePlayer(name='Challenge2')]
+    players = [ModelPlayer(name='ModelActor'), ChallengePlayer(name='ChallengeOpponent1'),
+               ChallengePlayer(name='ChallengePartner'), ChallengePlayer(name='ChallengeOpponent2')]
 
     run_statistics(players=players)
