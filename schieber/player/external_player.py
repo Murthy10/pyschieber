@@ -1,6 +1,8 @@
 import logging
 from multiprocessing import Condition
 
+from schieber.player.greedy_player.greedy_player import GreedyPlayer
+
 from schieber.player.challenge_player.challenge_player import ChallengePlayer
 
 from schieber.player.base_player import BasePlayer
@@ -9,7 +11,7 @@ from schieber.trumpf import Trumpf
 logger = logging.getLogger(__name__)
 
 
-class ExternalPlayer(ChallengePlayer):
+class ExternalPlayer(GreedyPlayer):
     """
     The RL player in the gym environment wants to initiate control by
         invoking the step() function. This step function sends an action, lets the environment simulate and then
