@@ -3,9 +3,7 @@ from timeit import default_timer as timer
 from schieber.tournament import Tournament
 
 
-def run_statistics(players, number_of_tournaments=10):
-    point_limit = 1000
-
+def run_statistics(players, number_of_tournaments=10, point_limit=1000):
     tournament = Tournament(point_limit=point_limit, seed=42)
     [tournament.register_player(player=player) for player in players]
 
@@ -24,7 +22,7 @@ def run_statistics(players, number_of_tournaments=10):
     end = timer()
     print("\nTo run {0} tournaments it took {1:.2f} seconds.".format(number_of_tournaments, end - start))
 
-    difference = abs(team_1_won - team_2_won)
+    difference = team_1_won - team_2_won
     print("Difference: ", difference)
     print("Team 1: ", team_1_won)
     print("Team 2: ", team_2_won)

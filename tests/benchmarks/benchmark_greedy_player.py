@@ -10,3 +10,10 @@ def test_against_random():
     players = [GreedyPlayer(name='Greedy1'), RandomPlayer(name='Random1'), GreedyPlayer(name='Greedy2'),
                RandomPlayer(name='Random2')]
     run_statistics(players=players)
+
+
+@pytest.mark.statistical
+def test_with_and_against_random():
+    players = [GreedyPlayer(name='Greedy1'), RandomPlayer(name='Random1'), RandomPlayer(name='RandomPartner'),
+               RandomPlayer(name='Random2')]
+    run_statistics(players=players)

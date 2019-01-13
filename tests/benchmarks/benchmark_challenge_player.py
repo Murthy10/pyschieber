@@ -15,8 +15,24 @@ def test_against_random():
 
 
 @pytest.mark.statistical
+def test_with_and_against_random():
+    players = [ChallengePlayer(name='Challenge1'), RandomPlayer(name='Random1'), RandomPlayer(name='RandomPartner'),
+               RandomPlayer(name='Random2')]
+
+    run_statistics(players=players)
+
+
+@pytest.mark.statistical
 def test_against_greedy():
     players = [ChallengePlayer(name='Challenge1'), GreedyPlayer(name='Greedy1'), ChallengePlayer(name='Challenge2'),
                GreedyPlayer(name='Greedy2')]
-    
+
+    run_statistics(players=players)
+
+
+@pytest.mark.statistical
+def test_with_and_against_greedy():
+    players = [ChallengePlayer(name='Challenge1'), GreedyPlayer(name='Greedy1'), GreedyPlayer(name='GreedyPartner'),
+               GreedyPlayer(name='Greedy2')]
+
     run_statistics(players=players)
