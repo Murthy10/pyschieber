@@ -1,5 +1,5 @@
 from schieber.player.base_player import BasePlayer
-from schieber.player.greedy_player.trumpf_decision import choose_trumpf
+from schieber.player.greedy_player import trumpf_decision
 from schieber.trumpf import Trumpf
 
 
@@ -7,9 +7,11 @@ class GreedyPlayer(BasePlayer):
     def choose_trumpf(self, geschoben):
         allowed = False
         while not allowed:
-            trumpf, _ = choose_trumpf(cards=self.cards, geschoben=geschoben)
-            # allowed = yield trumpf
-            allowed = yield Trumpf.OBE_ABE  # always choose obe abe for now
+            trumpf, _ = trumpf_decision.choose_trumpf(cards=self.cards, geschoben=geschoben)
+            if self.trumps == 'all':
+                allowed = yield trumpf
+            elif self.trumps == 'obe_abe':
+                allowed = yield Trumpf.OBE_ABE
             if allowed:
                 yield None
 

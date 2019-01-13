@@ -1,13 +1,15 @@
 import logging
 from multiprocessing import Condition
 
+from schieber.player.challenge_player.challenge_player import ChallengePlayer
+
 from schieber.player.base_player import BasePlayer
 from schieber.trumpf import Trumpf
 
 logger = logging.getLogger(__name__)
 
 
-class ExternalPlayer(BasePlayer):
+class ExternalPlayer(ChallengePlayer):
     """
     The RL player in the gym environment wants to initiate control by
         invoking the step() function. This step function sends an action, lets the environment simulate and then
@@ -21,20 +23,13 @@ class ExternalPlayer(BasePlayer):
         rl methods which are already implemented (openai baselines: https://github.com/openai/baselines).
     """
 
-    def __init__(self, name='unknown', seed=None):
-        super().__init__(name, seed)
+    def __init__(self, name='unknown', seed=None, trumps='all'):
+        super().__init__(name, seed, trumps)
         self.action_received = Condition()
         self.observation_received = Condition()
 
         self.action = {}
         self.observation = {}
-
-    def choose_trumpf(self, geschoben):
-        allowed = False
-        while not allowed:
-            allowed = yield Trumpf.OBE_ABE  # always choose obe abe for now
-            if allowed:
-                yield None
 
     def choose_card(self, state=None):
         """
@@ -46,8 +41,7 @@ class ExternalPlayer(BasePlayer):
         #    allowed = yield self.cards[0]
         # else:
         self.observation_received.acquire()
-        self.observation = state
-        self.observation["cards"] = self.cards
+        self.observation = self.build_observation(state, self.cards)
         logger.debug(f"choose_card received observation: {self.observation}")
         self.observation_received.notify_all()  # notify all threads to be sure
         self.observation_received.release()
@@ -66,6 +60,12 @@ class ExternalPlayer(BasePlayer):
 
         if allowed:
             yield None
+
+    @staticmethod
+    def build_observation(state, cards):
+        observation = state
+        observation["cards"] = cards
+        return observation
 
     def set_chosen_card(self, allowed_cards, chosen_card):
         """

@@ -6,12 +6,19 @@ from schieber.rules.stich_rules import allowed_cards
 
 
 class BasePlayer:
-    def __init__(self, name='unknown', seed=None):
+    def __init__(self, name='unknown', seed=None, trumps='all'):
+        """
+
+        :param name:
+        :param seed:
+        :param trumps: if 'all': no restriction on trumps available, if 'obe_abe': only OBE_ABE allowed
+        """
         self.name = name
         self.cards = []
         self.trumpf_list = list(Trumpf)
         self.id = name
         self.seed = seed
+        self.trumps = trumps
 
     def get_dict(self):
         """

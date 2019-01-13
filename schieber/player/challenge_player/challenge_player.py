@@ -16,8 +16,10 @@ class ChallengePlayer(BasePlayer):
         allowed = False
         while not allowed:
             trumpf = self.strategy.chose_trumpf(self.cards, geschoben)
-            # allowed = yield trumpf
-            allowed = yield Trumpf.OBE_ABE  # always choose obe abe for now
+            if self.trumps == 'all':
+                allowed = yield trumpf
+            elif self.trumps == 'obe_abe':
+                allowed = yield Trumpf.OBE_ABE
             if allowed:
                 yield None
 

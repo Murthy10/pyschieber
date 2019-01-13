@@ -6,8 +6,10 @@ from schieber.trumpf import Trumpf
 
 class RandomPlayer(BasePlayer):
     def choose_trumpf(self, geschoben):
-        return self.move(choices=[Trumpf.OBE_ABE])  # always choose obe abe for now
-        # return self.move(choices=list(Trumpf))
+        if self.trumps == 'all':
+            return self.move(choices=list(Trumpf))
+        elif self.trumps == 'obe_abe':
+            return self.move(choices=[Trumpf.OBE_ABE])
 
     def choose_card(self, state=None):
         cards = self.allowed_cards(state=state)
